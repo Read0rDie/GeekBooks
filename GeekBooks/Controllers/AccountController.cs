@@ -14,15 +14,7 @@ namespace GeekBooks.Controllers
         // GET: Account
         public ActionResult Index()
         {
-            if (Session["UserId"] != null)
-            {
-
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Register");
-            }
+            return View("Login");
         }
 
         public ActionResult Register()
@@ -121,7 +113,7 @@ namespace GeekBooks.Controllers
                 {
                     Session["UserId"] = usr.UID.ToString();
                     Session["UserName"] = usr.NickName.ToString();
-                    return View("Index");
+                    return View("LoggedIn");
                 }
                 else
                 {
@@ -136,7 +128,6 @@ namespace GeekBooks.Controllers
         {
             if (Session["UserId"] != null)
             {
-                
                 return View();
             }
             else
