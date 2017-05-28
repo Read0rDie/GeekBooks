@@ -89,7 +89,7 @@ namespace GeekBooks.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Update( Account account)
-        {
+        {            
             var errors = ModelState
                 .Where(x => x.Value.Errors.Count > 0)
                 .Select(x => new { x.Key, x.Value.Errors })
@@ -183,6 +183,12 @@ namespace GeekBooks.Controllers
             {
                 return RedirectToAction("Register");
             }
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Login");
         }
 
         public Account search(string username)

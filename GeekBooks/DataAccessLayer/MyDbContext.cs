@@ -18,6 +18,7 @@ namespace GeekBooks.DataAccessLayer
         public DbSet<Product> Products { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Avatar> Avatars { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

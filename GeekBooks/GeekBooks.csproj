@@ -112,7 +112,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-template.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\register.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\home.css" />
     <Content Include="Content\profile.css" />
@@ -141,6 +143,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\Product.cs" />
