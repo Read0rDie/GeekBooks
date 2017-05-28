@@ -1,10 +1,25 @@
-﻿
+﻿@model GeekBooks.Models.Account
+@using GeekBooks.DataAccessLayer
+@using GeekBooks.Models
+
 @{
     ViewBag.Title = "LoggedIn";
 }
 
 @if (Session["UserId"] != null)
 {
-    <h4>Hello @Session["Username"].ToString()</h4>
+    string UID = (string)Session["UserId"];
+    MyDbContext db = new MyDbContext();
+    Account user = db.Users.FirstOrDefault(x => x.UID.ToString().Equals(UID));
+    
+    <h4>Hello @user.Username</h4>
+    <h5>Name: @user.FirstName @user.LastName</h5>
+    <h5>Email: @user.Email</h5>
+    <h5>ID: @UID</h5>
+        
+    
+    @Html.ActionLink("Update User Info", "Update", new { id = Int32.Parse(UID)})
+
+
 }
 

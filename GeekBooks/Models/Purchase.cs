@@ -22,7 +22,7 @@ namespace GeekBooks.Models
         
         public Address ShipingAddress { get; set; }
 
-        public virtual UserAccount UserAccount { get; set; }
+        public virtual Account UserAccount { get; set; }
         public virtual Product Product { get; set; }
 
     }

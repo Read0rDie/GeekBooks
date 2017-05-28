@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -134,7 +137,6 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="DataAccessLayer\MyDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -143,7 +145,7 @@
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Address.cs" />
-    <Compile Include="Models\UserAccount.cs" />
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -160,11 +162,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\LoggedIn.cshtml" />
-    <Content Include="Views\Address\Create.cshtml" />
-    <Content Include="Views\Address\Delete.cshtml" />
-    <Content Include="Views\Address\Details.cshtml" />
-    <Content Include="Views\Address\Edit.cshtml" />
-    <Content Include="Views\Address\Index.cshtml" />
+    <Content Include="Views\Account\Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

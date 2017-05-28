@@ -21,6 +21,6 @@ namespace GeekBooks.Models
         [Required(ErrorMessage = "Card Number is Required")]
         public string CardNumber { get; set; }
 
-        public virtual UserAccount UserAccount { get; set; }
+        public virtual Account UserAccount { get; set; }
     }
 }

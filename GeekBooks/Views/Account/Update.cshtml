@@ -1,19 +1,22 @@
 ﻿@model GeekBooks.Models.Account
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Update";
 }
 
-<h2>Register</h2>
+<h2>Update</h2>
+
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>User Account</h4>
+        <h4>UserAccount</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UID)
+
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -61,17 +64,16 @@
                 @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Update" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to Login", "Login")
+    @Html.ActionLink("Back to Account", "LoggedIn")
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

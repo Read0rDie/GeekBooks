@@ -38,6 +38,6 @@ namespace GeekBooks.Models
         [Required(ErrorMessage = "Postal code is Required")]
         public string Postal { get; set; }
 
-        public virtual UserAccount UserAccount { get; set; }
+        public virtual Account UserAccount { get; set; }
     }
 }

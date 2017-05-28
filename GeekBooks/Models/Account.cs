@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekBooks.Models
 {
-    public class UserAccount
+    public class Account
     {
         [Key]
         public int UID { get; set; }
@@ -18,9 +18,9 @@ namespace GeekBooks.Models
         [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Nick Name is Required")]
+        [Required(ErrorMessage = "Username is Required")]
         [Index(IsUnique = true)]
-        public string NickName { get; set; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Email is Required")]
         [StringLength(50)]

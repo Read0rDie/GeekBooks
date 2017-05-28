@@ -13,7 +13,7 @@ namespace GeekBooks.DataAccessLayer
             Database.SetInitializer<MyDbContext>(new MyDbInitializer());
         }
 
-        public DbSet<UserAccount> Users { get; set; }
+        public DbSet<Account> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
@@ -24,16 +24,17 @@ namespace GeekBooks.DataAccessLayer
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
         }
+
     }
 
     public class MyDbInitializer : DropCreateDatabaseIfModelChanges<MyDbContext>
     {
         protected override void Seed(MyDbContext context)
         {
-            context.Users.Add(new UserAccount { UID = 1, FirstName = "Adam", LastName = "Levy", Email = "alevy030@fiu.edu", NickName = "alevy030", PassWord = "alevy030", ConfirmPassword = "alevy030"});
-            context.Users.Add(new UserAccount { UID = 2, FirstName = "Juan", LastName = "Hernandez", Email = "juaneh5@gmail.com", NickName = "juaneh5", PassWord = "juaneh5", ConfirmPassword = "juaneh5"});
-            context.Users.Add(new UserAccount { UID = 3, FirstName = "Brandon", LastName = "Cajigas", Email = "BrandonCaj@gmail.com", NickName = "BrandonCaj", PassWord = "BrandonCaj", ConfirmPassword = "BrandonCaj"});
-            context.Users.Add(new UserAccount { UID = 4, FirstName = "Alex", LastName = "Dubuisson", Email = "adubu002@fiu.edu", NickName = "adubu002", PassWord = "adubu002", ConfirmPassword = "adubu002"});
+            context.Users.Add(new Account { UID = 1, FirstName = "Adam", LastName = "Levy", Email = "alevy030@fiu.edu", Username = "alevy030", PassWord = "alevy030", ConfirmPassword = "alevy030"});
+            context.Users.Add(new Account { UID = 2, FirstName = "Juan", LastName = "Hernandez", Email = "juaneh5@gmail.com", Username = "juaneh5", PassWord = "juaneh5", ConfirmPassword = "juaneh5"});
+            context.Users.Add(new Account { UID = 3, FirstName = "Brandon", LastName = "Cajigas", Email = "BrandonCaj@gmail.com", Username = "BrandonCaj", PassWord = "BrandonCaj", ConfirmPassword = "BrandonCaj"});
+            context.Users.Add(new Account { UID = 4, FirstName = "Alex", LastName = "Dubuisson", Email = "adubu002@fiu.edu", Username = "adubu002", PassWord = "adubu002", ConfirmPassword = "adubu002"});
             base.Seed(context);
         }
     }
