@@ -13,31 +13,7 @@ namespace GeekBooks.Controllers
 {
     public class AddressController : Controller
     {
-        private MyDbContext db = new MyDbContext();
-
-        // GET: Address
-        public ActionResult Index(int? id)
-        {
-            //var addresses = db.Addresses.Where
-              //  (x => x.UID == id);
-            var addresses = db.Addresses.Include(a => a.UserAccount);
-            return View(addresses.ToList());
-        }
-
-        // GET: Address/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Address address = db.Addresses.Find(id);
-            if (address == null)
-            {
-                return HttpNotFound();
-            }
-            return View(address);
-        }
+        private MyDbContext db = new MyDbContext();        
 
         // GET: Address/Create
         public ActionResult Create()

@@ -187,20 +187,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\LoggedIn.cshtml" />
     <Content Include="Views\Account\Update.cshtml" />
-    <Content Include="Views\Account\_Avatar.cshtml" />
     <Content Include="Views\Account\_Register.cshtml" />
-    <Content Include="Views\Account\_Creditcard.cshtml" />
-    <Content Include="Views\Account\_Address.cshtml" />
     <Content Include="Views\Account\_UpdateAccount.cshtml" />
     <Content Include="Views\CreditCard\Create.cshtml" />
     <Content Include="Views\CreditCard\Delete.cshtml" />
     <Content Include="Views\CreditCard\Edit.cshtml" />
-    <Content Include="Views\CreditCard\Index.cshtml" />
     <Content Include="Views\Address\Create.cshtml" />
     <Content Include="Views\Address\Delete.cshtml" />
-    <Content Include="Views\Address\Index.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\_AccountInfo.cshtml" />
     <Content Include="Views\Shared\_AddressIndex.cshtml" />
@@ -210,12 +204,8 @@
     <Content Include="Views\Address\Edit.cshtml" />
     <Content Include="Views\Shared\_AddAddress.cshtml" />
     <Content Include="Views\Shared\_Avatar.cshtml" />
-    <Content Include="Views\Account\photo.cshtml" />
     <Content Include="Views\Avatar\Create.cshtml" />
-    <Content Include="Views\Avatar\Delete.cshtml" />
-    <Content Include="Views\Avatar\Details.cshtml" />
     <Content Include="Views\Avatar\Edit.cshtml" />
-    <Content Include="Views\Avatar\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

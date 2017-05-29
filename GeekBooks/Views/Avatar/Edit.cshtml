@@ -4,58 +4,64 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
+        <div class="container">
+            <h2>Edit</h2>
         <h4>Avatar</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.AVATARID)
+        @Html.HiddenFor(model => model.ImageUrl, new { id = "image" })
 
-        <div class="form-group">
+        <div class="form-group" style="display: none;">
             @Html.LabelFor(model => model.UID, "UID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("UID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.UID, "", new { @class = "text-danger" })
             </div>
         </div>
-       
-        
-            <select class="image-picker show-html">
-                <option data-img-src="@Url.Content("~/Content/Images/avatar01.png") " value="~/Content/Images/avatar01.png">Avatar 1</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar02.png") " value="~/Content/Images/avatar02.png">Avatar 2</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar03.png") " value="~/Content/Images/avatar03.png">Avatar 3</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar04.png") " value="~/Content/Images/avatar04.png">Avatar 4</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar05.png") " value="5">Avatar 5</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar06.png") " value="6">Avatar 6</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar07.png") " value="7">Avatar 7</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar08.png") " value="8">Avatar 8</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar09.png") " value="9">Avatar 9</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar10.png") " value="10">Avatar 10</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar11.png") " value="11">Avatar 11</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar12.png") " value="12">Avatar 12</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar13.png") " value="13">Avatar 13</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar14.png") " value="14">Avatar 14</option>
-                <option data-img-src="@Url.Content("~/Content/Images/avatar15.png") " value="15">Avatar 15</option>
-            </select>
-            
+        <table class="table">
+            <tr>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar01.png") " onclick="myfunction('~/Content/Images/avatar01.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar02.png") " onclick="myfunction('~/Content/Images/avatar02.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar03.png") " onclick="myfunction('~/Content/Images/avatar03.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar04.png") " onclick="myfunction('~/Content/Images/avatar04.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar05.png") " onclick="myfunction('~/Content/Images/avatar05.png')" /></th>          
+            </tr>
+            <tr>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar06.png") " onclick="myfunction('~/Content/Images/avatar06.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar07.png") " onclick="myfunction('~/Content/Images/avatar07.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar08.png") " onclick="myfunction('~/Content/Images/avatar08.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar09.png") " onclick="myfunction('~/Content/Images/avatar09.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar10.png") " onclick="myfunction('~/Content/Images/avatar10.png')" /></th>
+            </tr>
+            <tr>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar11.png") " onclick="myfunction('~/Content/Images/avatar11.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar12.png") " onclick="myfunction('~/Content/Images/avatar12.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar13.png") " onclick="myfunction('~/Content/Images/avatar13.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar14.png") " onclick="myfunction('~/Content/Images/avatar14.png')" /></th>
+                <th><input type="image" src="@Url.Content("~/Content/Images/avatar15.png") " onclick="myfunction('~/Content/Images/avatar15.png')" /></th>
+            </tr>
+        </table>
+
+            <script>
+                function myfunction(val) {
+                    document.getElementById('image').value = val;                    
+                }
+            </script>
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
+                    <input type="submit" value="Save" class="btn btn-default" /> |                    
+                        @Html.ActionLink("Back to Profile", "Profile", "Account", null, null)                    
                 </div>
             </div>
         </div>
-}
-
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
-
-<script src="~/Scripts/image-picker.js"></script>
-<script src="~/Scripts/image-picker.min.js"></script>
+}

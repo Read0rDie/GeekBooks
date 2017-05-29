@@ -14,29 +14,7 @@ namespace GeekBooks.Controllers
     public class CreditCardController : Controller
     {
         private MyDbContext db = new MyDbContext();
-
-        // GET: CreditCard
-        public ActionResult Index()
-        {
-            var creditCards = db.CreditCards.Include(c => c.UserAccount);
-            return View(creditCards.ToList());
-        }
-
-        // GET: CreditCard/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CreditCard creditCard = db.CreditCards.Find(id);
-            if (creditCard == null)
-            {
-                return HttpNotFound();
-            }
-            return View(creditCard);
-        }
-
+        
         // GET: CreditCard/Create
         public ActionResult Create()
         {
