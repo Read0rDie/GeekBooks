@@ -10,6 +10,8 @@ namespace GeekBooks.Models
     public class CreditCard
     {
         [Key]
+        public int CID { get; set; }
+
         [ForeignKey("UserAccount")]
         public int UID { get; set; }
 

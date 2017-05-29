@@ -123,7 +123,7 @@ namespace GeekBooks.Controllers
                     db.SaveChanges();
                     ModelState.Clear();
                     TempData["message"] = account.FirstName + " " + account.LastName + " successfully updated";
-                    return View("LoggedIn");
+                    return View("Profile");
                 }
                 else if (!UniqueUserName && UniqueEmail)
                 {
@@ -162,7 +162,7 @@ namespace GeekBooks.Controllers
             {
                 Session["UserId"] = usr.UID.ToString();
                 Session["UserName"] = usr.Username.ToString();
-                return View("LoggedIn");
+                return View("Profile");
             }
             else
             {
@@ -173,7 +173,7 @@ namespace GeekBooks.Controllers
             return View();
         }
 
-        public ActionResult LoggedIn()
+        public ActionResult Profile()
         {
             if (Session["UserId"] != null)
             {

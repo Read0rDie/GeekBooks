@@ -1,0 +1,45 @@
+﻿@model IEnumerable<GeekBooks.Models.CreditCard>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserAccount.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CardName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CardNumber)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserAccount.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CardName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CardNumber)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UID })
+        </td>
+    </tr>
+}
+
+</table>

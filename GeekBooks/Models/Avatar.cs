@@ -18,5 +18,7 @@ namespace GeekBooks.Models
         [Required]
         [DataType(DataType.ImageUrl)]
         public string ImageUrl { get; set; }
+
+        public virtual Account UserAccount { get; set; }
     }
 }

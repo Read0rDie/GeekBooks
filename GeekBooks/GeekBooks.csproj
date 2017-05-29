@@ -114,6 +114,22 @@
   <ItemGroup>
     <Content Include="Content\bootstrap-template.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\image-picker.css" />
+    <Content Include="Content\Images\avatar01.png" />
+    <Content Include="Content\Images\avatar10.png" />
+    <Content Include="Content\Images\avatar11.png" />
+    <Content Include="Content\Images\avatar12.png" />
+    <Content Include="Content\Images\avatar13.png" />
+    <Content Include="Content\Images\avatar14.png" />
+    <Content Include="Content\Images\avatar15.png" />
+    <Content Include="Content\Images\avatar02.png" />
+    <Content Include="Content\Images\avatar03.png" />
+    <Content Include="Content\Images\avatar04.png" />
+    <Content Include="Content\Images\avatar05.png" />
+    <Content Include="Content\Images\avatar06.png" />
+    <Content Include="Content\Images\avatar07.png" />
+    <Content Include="Content\Images\avatar08.png" />
+    <Content Include="Content\Images\avatar09.png" />
     <Content Include="Content\register.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\home.css" />
@@ -126,6 +142,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\image-picker.js" />
+    <Content Include="Scripts\image-picker.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -134,11 +152,16 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\AvatarController.cs" />
+    <Compile Include="Controllers\CreditCardController.cs" />
     <Compile Include="DataAccessLayer\MyDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -166,6 +189,33 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\LoggedIn.cshtml" />
     <Content Include="Views\Account\Update.cshtml" />
+    <Content Include="Views\Account\_Avatar.cshtml" />
+    <Content Include="Views\Account\_Register.cshtml" />
+    <Content Include="Views\Account\_Creditcard.cshtml" />
+    <Content Include="Views\Account\_Address.cshtml" />
+    <Content Include="Views\Account\_UpdateAccount.cshtml" />
+    <Content Include="Views\CreditCard\Create.cshtml" />
+    <Content Include="Views\CreditCard\Delete.cshtml" />
+    <Content Include="Views\CreditCard\Edit.cshtml" />
+    <Content Include="Views\CreditCard\Index.cshtml" />
+    <Content Include="Views\Address\Create.cshtml" />
+    <Content Include="Views\Address\Delete.cshtml" />
+    <Content Include="Views\Address\Index.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\_AccountInfo.cshtml" />
+    <Content Include="Views\Shared\_AddressIndex.cshtml" />
+    <Content Include="Views\Shared\_CreditCardIndex.cshtml" />
+    <Content Include="Views\Shared\Profile.cshtml" />
+    <Content Include="Views\Shared\_AccountInfo.cshtml" />
+    <Content Include="Views\Address\Edit.cshtml" />
+    <Content Include="Views\Shared\_AddAddress.cshtml" />
+    <Content Include="Views\Shared\_Avatar.cshtml" />
+    <Content Include="Views\Account\photo.cshtml" />
+    <Content Include="Views\Avatar\Create.cshtml" />
+    <Content Include="Views\Avatar\Delete.cshtml" />
+    <Content Include="Views\Avatar\Details.cshtml" />
+    <Content Include="Views\Avatar\Edit.cshtml" />
+    <Content Include="Views\Avatar\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
