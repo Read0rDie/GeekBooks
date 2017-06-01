@@ -1,0 +1,83 @@
+﻿@model GeekBooks.Models.Account
+@using GeekBooks.DataAccessLayer
+@using GeekBooks.Models
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+@section Styles {
+
+    <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    string ID = (string)Session["UserId"];
+    MyDbContext db = new MyDbContext();
+    Avatar ava = db.Avatars.FirstOrDefault(x => x.UID.ToString().Equals(ID));
+    string AID = ava.AVATARID.ToString();
+
+    string imageUrl = "error";
+    if (ava != null)
+    {
+        imageUrl = ava.ImageUrl;
+    }
+
+    <div class="container">
+
+        <fieldset>
+            <legend>Avatar</legend>
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @if (ava == null)
+                {
+                        <div>
+                            <i style="color: #FB8C00" class="material-icons md-96 orange">account_circle</i>
+                            <h4> @Html.ActionLink("Change your avatar", "Create", "Avatar", new { UID = Int32.Parse(ID) }, null)</h4>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="@Url.Content(imageUrl)" alt="error" />
+                        <h4> @Html.ActionLink("Change your avatar", "Edit", "Avatar", new { id = Int32.Parse(AID)}, null)</h4>
+                    }
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+
+    if (Session["UserId"] != null)
+    {
+        string UID = (string)Session["UserId"];
+        
+        Account user = db.Users.FirstOrDefault(x => x.UID.ToString().Equals(UID));
+
+        
+        <div class="container">
+            <h2>Profile Info</h2>
+        </div>
+        Html.RenderPartial("_AccountInfo");
+
+        <div class="container">
+            <div class="form-group">
+                @Html.ActionLink("Update User Info", "Update", new { id = Int32.Parse(UID) })
+            </div>
+        </div>
+        <div class="container">
+            <h2>Addresses</h2>
+        </div>
+        Html.RenderPartial("_AddressIndex");
+        <div class="container">
+            <h2>Credit Cards</h2>
+        </div>
+        Html.RenderPartial("_CreditCardIndex");
+    }
+}
+
+

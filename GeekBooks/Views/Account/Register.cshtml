@@ -1,0 +1,36 @@
+﻿@model GeekBooks.Models.Account
+
+
+@{
+    ViewBag.Title = "Register";
+}
+
+@section Styles {
+
+    <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    Html.RenderPartial("_Avatar");
+    Html.RenderPartial("_Register");
+   
+
+    <div class="container">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+            @Html.ActionLink("Back to Login", "Login")
+        </div>
+    </div>
+    
+}
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

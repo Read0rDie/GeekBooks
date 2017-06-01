@@ -1,0 +1,51 @@
+﻿@model GeekBooks.Models.Account
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@section Styles {
+
+    <link href="@Url.Content("~/Content/home.css")" rel="stylesheet" type="text/css" />
+
+}
+
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @*<h3 id="home-logo">geekBooks</h3>*@
+    <div class="home-login-wrapper">
+        <h3>Member Login</h3>
+        <form novalidate>
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.Username, "User Name")
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Username" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+
+
+            </div>
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.PassWord, "Pasword")
+                @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Password" } })
+                @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
+
+            </div>
+            <div>
+                <input type="submit" value="Login" class="btn btn-secondary" />
+            </div>
+            @Html.ActionLink("Not a member yet?", "Register")
+        </form>
+        <h4>@ViewBag.Message</h4>
+    </div>
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <link href="@Url.Content("~/Content/bootstrap-template.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/image-picker.css")" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    @RenderSection("Styles", false)
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+    <title>geekBooks</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/image-picker.js"></script>
+    <script src="~/Scripts/image-picker.min.js"></script>
+
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("geekBooks", "Login", null, null, new { @class = "navbar-brand", id = "home-logo" })
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Store</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Category <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Adventure</a></li>
+                            <li><a href="#">Sci-fi</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        @if (Session["UserId"] != null)
+                        {
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> Hello, @Session["Username"]  <span class="caret"></span></a> }
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="@Url.Action("Profile", "Account")">Profile</a></li>
+                            <li><a href="@Url.Action("Logout", "Account")">Logout</a></li>
+
+                        </ul>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+</body>

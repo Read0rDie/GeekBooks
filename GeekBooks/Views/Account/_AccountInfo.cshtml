@@ -1,0 +1,32 @@
+﻿@model GeekBooks.Models.Account
+@using GeekBooks.DataAccessLayer
+@using GeekBooks.Models
+
+
+@if (Session["UserId"] != null)
+{
+    string UID = (string)Session["UserId"];
+    MyDbContext db = new MyDbContext();
+    Account user = db.Users.FirstOrDefault(x => x.UID.ToString().Equals(UID));
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th>First Name:</th>
+                    <th>@user.FirstName</th>
+                </tr>
+                <tr>
+                    <th>Last Name:</th>
+                    <th>@user.LastName</th>
+                </tr>
+                <tr>
+                    <th>Username:</th>
+                    <th>@user.Username</th>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <th>@user.Email</th>
+                </tr>
+            </table>            
+        </div>
+}
+
