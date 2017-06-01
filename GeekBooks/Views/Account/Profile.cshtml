@@ -19,12 +19,14 @@
     string ID = (string)Session["UserId"];
     MyDbContext db = new MyDbContext();
     Avatar ava = db.Avatars.FirstOrDefault(x => x.UID.ToString().Equals(ID));
-    string AID = ava.AVATARID.ToString();
+    string AID = "";
 
     string imageUrl = "error";
     if (ava != null)
     {
+        AID = ava.AVATARID.ToString();
         imageUrl = ava.ImageUrl;
+
     }
 
     <div class="container">
@@ -43,7 +45,7 @@
                     }
                     else
                     {
-                        <img src="@Url.Content(imageUrl)" alt="error" />
+                        <img class="img-circle" src="@Url.Content(imageUrl)" alt="error" />
                         <h4> @Html.ActionLink("Change your avatar", "Edit", "Avatar", new { id = Int32.Parse(AID)}, null)</h4>
                     }
                 </div>
