@@ -195,5 +195,33 @@ namespace GeekBooks.Controllers
         {
             return db.Users.Where(acc => acc.Username.Equals(username)).FirstOrDefault();
         }
+
+        // GET: PersonalDetails/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Account toDelete = db.Users.Find(id);
+            if (toDelete == null)
+            {
+                return HttpNotFound();
+            }
+            return View(toDelete);
+        }
+
+        // POST: PersonalDetails/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Account toDelete = db.Users.Find(id);
+            db.Users.Remove(toDelete);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }
