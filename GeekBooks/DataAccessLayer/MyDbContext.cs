@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GeekBooks.Controllers;
 
 namespace GeekBooks.DataAccessLayer
 {
@@ -19,6 +20,7 @@ namespace GeekBooks.DataAccessLayer
         public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Avatar> Avatars { get; set; }
+        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -220,7 +220,7 @@ namespace GeekBooks.Controllers
             Account toDelete = db.Users.Find(id);
             db.Users.Remove(toDelete);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Logout");
         }
 
     }
