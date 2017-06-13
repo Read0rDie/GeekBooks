@@ -35,6 +35,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Postal)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsShipping)
+            </th>
             <th></th>
         </tr>
         
@@ -61,6 +64,17 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Postal)
+                    </td>
+                    <td>
+                        @{ if (item.IsShipping == true)
+                            {
+                                <div class="text-success"><span class="glyphicon glyphicon-ok-circle"></span></div>
+                            }
+                            else
+                            {
+                                <div class="text-danger"><span class="glyphicon glyphicon-remove-circle"></span></div>
+                            }
+                        }
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", "Address", new { id = item.AID }, null) |                  

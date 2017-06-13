@@ -13,7 +13,7 @@ namespace GeekBooks.Controllers
 {
     public class AddressController : Controller
     {
-        private MyDbContext db = new MyDbContext();        
+        private MyDbContext db = new MyDbContext();
 
         // GET: Address/Create
         public ActionResult Create()
@@ -27,7 +27,7 @@ namespace GeekBooks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AID,UID,StreetAddress,AddressTwo,City,State_Province,Country,Postal")] Address address)
+        public ActionResult Create([Bind(Include = "AID,UID,StreetAddress,AddressTwo,City,State_Province,Country,Postal,IsShipping")] Address address)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace GeekBooks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AID,UID,StreetAddress,AddressTwo,City,State_Province,Country,Postal")] Address address)
+        public ActionResult Edit([Bind(Include = "AID,UID,StreetAddress,AddressTwo,City,State_Province,Country,Postal,IsShipping")] Address address)
         {
             if (ModelState.IsValid)
             {
@@ -107,5 +107,7 @@ namespace GeekBooks.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

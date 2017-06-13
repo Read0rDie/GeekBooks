@@ -66,7 +66,8 @@
 
         <div class="container">
             <div class="form-group">
-                @Html.ActionLink("Update User Info", "Update", new { id = Int32.Parse(UID) })
+                @Html.ActionLink("Update User Info | ", "Update", new { id = Int32.Parse(UID) })
+                @Html.ActionLink("Delete Profile", "Delete", new { id = Int32.Parse(UID) })
             </div>
         </div>
         <div class="container">

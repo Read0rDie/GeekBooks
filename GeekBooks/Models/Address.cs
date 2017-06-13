@@ -38,6 +38,10 @@ namespace GeekBooks.Models
         [Required(ErrorMessage = "Postal code is Required")]
         public string Postal { get; set; }
 
+        [Display(Name = "Shipping")]
+        [Required(ErrorMessage = "Would you like to set this as a shipping address?")]
+        public Boolean IsShipping { get; set; }
+
         public virtual Account UserAccount { get; set; }
     }
 }
