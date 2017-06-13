@@ -19,7 +19,7 @@
     string ID = (string)Session["UserId"];
     MyDbContext db = new MyDbContext();
     Avatar ava = db.Avatars.FirstOrDefault(x => x.UID.ToString().Equals(ID));
-    string AID = ava.AVATARID.ToString();
+    string AID = "1";// ava.AVATARID.ToString();
 
     string imageUrl = "error";
     if (ava != null)

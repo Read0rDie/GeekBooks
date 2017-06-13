@@ -1,0 +1,80 @@
+﻿@model GeekBooks.Models.Product
+@using GeekBooks.DataAccessLayer
+@using GeekBooks.Models
+
+@{
+    ViewBag.Title = "ProductDetails";
+}
+
+@section Styles {
+
+    <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+}
+
+@using (Html.BeginForm())
+{
+    MyDbContext db = new MyDbContext();
+    Product current = db.Products.FirstOrDefault(x => x.ProductID == 1);
+    Author author = db.Authors.FirstOrDefault(x => x.AuthID == current.AuthID);
+    string coverUrl = "error";
+    coverUrl = current.CoverUrl;
+    <div class="container">
+        <fieldset>
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <img src="@Url.Content(coverUrl)" alt="@Url.Content("~/Content/Images/avatar02.png")"/>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>@current.ProductName</th>
+            </tr>
+            <tr>
+                <th>Author:</th>
+                <th>@current.Author.AuthorName</th>
+            </tr>
+            <tr>
+                <th>Genre:</th>
+                <th>@current.Genre</th>
+            </tr>
+            <tr>
+                <th>Publisher:</th>
+                <th>@current.Publisher</th>
+            </tr>
+            <tr>
+                <th>Price:</th>
+                <th>$@current.Price</th>
+            </tr>
+        </table>
+
+        <div class="container">
+            <table class= "table">
+                <tr>
+                    <th>Synopsis:</th>
+                    <th>@current.Synopsis</th>
+                </tr>
+                <tr>
+                    <th>About the Author:</th>
+                    <th>@author.Blurb</th>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    if (current.Stock <= 5)
+    {
+        <h4>Only @current.Stock left in stock!</h4>
+    }
+}
+
+
+
+<p>
+ @Html.ActionLink("Back to List", "Index")
+</p>
