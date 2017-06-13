@@ -2,20 +2,17 @@
 <head>
     <meta charset="utf-8">
     <link href="@Url.Content("~/Content/bootstrap-template.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/image-picker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @RenderSection("Styles", false)
     <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
     <title>geekBooks</title>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
-    <script src="~/Scripts/image-picker.js"></script>
-    <script src="~/Scripts/image-picker.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>    
 
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -24,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("geekBooks", "Login", null, null, new { @class = "navbar-brand", id = "home-logo" })
+                @Html.ActionLink("geekBooks", "Login", "Account", null, new { @class = "navbar-brand", id = "home-logo" })
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
