@@ -192,6 +192,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Avatar.cs" />
+    <Compile Include="Models\Author.cs" />
     <Compile Include="Models\CreditCard.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\Product.cs" />
