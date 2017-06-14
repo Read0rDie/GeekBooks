@@ -1,0 +1,25 @@
+﻿@model GeekBooks.Models.UserProfileViewModel
+@using GeekBooks.Models
+
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>First Name:</th>
+            <th style="width:auto">@Html.DisplayName(Model.FirstName)</th>
+        </tr>
+        <tr>
+            <th>Last Name:</th>
+            <th style="width:auto">@Html.DisplayName(Model.LastName)</th>
+        </tr>
+        <tr>
+            <th>Username:</th>
+            <th style="width:auto">@Html.DisplayName(Model.UserName)</th>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <th style="width:auto">@Html.DisplayFor(Model => Model.Email)</th>
+        </tr>
+    </table>            
+</div>
+
+

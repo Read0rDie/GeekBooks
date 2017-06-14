@@ -1,0 +1,80 @@
+﻿@model GeekBooks.Models.UserProfileViewModel
+@using GeekBooks.Models
+
+@{
+    ViewBag.Title = "User Profile";
+}
+
+@section Styles {
+
+    <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()   
+
+    string imageUrl = "error";
+    int AID  = 0;
+
+    if (Model.AvatarExist)
+    {
+        AID = Model.AID;
+        imageUrl = Model.AvatarUrl;
+    }
+
+    <div class="container">
+
+        <fieldset>
+            <legend>Avatar</legend>
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @if (!Model.AvatarExist)
+                    {
+                        <div>
+                            <i style="color: #FB8C00" class="material-icons md-96 orange">account_circle</i>
+                            <h4> @Html.ActionLink("Change your avatar", "Create", "Avatar", null, null)</h4>
+                        </div>
+                    }
+                    else
+                    {
+                        <img class="img-circle" src="@Url.Content(imageUrl)" alt="error" />
+                        <h4> @Html.ActionLink("Change your avatar", "Edit", "Avatar", new { id = AID }, null)</h4>
+                    }
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="container">
+        <h2>Profile Info</h2>
+    </div>
+
+    Html.RenderPartial("_AccountInfo");
+
+    <div class="container">
+           Password: 
+                [
+                @Html.ActionLink("Change your password", "ChangePassword")
+                ]
+    </div>
+    
+    <div class="container">
+        <div class="form-group">
+            @Html.ActionLink("Update User Info", "Update", Model)
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Addresses</h2>
+    </div>
+    Html.RenderPartial("_AddressIndex");
+
+    <div class="container">
+        <h2>Credit Cards</h2>
+    </div>
+    Html.RenderPartial("_CreditCardIndex");   
+}
+
+

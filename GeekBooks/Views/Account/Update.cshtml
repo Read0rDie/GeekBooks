@@ -1,0 +1,25 @@
+﻿@model GeekBooks.Models.UserProfileViewModel
+@using GeekBooks.Models
+@{
+    ViewBag.Title = "Update";
+}
+
+@using (Html.BeginForm("UpdateProfile","Account")) 
+{
+    @Html.AntiForgeryToken()
+        
+    Html.RenderPartial("_UpdateAccount");
+    
+    <div class="container">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-default" />
+            </div>
+            @Html.ActionLink("Back to Account Info", "UserProfile")
+        </div>
+    </div>
+}           
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

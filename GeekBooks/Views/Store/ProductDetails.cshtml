@@ -1,0 +1,72 @@
+﻿@model GeekBooks.Models.Book
+@using GeekBooks.Models
+
+@{
+    ViewBag.Title = "Product Details";
+}
+
+@section Styles {
+
+    <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <fieldset>
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <img src="@Url.Content(Model.CoverUrl)" alt="@Url.Content("~/Content/Images/avatar02.png")"/>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>@Html.DisplayName(Model.BookName)</th>
+            </tr>
+            <tr>
+                <th>Author:</th>
+                <th>@Html.DisplayName(Model.Author.AuthorName)</th>
+            </tr>
+            <tr>
+                <th>Genre:</th>
+                <th>@Html.DisplayName(Model.Genre)</th>
+            </tr>
+            <tr>
+                <th>Publisher:</th>
+                <th>@Html.DisplayName(Model.Publisher)</th>
+            </tr>
+            <tr>
+                <th>Price:</th>
+                <th>$@Html.DisplayFor(model => model.Price)</th>
+            </tr>
+        </table>
+
+        <div class="container">
+            <table class= "table">
+                <tr>
+                    <th>Synopsis:</th>
+                    <th>@Html.DisplayName(Model.Synopsis)</th>
+                </tr>
+                <tr>
+                    <th>About the Author:</th>
+                    <th>@Html.DisplayName(Model.Author.Blurb)</th>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    if (Model.Stock <= 5)
+    {
+        <h4  class="bg-danger">Only Model.Stock left in stock!</h4>
+    }
+}
+
+<p>
+ @Html.ActionLink("Back to List", "Index", "Store")
+</p>
