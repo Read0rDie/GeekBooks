@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace GeekBooks.Controllers
 {
+    [Authorize]
     public class AddressController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();        
@@ -27,13 +28,27 @@ namespace GeekBooks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AID,UID,Address1,Address2,City,State_Province,Country,Postal")] Address address)
+        public ActionResult Create([Bind(Include = "AID,UID,Address1,Address2,City,State_Province,Country,Postal,IsShipping")] Address address)
         {
             if (ModelState.IsValid)
             {
-                address.UID = User.Identity.GetUserId();
+                string userid = User.Identity.GetUserId();
+
+                if (address.IsShipping)
+                {
+                    List<Address> addresses = (from a in db.Addresses
+                                               where a.UID == userid
+                                               select a).ToList();
+                    foreach (var item in addresses)
+                    {
+                        item.IsShipping = false;
+                    }
+                }
+                
+                address.UID = userid;
                 db.Addresses.Add(address);
                 db.SaveChanges();
+                
                 return RedirectToAction("UserProfile", "Account");
             }
 
@@ -62,10 +77,23 @@ namespace GeekBooks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AID,UID,Address1,Address2,City,State_Province,Country,Postal")] Address address)
+        public ActionResult Edit([Bind(Include = "AID,UID,Address1,Address2,City,State_Province,Country,Postal,IsShipping")] Address address)
         {
             if (ModelState.IsValid)
             {
+                string userid = User.Identity.GetUserId();
+
+                if (address.IsShipping)
+                {
+                    List<Address> addresses = (from a in db.Addresses
+                                               where a.UID == userid && a.AID != address.AID
+                                               select a).ToList();
+                    foreach (var item in addresses)
+                    {
+                        item.IsShipping = false;
+                    }
+                }
+
                 db.Entry(address).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("UserProfile", "Account");

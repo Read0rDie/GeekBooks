@@ -9,9 +9,6 @@ namespace GeekBooks.Models
 {
     public class Avatar
     {
-        [ForeignKey("UserAccount")]
-        [StringLength(258)]
-        [Required]
         public string UID { get; set; }
 
         [Key]
@@ -20,7 +17,6 @@ namespace GeekBooks.Models
         [Required]
         [DataType(DataType.ImageUrl)]
         public string ImageUrl { get; set; }
-
-        public virtual ApplicationUser UserAccount { get; set; }
+        
     }
 }

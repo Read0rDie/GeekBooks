@@ -19,11 +19,11 @@ namespace GeekBooks.Controllers
             return View(bookList);
         }
 
-        public ActionResult ProductDetails(int? bookid)
+        public ActionResult ProductDetails(int? id)
         { 
-            Book book = db.Books.FirstOrDefault(x => x.BookID == bookid);
+            Book book = db.Books.FirstOrDefault(x => x.BookID == id);
 
-            if (book != null)
+            if (book == null)
             {
                 book = new Book();
             }

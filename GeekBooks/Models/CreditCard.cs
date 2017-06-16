@@ -11,9 +11,8 @@ namespace GeekBooks.Models
     {
         [Key]
         public int CID { get; set; }
-
         
-        [ForeignKey("UserAccount")]
+        //[ForeignKey("UserAccount")]
         public string UID { get; set; }
 
         [Display(Name = "Name on Card")]
@@ -38,6 +37,9 @@ namespace GeekBooks.Models
         [Required(ErrorMessage = "Security Code is Required")]
         public int SecurityCode { get; set; }
 
-        public virtual ApplicationUser UserAccount { get; set; }
+        [Display(Name = "Is preferred?")]
+        public bool IsPreferred { get; set; }
+
+        //public virtual ApplicationUser UserAccount { get; set; }
     }
 }

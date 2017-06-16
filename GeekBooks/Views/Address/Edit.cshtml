@@ -68,6 +68,14 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(model => model.IsShipping, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.IsShipping, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IsShipping, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Save" class="btn btn-default" /> |
                     @Html.ActionLink("Back to Profile", "UserProfile", "Account", null, null)

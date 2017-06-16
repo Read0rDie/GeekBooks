@@ -24,7 +24,7 @@ namespace GeekBooks.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -36,9 +36,9 @@ namespace GeekBooks.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -122,7 +122,7 @@ namespace GeekBooks.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -164,8 +164,8 @@ namespace GeekBooks.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -180,7 +180,7 @@ namespace GeekBooks.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -274,7 +274,7 @@ namespace GeekBooks.Controllers
             ApplicationDbContext db = new ApplicationDbContext();
 
             UserProfileViewModel model = new UserProfileViewModel();
-            
+
 
             List<Address> modelA = (from a in db.Addresses
                                     where a.UID == userid
@@ -305,7 +305,7 @@ namespace GeekBooks.Controllers
             }
             else
             { model.AvatarExist = false; }
-           
+
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
             model.Email = user.Email;
@@ -362,7 +362,7 @@ namespace GeekBooks.Controllers
                     db.SaveChanges();
                     ModelState.Clear();
                     TempData["message"] = model.FirstName + " " + model.LastName + " successfully updated";
-                    return View("UserProfile", model);
+                    return RedirectToAction("UserProfile");
                 }
                 else if (!UniqueUserName && UniqueEmail)
                 {
@@ -378,7 +378,7 @@ namespace GeekBooks.Controllers
                     ModelState.AddModelError("Username", "Username already exists.");
                 }
             }
-            return View(model);
+            return View("Update", model);
         }
 
         public ActionResult ChangePassword()
@@ -414,6 +414,26 @@ namespace GeekBooks.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
+        }
+        
+        public ActionResult Delete(UserProfileViewModel model)
+        {
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            string userID = User.Identity.GetUserId();
+
+            ApplicationUser toDelete = db.Users.Find(userID);
+            db.Users.Remove(toDelete);
+            db.SaveChanges();
+           
+            return RedirectToAction("LogOff");
         }
 
         #region No needed

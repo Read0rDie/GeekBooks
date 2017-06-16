@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using GeekBooks.MySQL_Identity;
+using System.Collections.Generic;
 
 namespace GeekBooks.Models
 {
@@ -18,6 +19,9 @@ namespace GeekBooks.Models
         [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
 
+        public virtual ICollection<Avatar> Avatar { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<CreditCard> CreditCards { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -48,9 +52,30 @@ namespace GeekBooks.Models
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+        {            
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<ApplicationUser>().HasMany(x => x.Addresses).WithRequired().HasForeignKey(x => x.UID);
+            modelBuilder.Entity<ApplicationUser>().HasMany(x => x.Avatar).WithRequired().HasForeignKey(x => x.UID);
+            modelBuilder.Entity<ApplicationUser>().HasMany(x => x.CreditCards).WithRequired().HasForeignKey(x => x.UID);
+
+            //modelBuilder.Entity<Address>()
+            //    .HasOptional(a => a.UID)
+            //    .WithOptionalDependent()
+            //    .WillCascadeOnDelete(true);
+
+            //modelBuilder.Entity<Avatar>()
+            //    .HasOptional(a => a.UserAccount)
+            //    .WithOptionalDependent()
+            //    .WillCascadeOnDelete(true);
+
+            //modelBuilder.Entity<CreditCard>()
+            //    .HasOptional(a => a.UserAccount)
+            //    .WithOptionalDependent()
+            //    .WillCascadeOnDelete(true);
         }
     }
 

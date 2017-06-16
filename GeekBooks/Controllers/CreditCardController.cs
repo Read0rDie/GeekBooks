@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace GeekBooks.Controllers
 {
+    [Authorize]
     public class CreditCardController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -27,11 +28,24 @@ namespace GeekBooks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UID,CardName,CardNumber,ExpirationMonth,ExpirationYear,SecurityCode")] CreditCard creditCard)
+        public ActionResult Create([Bind(Include = "UID,CardName,CardNumber,ExpirationMonth,ExpirationYear,SecurityCode,IsPreferred")] CreditCard creditCard)
         {
             if (ModelState.IsValid)
             {
-                creditCard.UID = User.Identity.GetUserId();
+                string userid = User.Identity.GetUserId();
+
+                if (creditCard.IsPreferred)
+                {
+                    List<CreditCard> creditcards = (from a in db.CreditCards
+                                                  where a.UID == userid
+                                                  select a).ToList();
+                    foreach (var item in creditcards)
+                    {
+                        item.IsPreferred = false;
+                    }
+                }
+
+                creditCard.UID = userid;
                 db.CreditCards.Add(creditCard);
                 db.SaveChanges();
                 return RedirectToAction("UserProfile", "Account");
@@ -62,10 +76,23 @@ namespace GeekBooks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UID,CID,CardName,CardNumber,ExpirationMonth,ExpirationYear,SecurityCode")] CreditCard creditCard)
+        public ActionResult Edit([Bind(Include = "UID,CID,CardName,CardNumber,ExpirationMonth,ExpirationYear,SecurityCode,IsPreferred")] CreditCard creditCard)
         {
             if (ModelState.IsValid)
             {
+                string userid = User.Identity.GetUserId();
+
+                if (creditCard.IsPreferred)
+                {
+                    List<CreditCard> creditcards = (from a in db.CreditCards
+                                                    where a.UID == userid && a.CID != creditCard.CID
+                                                    select a).ToList();
+                    foreach (var item in creditcards)
+                    {
+                        item.IsPreferred = false;
+                    }
+                }
+
                 db.Entry(creditCard).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("UserProfile", "Account");
