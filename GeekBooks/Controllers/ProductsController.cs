@@ -18,18 +18,34 @@ namespace GeekBooks.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Author);
-            
+            var products = db.Products.Include(p => p.Author);            
             return View(products.ToList());
         }
 
-        public ActionResult Redirect()
+        public ActionResult Search(string query, int type)
         {
-            return RedirectToAction("Index");
-        }
+            
+            switch (type)
+            {                
+                case 0:
+                    var productsG = db.Products.Where(p => p.Genre == query);
+                    ViewBag.Message = query;
+                    return View(productsG.ToList());                    
+                case 1:
+                    var productsA = db.Products.Where(p => p.Author.AuthorName == query);
+                    ViewBag.Message = "Books by " + query;
+                    return View(productsA.ToList());                    
+                case 2:
+                    var productsT = db.Products.Where(p => p.ProductName == query);
+                    ViewBag.Message = query;
+                    return View(productsT.ToList());                    
+                default:
+                    return View();
+            }            
+        }       
 
-            // GET: Products/Details/5
-            public ActionResult Details(int? id)
+        // GET: Products/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {

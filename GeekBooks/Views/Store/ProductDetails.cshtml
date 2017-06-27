@@ -28,11 +28,11 @@
             </tr>
             <tr>
                 <th>Author:</th>
-                <th>@Model.Author.AuthorName</th>
+                <th>@Html.ActionLink(Model.Author.AuthorName, "Search", "Products", new { query = Model.Author.AuthorName, type = 1 }, null)</th>
             </tr>
             <tr>
                 <th>Genre:</th>                
-                <th>@Model.Genre</th>
+                <th>@Html.ActionLink(Model.Genre, "Search", "Products", new { query = Model.Genre, type = 0 }, null)</th>
             </tr>
             <tr>
                 <th>Publisher:</th>
@@ -57,15 +57,18 @@
             </table>
         </div>
 
+        @if (Model.Stock <= 5 && Model.Stock > 0)
+        {
+            <h4>Only @Model.Stock left in stock!</h4>
+        }
+        @if (Model.Stock == 0)
+        {
+            <h4>Out of Stock!</h4>
+        }
+
+
+
+        <p>
+            @Html.ActionLink("Back to Catalog", "Index", "Products")
+        </p>
     </div>
-    @if (Model.Stock <= 5)
-    {
-        <h4>Only @Model.Stock left in stock!</h4>
-    }
-
-
-
-
-<p>
-    @Html.ActionLink("Back to Catalog", "Index", "Products")
-</p>
