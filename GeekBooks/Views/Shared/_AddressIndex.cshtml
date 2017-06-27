@@ -31,6 +31,9 @@
             <th>
                 @Html.DisplayNameFor(model => address.Postal)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => address.IsShipping)
+            </th>
             <th></th>
         </tr>
         
@@ -55,6 +58,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Postal)
                 </td>
+                @if (item.IsShipping)
+                {
+                    <td>
+                        Yes
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        No
+                    </td>
+                }
+
+
                 <td>
                     @Html.ActionLink("Edit", "Edit", "Address", new { id = item.AID }, null) |                  
                     @Html.ActionLink("Delete", "Delete", "Address", new { id = item.AID }, null)

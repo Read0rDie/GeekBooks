@@ -1,0 +1,55 @@
+﻿@model IEnumerable<GeekBooks.Models.Book>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .preview-card {
+        max-height: 200px;
+    }
+</style>
+<div class="container">
+    <h2>Books</h2>
+
+
+    <div class="row  preview-card">
+
+                @foreach (var item in Model)
+                {
+                        <div class="col-xs-3" >
+                            <div class="thumbnail">
+                                <img  data-toggle="modal" data-target="#@item.BookID" src="@item.CoverUrl">
+                                <div class="caption">
+                                    <h3>@item.BookName</h3>
+                                    <p>@item.Synopsis</p>
+                                    @Html.ActionLink("Details", "ProductDetails", "Store", new { id = item.BookID }, null)
+                                </div>
+                            </div>
+                        </div>
+                   
+                        <div class="modal fade" id="@item.BookID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Preview</h4>
+                                        <img class="img-thumbnail center-block" src="@item.CoverUrl" />
+                                    </div>
+                                    <div class="modal-body">
+                                       <h4>@item.BookName</h4>
+                                       <p>@item.Synopsis</p>
+                                       <p><i class="fa fa-user-o"></i> @item.Author.AuthorName</p>
+                                        <p><i class="fa fa-dollar"></i> @item.Price</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        
+                                    </div>
+                                 </div>
+                                </div>
+                            </div>
+                                }
+                            </div>
+                        </div>

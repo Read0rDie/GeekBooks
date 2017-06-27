@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GeekBooks.Models
 {
     public class Address
-    {        
-        [ForeignKey("UserAccount")]
+    {
+        //[ForeignKey("UserAccount")]        
         public string UID { get; set; }
 
         [Key]
@@ -44,7 +44,10 @@ namespace GeekBooks.Models
         [Required(ErrorMessage = "Postal code is Required")]
         public string Postal { get; set; }
 
-        public virtual ApplicationUser UserAccount { get; set; }
+        [Display(Name = "Is shipping?")]
+        public Boolean IsShipping { get; set; }
+
+        //public virtual ApplicationUser UserAccount { get; set; }
     }
 
     public class AddressViewModel

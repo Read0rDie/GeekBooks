@@ -18,7 +18,10 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => creditcard.CardNumber)
-            </th>            
+            </th>   
+            <th>
+                @Html.DisplayNameFor(model => creditcard.IsPreferred)
+            </th>
         </tr>        
         
         @foreach (var item in Model.CreditCardList)
@@ -30,6 +33,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CardNumber)
                 </td>
+                @if (item.IsPreferred)
+                {
+                    <td>
+                        Yes
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        No
+                    </td>
+                }
                 <td>
                     @Html.ActionLink("Edit", "Edit", "CreditCard", new { id = item.CID }, null) |
                     @Html.ActionLink("Delete", "Delete", "CreditCard", new { id = item.CID }, null)
