@@ -1,0 +1,71 @@
+﻿@model GeekBooks.Models.Product
+
+@{
+    ViewBag.Title = "ProductDetails";
+}
+
+@section Styles {
+    
+    <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+}
+    
+    <div class="container">
+        <fieldset>
+            <div class="form-horizontal">
+                
+                <div class="form-group">
+                    <img src="@Url.Content(Model.CoverUrl)" alt="@Url.Content("~/Content/Images/avatar02.png")" />
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>@Model.ProductName</th>
+            </tr>
+            <tr>
+                <th>Author:</th>
+                <th>@Model.Author.AuthorName</th>
+            </tr>
+            <tr>
+                <th>Genre:</th>                
+                <th>@Model.Genre</th>
+            </tr>
+            <tr>
+                <th>Publisher:</th>
+                <th>@Model.Publisher</th>
+            </tr>
+            <tr>
+                <th>Price:</th>
+                <th>$@Model.Price</th>
+            </tr>
+        </table>
+
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th>Synopsis:</th>
+                    <th>@Model.Synopsis</th>
+                </tr>
+                <tr>
+                    <th>About the Author:</th>
+                    <th>@Model.Author.Blurb</th>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    @if (Model.Stock <= 5)
+    {
+        <h4>Only @Model.Stock left in stock!</h4>
+    }
+
+
+
+
+<p>
+    @Html.ActionLink("Back to Catalog", "Index", "Products")
+</p>

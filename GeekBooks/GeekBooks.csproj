@@ -187,10 +187,13 @@
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\AvatarController.cs" />
     <Compile Include="Controllers\CreditCardController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="DataAccessLayer\MyDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CustomHtmlHelpers.cs" />
     <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\CreditCard.cs" />
@@ -232,6 +235,17 @@
     <Content Include="Views\Shared\_Avatar.cshtml" />
     <Content Include="Views\Avatar\Create.cshtml" />
     <Content Include="Views\Avatar\Edit.cshtml" />
+    <Content Include="Views\Store\Create.cshtml" />
+    <Content Include="Views\Store\Delete.cshtml" />
+    <Content Include="Views\Store\Details.cshtml" />
+    <Content Include="Views\Store\Edit.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\Store\ProductDetails.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

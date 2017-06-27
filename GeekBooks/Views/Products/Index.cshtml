@@ -1,0 +1,67 @@
+﻿@model IEnumerable<GeekBooks.Models.Product>
+@using GeekBooks.Helpers
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <table class="table">
+        <h3>New Releases</h3>
+        <tr>
+            @{ 
+                int count = 0;
+            }
+            @foreach (var item in Model)
+            {
+                if (count < 5)
+                {
+                    <td>
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.ProductID }, null, item.CoverUrl)                            
+                       
+                    </td>
+                    count++;
+                }
+            }
+        </tr>
+    </table>
+
+    <table class="table">
+        <h3>Science Fiction</h3>
+        <tr>
+            @{
+                count = 0;
+            }
+            @foreach (var item in Model)
+            {
+                if (count < 5 && item.Genre.Equals("Science Fiction"))
+                {
+                    <td>
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.ProductID }, null, item.CoverUrl)
+                    </td>
+                    count++;
+                }
+            }
+        </tr>
+    </table>
+
+    <table class="table">
+        <h3>Fantasy</h3>
+        <tr>
+            @{
+                count = 0;
+            }
+            @foreach (var item in Model)
+            {
+                if (count < 5 && item.Genre.Equals("Fantasy"))
+                {
+                    <td>
+                        
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.ProductID }, null, item.CoverUrl)
+                    </td>
+                    count++;
+                }
+            }
+        </tr>
+    </table>
+</div>
