@@ -1,0 +1,52 @@
+﻿@model IEnumerable<GeekBooks.Models.BookViewModel>
+@using GeekBooks.Helpers
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<div class="container">
+    <h2>@ViewBag.Message</h2>
+    <table class="table">
+            @foreach (var item in Model)
+            {                
+                <tr>
+                    <td>
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
+                    </td>
+                    <td>
+                        <h3>@item.BookName</h3>
+                        <h4>by @Html.ActionLink(item.Author.AuthorName, "Search", "Products", new { query = item.Author.AuthorName, type = 1 }, null)</h4>
+                        <p>@item.Synopsis</p>
+                        <h4>Price: $@item.Price</h4>
+                        <div style="margin-top: 3px;">
+                            @for (var i = 1; i <= 5; i++)
+                            {
+                                if (i <= item.AvgRating)
+                                {
+                                    <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                    if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                    {
+                                        <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                    }
+                                }
+
+                                if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
+                                {
+                                    <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                                }
+                            }
+                        </div>
+                        @if(item.Stock > 0)
+                        {
+                            <h2>Still in Stock</h2>
+                        }
+                        else {
+                            <h2>Out of Stock!</h2>
+                        }
+
+                    </td>
+                </tr>
+            }        
+    </table>
+</div>

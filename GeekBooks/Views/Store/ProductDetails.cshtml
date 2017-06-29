@@ -10,64 +10,106 @@
     <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
 }
 
-@using (Html.BeginForm())
-{
-    <div class="container">
-        <fieldset>
-            <div class="form-horizontal">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @if (Model.CoverUrl == null)
-                    {
-                        <i style="color: #FB8C00" class="fa fa-book md-96 orange"></i>
-                    }
-                    else
-                    {
-                        <img src="@Url.Content(Model.CoverUrl)" alt="@Url.Content("~/Content/Images/avatar02.png")" />
-                    }
-                </div>
-            </div>
-        </fieldset>
-    </div>
-
-    <div class="container">
-        <table class="table">
-            <tr>
-                <th>Title</th>
-                <th>@Html.DisplayName(Model.BookName)</th>
-            </tr>
-            <tr>
-                <th>Author:</th>
-                <th>@Html.DisplayName(Model.Author.AuthorName)</th>
-            </tr>
-            <tr>
-                <th>Genre:</th>
-                <th>@Html.DisplayName(Model.Genre)</th>
-            </tr>
-            <tr>
-                <th>Publisher:</th>
-                <th>@Html.DisplayName(Model.Publisher)</th>
-            </tr>
-            <tr>
-                <th>Price:</th>
-                <th>@Html.DisplayFor(model => model.Price)</th>
-            </tr>
-            <tr>
-                <th>Synopsis:</th>
-                <th>@Html.DisplayName(Model.Synopsis)</th>
-            </tr>
-            <tr>
-                <th>About the Author:</th>
-                <th>@Html.DisplayName(Model.Author.Blurb)</th>
-            </tr>
-        </table>
-    </div>
-    if (Model.Stock <= 5)
+<div class="container">
+    @using (Html.BeginForm())
     {
-        <h4  class="bg-danger">Only @Html.DisplayName(Model.Stock.ToString()) left in stock!</h4>
-    }
-}
+        <div class="container">
+            <fieldset>
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<p>
- @Html.ActionLink("Back to List", "Index", "Store")
-</p>
+                    <div class="form-group">
+                        <table>
+                            <tr>
+                                <td>
+                                    @if (Model.CoverUrl == null)
+                                    {
+                                        <i style="color: #FB8C00" class="fa fa-book md-96 orange"></i>
+                                    }
+                                    else
+                                    {
+                                        <img src="@Url.Content(Model.CoverUrl)" alt="@Url.Content("~/Content/Images/avatar02.png")" />
+                                    }
+                                </td>
+                                <td >
+                                    <div style="margin: 5px;">
+                                        @for (var i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= ViewBag.AvgRating)
+                                            {
+                                                <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                                if ((ViewBag.AvgRating - i) > 0 && (ViewBag.AvgRating - i) < 1)
+                                                {
+                                                    <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                                }
+                                            }
+
+                                            if ((i > Math.Ceiling(ViewBag.AvgRating)) && (i <= 5))
+                                            {
+                                                <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                                            }
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th>Title</th>
+                    <th>@Html.DisplayName(Model.BookName)</th>
+                </tr>
+                <tr>
+                    <th>Author:</th>
+                    <th>@Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</th>
+                </tr>
+                <tr>
+                    <th>Genre:</th>
+                    <th>@Html.ActionLink(Model.Genre, "Search", "Store", new { query = Model.Genre, type = 0 }, null)</th>
+                </tr>
+                <tr>
+                    <th>Publisher:</th>
+                    <th>@Html.DisplayName(Model.Publisher)</th>
+                </tr>
+                <tr>
+                    <th>Price:</th>
+                    <th>@Html.DisplayFor(model => model.Price)</th>
+                </tr>
+                <tr>
+                    <th>Synopsis:</th>
+                    <th>@Model.Synopsis</th>
+                </tr>
+                <tr>
+                    <th>About the Author:</th>
+                    <th>@Model.Author.Blurb</th>
+                </tr>
+            </table>
+        </div>
+
+        if (Model.Stock <= 5 && Model.Stock > 0)
+        {
+            <h4 class="bg-warning">Only Model.Stock left in stock!</h4>
+        }
+        if (Model.Stock == 0)
+        {
+            <h4 class="bg-danger">Out of Stock!</h4>
+        }
+
+        <div class="container">
+            <h2>Book Reviews</h2>
+        </div>
+
+        Html.RenderPartial("_BookRatingIndex", Model, null);
+    }
+
+    <p>
+        @Html.ActionLink("Back to List", "Index", "Store")
+    </p>
+
+</div>
+

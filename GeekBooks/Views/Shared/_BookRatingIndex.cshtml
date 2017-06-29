@@ -1,0 +1,59 @@
+﻿@model GeekBooks.Models.Book
+@using Microsoft.AspNet.Identity;
+@using GeekBooks.Models
+
+<div class="container">
+      
+   @{ 
+       ApplicationUser user = new ApplicationUser();
+       BookRating bookR = new BookRating();
+       string userid = User.Identity.GetUserId();
+    }
+    <p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.ActionLink("Add Review", "Create", "BookRating", new { id = Model.BookID }, null)
+        }
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => user.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => bookR.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => bookR.Rating)
+            </th>
+        </tr>
+
+    @foreach (var item in Model.BookRatings)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+           <td>
+                @for (var i = 1; i <= item.Rating; i++)
+                {
+                    <i style="color:darkorange" class="fa fa-star"></i>
+                }
+            </td>
+            <td>
+                @if (userid == item.User.Id)
+                {
+                    @Html.ActionLink("Edit", "Edit", "BookRating", new { id = item.BookRatingID }, null) 
+                    <a> | </a>
+                    @Html.ActionLink("Delete", "Delete", "BookRating", new { id = item.BookRatingID }, null)
+                }
+            </td> 
+        </tr>
+    }
+
+    </table>
+</div>

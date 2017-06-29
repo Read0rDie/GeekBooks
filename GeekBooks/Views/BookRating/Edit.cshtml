@@ -1,0 +1,96 @@
+﻿@model GeekBooks.Models.BookRating
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script language="javascript" type="text/javascript">
+    var globalStar = 0;
+    function StarMouseEnter(id) {
+        var temp = "";
+        for (var i = 1; i <= id; i++) {
+            temp = 'star' + i;
+            document.getElementById(temp).className = "fa fa-star fa-4x";
+        }
+    }
+    function StarMouseExit(id) {
+        if (globalStar !== id) {
+            var temp = "";
+            var i = 1;
+            if (globalStar !== 0) {
+                i = globalStar + 1;
+            }
+            if (globalStar === 5) {
+                i = globalStar;
+            }
+            for (i; i <= id; i++) {
+                temp = 'star' + i;
+                document.getElementById(temp).className = "fa fa-star-o fa-4x";
+            }
+        }
+    }
+    function StarMouseDown(id) {
+        if (globalStar === id) {
+            globalStar = 0;
+        }
+        else {
+            for (var i = 1; i <= 5; i++) {
+                temp = 'star' + i;
+                document.getElementById(temp).className = "fa fa-star-o fa-4x";
+            }
+
+            for (var i = 1; i <= id; i++) {
+                temp = 'star' + i;
+                document.getElementById(temp).className = "fa fa-star fa-4x";
+            }
+
+            globalStar = id;
+            document.getElementById('Rating').value = id;
+        }
+    }
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+        
+    <div class="form-horizontal">
+        <div class="container">
+            <h4>BookRating</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.BookRatingID)
+            @Html.HiddenFor(model => model.BookID)
+            @Html.HiddenFor(model => model.UID)
+            @Html.HiddenFor(model => model.Rating)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="">
+                    <div class="">
+                        <i id="star1" style="color:darkorange" onmouseover="StarMouseEnter(1)" onmouseout="StarMouseExit(1)" onmousedown="StarMouseDown(1)" class="fa fa-star-o fa-4x"></i>
+                        <i id="star2" style="color:darkorange" onmouseover="StarMouseEnter(2)" onmouseout="StarMouseExit(2)" onmousedown="StarMouseDown(2)" class="fa fa-star-o fa-4x"></i>
+                        <i id="star3" style="color:darkorange" onmouseover="StarMouseEnter(3)" onmouseout="StarMouseExit(3)" onmousedown="StarMouseDown(3)" class="fa fa-star-o fa-4x"></i>
+                        <i id="star4" style="color:darkorange" onmouseover="StarMouseEnter(4)" onmouseout="StarMouseExit(4)" onmousedown="StarMouseDown(4)" class="fa fa-star-o fa-4x"></i>
+                        <i id="star5" style="color:darkorange" onmouseover="StarMouseEnter(5)" onmouseout="StarMouseExit(5)" onmousedown="StarMouseDown(5)" class="fa fa-star-o fa-4x"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+                </div>
+            </div>            
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />|
+                    @Html.ActionLink("Back to Book Detail", "ProductDetails", "Store", new { id = Model.BookID }, null)
+                </div>
+            </div>
+        </div>            
+    </div>
+}

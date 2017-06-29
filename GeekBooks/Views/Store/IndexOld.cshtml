@@ -1,0 +1,66 @@
+﻿@model IEnumerable<GeekBooks.Models.BookViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Books</h2>
+
+<table class="table table-striped table-bordered">
+    <tr>  
+        <th>
+            @Html.ActionLink("Book Name", "Index", new { sortOrder = ViewBag.BookNameSortParm, sortType = ViewBag.SortType })
+        </th>
+        <th>
+            @Html.ActionLink("Genre", "Index", new { sortOrder = ViewBag.GenreSortParm, sortType = ViewBag.SortType })
+        </th>
+        <th>
+            @Html.ActionLink("Price", "Index", new { sortOrder = ViewBag.PriceSortParm, sortType = ViewBag.SortType })
+        </th>
+        <th>
+            @Html.ActionLink("Rating", "Index", new { sortOrder = ViewBag.RatingSortParm, sortType = ViewBag.SortType })
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.BookName)
+        </th>        
+        <th>
+            @Html.DisplayNameFor(model => model.Genre)
+        </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvgRating)
+        </th>*@
+        <th>
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookName)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Genre)
+        </td>       
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @for (var i = 1; i <= item.AvgRating; i++)
+            {
+                <i style="color:darkorange" class="fa fa-star"></i>
+                if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                {
+                    <i style="color:darkorange" class="fa fa-star-o "></i>
+                }
+            }
+        </td>
+        <td>          
+            @Html.ActionLink("Details", "ProductDetails", "Store", new { id = item.BookID }, null) 
+        </td>       
+    </tr>
+}
+</table>
+

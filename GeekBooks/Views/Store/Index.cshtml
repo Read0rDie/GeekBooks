@@ -1,39 +1,121 @@
-﻿@model IEnumerable<GeekBooks.Models.Book>
+﻿@model IEnumerable<GeekBooks.Models.BookViewModel>
+@using GeekBooks.Helpers
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Books</h2>
+<div class="container">
+    <h3>New Releases</h3>
+    <table class="table">        
+        <tr>
+            @{ 
+                int count = 0;
+            }
+            @foreach (var item in Model)
+            {
+                if (count < 5)
+                {
+                    <td>                        
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
 
-<table class="table">
-    <tr>  
-        <th>
-            @Html.DisplayNameFor(model => model.BookName)
-        </th>        
-        <th>
-            @Html.DisplayNameFor(model => model.Genre)
-        </th> 
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th></th>
-    </tr>
+                        <div style="margin-top: 3px;margin-left: 20px;">
+                            @for (var i = 1; i <= 5; i++)
+                            {
+                                if (i <= item.AvgRating)
+                                {
+                                    <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                    if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                    {
+                                        <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                    }
+                                }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BookName)
-        </td>        
-        <td>
-            @Html.DisplayFor(modelItem => item.Genre)
-        </td>       
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>          
-            @Html.ActionLink("Details", "ProductDetails", "Store", new { id = item.BookID }, null) 
-        </td>
-    </tr>
-}
-</table>
+                                if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
+                                {
+                                    <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                                }
+                            }
+                        </div>                      
+                    </td>
+                    count++;
+                }
+            }
+        </tr>
+    </table>
+
+    <h3>Science Fiction</h3>
+    <table class="table">        
+        <tr>
+            @{
+                count = 0;
+            }
+            @foreach (var item in Model)
+            {
+                if (count < 5 && item.Genre.Equals("Science Fiction"))
+                {
+                    <td>
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
+                        <div style="margin-top: 3px;margin-left: 20px;">
+                            @for (var i = 1; i <= 5; i++)
+                            {
+                                if (i <= item.AvgRating)
+                                {
+                                    <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                    if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                    {
+                                        <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                    }
+                                }
+
+                                if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
+                                {
+                                    <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                                }
+                            }
+                        </div>
+                    </td>
+                    count++;
+                }
+            }
+        </tr>
+    </table>
+
+    <h3>Fantasy</h3>
+    <table class="table">
+        
+        <tr>
+            @{
+                count = 0;
+            }
+            @foreach (var item in Model)
+            {
+                if (count < 5 && item.Genre.Equals("Fantasy"))
+                {
+                    <td>                        
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
+                        <div style="margin-top: 3px;margin-left: 20px;">
+                            @for (var i = 1; i <= 5; i++)
+                            {
+                                if (i <= item.AvgRating)
+                                {
+                                    <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                    if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                    {
+                                        <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                    }
+                                }
+
+                                if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
+                                {
+                                    <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                                }
+                            }
+                        </div>
+                    </td>
+                    count++;
+                }
+            }
+        </tr>
+    </table>
+</div>

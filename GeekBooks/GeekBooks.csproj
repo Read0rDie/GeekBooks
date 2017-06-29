@@ -48,6 +48,9 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -190,14 +193,19 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\AvatarController.cs" />
+    <Compile Include="Controllers\BookRatingController.cs" />
     <Compile Include="Controllers\CreditCardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CustomHtmlHelpers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\BookRating.cs" />
     <Compile Include="Models\BookAuthor.cs" />
     <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\CreditCard.cs" />
@@ -341,8 +349,16 @@
     <Content Include="Views\CreditCard\Edit.cshtml" />
     <Content Include="Views\Shared\_CreditCardIndex.cshtml" />
     <Content Include="Views\Store\ProductDetails.cshtml" />
-    <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\Store\IndexOld.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\Shared\_BookRatingIndex.cshtml" />
+    <Content Include="Views\BookRating\Create.cshtml" />
+    <Content Include="Views\BookRating\Delete.cshtml" />
+    <Content Include="Views\BookRating\Edit.cshtml" />
+    <Content Include="Views\Shared\_ShoppingCartPartial.cshtml" />
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\Store\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
