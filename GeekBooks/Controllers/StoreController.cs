@@ -144,7 +144,7 @@ namespace GeekBooks.Controllers
             return View(bookList);
         }
 
-        public ActionResult Search(string query, int type)
+        public ActionResult Search(string query, int? type)
         {
             List<Book> t_bookList = new List<Book>();
             List<BookViewModel> bookList = new List<BookViewModel>();
@@ -166,9 +166,12 @@ namespace GeekBooks.Controllers
                     ViewBag.Message = query;
                     break;
                 default:
-                    return View();
+                    t_bookList = db.Books.Where(p => p.Author.AuthorName.Contains(query) || p.Genre.Contains(query) || p.BookName.Contains(query)).ToList();
+                    ViewBag.Message = "Search results for: " + query;
+                    break;
             }
 
+            
             foreach (var item in t_bookList)
             {
                 model = Mapper.Map<BookViewModel>(item);
@@ -187,6 +190,7 @@ namespace GeekBooks.Controllers
             }
 
             return View(bookList.ToList());
+            
         }
 
         public ActionResult ProductDetails(int? id)
