@@ -16,7 +16,7 @@
                     </td>
                     <td>
                         <h3>@item.BookName</h3>
-                        <h4>by @Html.ActionLink(item.Author.AuthorName, "Search", "Products", new { query = item.Author.AuthorName, type = 1 }, null)</h4>
+                        <h4>by @Html.ActionLink(item.Author.AuthorName, "Search", "Store", new { query = item.Author.AuthorName, type = 1 }, null)</h4>
                         <p>@item.Synopsis</p>
                         <h4>Price: $@item.Price</h4>
                         <div style="margin-top: 3px;">
