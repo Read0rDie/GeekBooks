@@ -22,7 +22,7 @@ namespace GeekBooks.Controllers
             return View(products.ToList());
         }
 
-        public ActionResult Search(string query, int type)
+        public ActionResult Search(string query, int? type)
         {
             
             switch (type)
@@ -40,7 +40,9 @@ namespace GeekBooks.Controllers
                     ViewBag.Message = query;
                     return View(productsT.ToList());                    
                 default:
-                    return View();
+                    var productsD = db.Products.Where(p => p.Author.AuthorName.Contains(query) || p.Genre.Contains(query) || p.ProductName.Contains(query));
+                    ViewBag.Message = "Search results for: " + query;
+                    return View(productsD.ToList());
             }            
         }       
 

@@ -5,6 +5,12 @@
     ViewBag.Title = "Search";
 }
 
+@section Styles {
+
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
+}
+
 <div class="container">
     <table class="table">
         <h2>@ViewBag.Message</h2>                 
@@ -28,10 +34,11 @@
                         else {
                             <h2>Out of Stock!</h2>
                         }
-
+                        <input class="csbutton" type="submit" value="Add to Cart"/>
                     </td>
                 </tr>
             }
         
     </table>
 </div>
+
