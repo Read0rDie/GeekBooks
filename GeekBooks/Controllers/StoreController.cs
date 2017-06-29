@@ -166,9 +166,9 @@ namespace GeekBooks.Controllers
                     ViewBag.Message = query;
                     break;
                 default:
-                    var productsD = db.Books.Where(p => p.Author.AuthorName.Contains(query) || p.Genre.Contains(query) || p.BookName.Contains(query));
+                    t_bookList = db.Books.Where(p => p.Author.AuthorName.Contains(query) || p.Genre.Contains(query) || p.BookName.Contains(query)).ToList();
                     ViewBag.Message = "Search results for: " + query;
-                    return View();
+                    break;
             }
 
             
