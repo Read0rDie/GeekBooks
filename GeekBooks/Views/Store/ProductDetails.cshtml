@@ -11,6 +11,83 @@
 }
 
 <div class="container">
+    <div class="col-md-8">
+        <div class="col-sm-4"  style="text-align:center">
+            <div>
+                @if (Model.CoverUrl == null)
+                {
+                    <i style="color: #FB8C00" class="fa fa-book md-96 orange"></i>
+                }
+                else
+                {
+                    <img src="@Url.Content(Model.CoverUrl)" alt="@Url.Content("~/Content/Images/avatar02.png")" />
+                }
+            </div>            
+        
+            <div style="margin: 15px;">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    if (i <= ViewBag.AvgRating)
+                    {
+                        <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                        if ((ViewBag.AvgRating - i) > 0 && (ViewBag.AvgRating - i) < 1)
+                        {
+                            <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                        }
+                    }
+
+                    if ((i > Math.Ceiling(ViewBag.AvgRating)) && (i <= 5))
+                    {
+                        <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                    }
+                }
+            </div>
+            <h5>Rate this Book!</h5>            
+        </div>
+        <div class="col-sm-8" >
+            <h1>@Model.BookName</h1>
+            <h4>by @Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</h4>
+            <p>@Model.Synopsis</p>
+            <hr />        
+            <input class="csbutton" type="submit" value="Add to Cart" /><input class="csbutton" type="submit" value="Review Book" style="margin-left:10px" />
+            <hr />
+            <table style="width: 100%">
+                <tr>
+                    <td>Title: </td>
+                    <td>@Model.BookName</td>
+                </tr>
+                <tr>
+                    <td>Genre: </td>
+                    <td>@Html.ActionLink(Model.Genre, "Search", "Store", new { query = Model.Genre, type = 0 }, null)</td>
+                </tr>
+                <tr>
+                    <td>Publisher: </td>
+                    <td>@Model.Publisher</td>
+                </tr>
+            </table>        
+        </div>
+        <div class="col-sm-12">
+            <hr />
+            <h3>Leave a Review...</h3>
+        </div>
+    </div>
+    <div class="col-sm-4" >
+        <h5><b>Books like this...</b></h5>
+        <hr />
+        @Html.Action("Carousel", new { query = Model.Genre , title = Model.BookName})
+        <hr />
+        <h5><b>About @Model.Author.AuthorName</b></h5>        
+        <p>@Model.Author.Blurb</p>
+        <hr />
+        <h5><b>More Books by this author...</b></h5>
+        <hr />
+        @Html.Action("MiniSearch", new { query = Model.Author.AuthorName, title = Model.BookName })
+        <hr />
+    </div>
+</div>
+
+
+@*<div class="container">
     @using (Html.BeginForm())
     {
         <div class="container">
@@ -111,5 +188,5 @@
         @Html.ActionLink("Back to List", "Index", "Store")
     </p>
 
-</div>
+</div>*@
 

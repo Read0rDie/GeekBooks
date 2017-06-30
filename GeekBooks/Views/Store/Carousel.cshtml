@@ -1,0 +1,93 @@
+﻿@model IEnumerable<GeekBooks.Models.BookViewModel>
+@using GeekBooks.Helpers
+
+@{
+    ViewBag.Title = "Carousel";
+}
+
+@{
+    int count = 1;
+}
+
+@if (Model.Count() > 3)
+{
+
+<div>    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="carousel slide" id="myCarousel">
+                <div class="carousel-inner">
+                    
+                        @foreach (var item in Model)
+                        {
+                            if (count == 1)
+                            {
+                                <div class="item active">
+                                    <div class="col-xs-4">
+                                        <a href="@Url.Action("ProductDetails", "Store", new { id = item.BookID })"><img src="@item.CoverUrl" class="img-responsive" ></a>
+                                    </div>
+                                </div>
+                                count++;
+                            }
+                            else
+                            {
+                                <div class="item">
+                                    <div class="col-xs-4">
+                                        <a href="@Url.Action("ProductDetails", "Store", new { id = item.BookID })"><img src="@item.CoverUrl" class="img-responsive" ></a>
+
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                </div>
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+}
+else
+{
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                
+                @foreach (var item in Model)
+                {                    
+                    <div class="col-xs-4">
+                        <a href="@Url.Action("ProductDetails", "Store", new { id = item.BookID })"><img src="@item.CoverUrl" class="img-responsive"></a>
+                    </div>
+                    
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+    $('#myCarousel').carousel({
+        interval: false
+    })
+
+    $('.carousel .item').each(function () {
+        var next = $(this).next();
+        if (!next.length) {
+            next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        if (next.next().length > 0) {
+            next.next().children(':first-child').clone().appendTo($(this));
+        }
+        else {
+            $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+        }
+    });
+</script>
+
+
+
+

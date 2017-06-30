@@ -144,6 +144,62 @@ namespace GeekBooks.Controllers
             return View(bookList);
         }
 
+        public ActionResult Carousel(string query, string title)
+        {
+            List<Book> t_bookList = new List<Book>();
+            List<BookViewModel> bookList = new List<BookViewModel>();
+            Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
+            BookViewModel model;
+            
+            t_bookList = db.Books.Where(p => p.Genre == query && p.BookName != title).ToList();            
+
+            foreach (var item in t_bookList)
+            {
+                model = Mapper.Map<BookViewModel>(item);
+                model.AvgRating = 0;
+                foreach (var item2 in item.BookRatings)
+                {
+                    model.AvgRating += item2.Rating;
+                }
+
+                if (item.BookRatings.Count > 0)
+                {
+                    model.AvgRating = model.AvgRating / item.BookRatings.Count;
+                }
+
+                bookList.Add(model);
+            }
+            return PartialView(bookList.ToList());
+        }
+
+        public ActionResult MiniSearch(string query, string title)
+        {
+            List<Book> t_bookList = new List<Book>();
+            List<BookViewModel> bookList = new List<BookViewModel>();
+            Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
+            BookViewModel model;
+
+            t_bookList = db.Books.Where(p => p.Author.AuthorName == query && p.BookName != title).ToList();
+
+            foreach (var item in t_bookList)
+            {
+                model = Mapper.Map<BookViewModel>(item);
+                model.AvgRating = 0;
+                foreach (var item2 in item.BookRatings)
+                {
+                    model.AvgRating += item2.Rating;
+                }
+
+                if (item.BookRatings.Count > 0)
+                {
+                    model.AvgRating = model.AvgRating / item.BookRatings.Count;
+                }
+
+                bookList.Add(model);
+            }
+            return PartialView(bookList.ToList());
+        }
+
         public ActionResult Search(string query, int? type)
         {
             List<Book> t_bookList = new List<Book>();

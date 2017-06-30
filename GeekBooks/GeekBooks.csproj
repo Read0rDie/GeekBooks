@@ -359,6 +359,8 @@
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\Store\Search.cshtml" />
+    <Content Include="Views\Store\Carousel.cshtml" />
+    <Content Include="Views\Store\MiniSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
