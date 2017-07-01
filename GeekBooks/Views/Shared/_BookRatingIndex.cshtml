@@ -33,15 +33,16 @@
                     }
                 }
                 
-                <p style="vertical-align:middle">
-                    @item.Comment
-                </p>
-                @if (userid == item.User.Id)
+                <p style="vertical-align:middle; font-size:larger">
+                    @item.Comment<br />
+                    @if (userid == item.User.Id)
                 {
-                    @Html.ActionLink("Edit", "Edit", "BookRating", new { id = item.BookRatingID }, null)
-                    <a> | </a>
-                    @Html.ActionLink("Delete", "Delete", "BookRating", new { id = item.BookRatingID }, null)
-                }
+                        @Html.ActionLink("Edit", "Edit", "BookRating", new { id = item.BookRatingID }, null)
+                        <a> | </a>
+                        @Html.ActionLink("Delete", "Delete", "BookRating", new { id = item.BookRatingID }, null)
+                    }
+                </p>
+               
             </div>            
         </div>
         <br />

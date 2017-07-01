@@ -6,11 +6,10 @@
 }
 
 @section Styles {
-
     <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
 }
 
-<div class="container">
+<div class="container" style="padding-bottom:100px; padding-top:50px">
     <div class="col-md-8">
         <div class="col-sm-4"  style="text-align:center">
             <div>
@@ -49,7 +48,7 @@
             <h4>by @Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</h4>
             <p>@Model.Synopsis</p>
             <hr />        
-            <input class="csbutton" type="submit" value="Add to Cart" /><input class="csbutton" type="submit" value="Review Book" style="margin-left:10px" />
+            <input class="csbutton" type="submit" value="Add to Cart" /><input class="csbutton" type="submit" value="See Reviews" style="margin-left:10px" />
             <hr />
             <table style="width: 100%">
                 <tr>
@@ -71,7 +70,8 @@
             <h3>Leave a Review...</h3>
             @Html.Action("Create", "BookRating", new { id = Model.BookID})    
             <hr />
-            <h3>Community Reviews</h3>
+
+            <h3>Community Reviews &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted" style="font-size:smaller"><i>@Model.BookRatings.Count() Review</i>@if (Model.BookRatings.Count() != 1) {<text><i>s</i></text>}</span></h3>
             @Html.Partial("_BookRatingIndex", Model, null) 
         </div>
     </div>

@@ -45,7 +45,7 @@ textarea {
 }
 
 /* override position and transform in 3.3.x */
-.carousel-inner .item.left.active {
+/*.carousel-inner .item.left.active {
     transform: translateX(-33%);
 }
 
@@ -81,3 +81,8 @@ textarea {
 .wide {
     max-width: 700px;
 }
+
+.pagePadding{
+    padding-bottom:100px;
+    padding-top: 50px;
+}*/

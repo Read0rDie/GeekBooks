@@ -210,15 +210,15 @@ namespace GeekBooks.Controllers
             switch (type)
             {
                 case 0:
-                    t_bookList = db.Books.Where(p => p.Genre == query).ToList();
+                    t_bookList = db.Books.Where(p => p.Genre.Contains(query)).ToList();
                     ViewBag.Message = query;
                     break;
                 case 1:
-                    t_bookList = db.Books.Where(p => p.Author.AuthorName == query).ToList();
+                    t_bookList = db.Books.Where(p => p.Author.AuthorName.Contains(query)).ToList();
                     ViewBag.Message = "Books by " + query;
                     break;
                 case 2:
-                    t_bookList = db.Books.Where(p => p.BookName == query).ToList();
+                    t_bookList = db.Books.Where(p => p.BookName.Contains(query)).ToList();
                     ViewBag.Message = query;
                     break;
                 default:
