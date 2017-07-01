@@ -17,12 +17,16 @@ namespace GeekBooks.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult Search(string id)
+        public ActionResult GetAvatar(string id)
         {
-            Avatar avatar = db.Avatars.FirstOrDefault(x => x.UID == id);
-            return View(avatar);
+            
+            //Avatar avatar = db.Avatars.FirstOrDefault(x => x.UID == id);
+            IEnumerable<Avatar> avaList = db.Avatars.Where(x => x.UID == id);
+            //List<Avatar> avaList = new List<Avatar>();
+            //avaList.Add(avatar);
+            return PartialView(avaList);
         }
-        
+
         // GET: Avatars/Create
         public ActionResult Create()
         {

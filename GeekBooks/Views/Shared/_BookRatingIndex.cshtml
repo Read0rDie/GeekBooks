@@ -3,19 +3,19 @@
 @using GeekBooks.Models
 
      
-   @{ 
+   @{
        ApplicationUser user = new ApplicationUser();
        BookRating bookR = new BookRating();
        string userid = User.Identity.GetUserId();
-    }
+}
     
     @foreach (var item in Model.BookRatings)
     {
         <hr />
         <div class="col-md-12">
             <div class="col-xs-2" style="text-align:center">
-                <div>
-                    @Html.Action("Search", "Avatar", new { id = item.UID })            
+                <div>                    
+                    @Html.Action("GetAvatar", "Avatar", new { id = item.UID })
                 </div>            
             </div>
             <div class="col-xs-10">
@@ -48,9 +48,14 @@
         <br />
         
     }
+
+@*@if (User.Identity.IsAuthenticated)
+{
+    @Html.ActionLink("Add Review", "Create", "BookRating", new { id = Model.BookID }, null)
+}
     
 
-    @*<table class="table">
+    <table class="table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => user.UserName)
