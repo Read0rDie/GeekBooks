@@ -47,7 +47,7 @@ namespace GeekBooks.Controllers
                     db.BookRatings.Add(bookrating);
                     db.SaveChanges();
                 }
-
+                
                 return RedirectToAction("ProductDetails", "Store", new { id = bookrating.BookID });
             }
             catch (Exception ex)

@@ -42,7 +42,7 @@
                     }
                 }
             </div>
-            <h5>Rate this Book!</h5>            
+            <h5>Average Rating</h5>            
         </div>
         <div class="col-sm-8" >
             <h1>@Model.BookName</h1>
@@ -69,6 +69,10 @@
         <div class="col-sm-12">
             <hr />
             <h3>Leave a Review...</h3>
+            @Html.Action("Create", "BookRating", new { id = Model.BookID})    
+            <hr />
+            <h3>Community Reviews</h3>
+            @Html.Partial("_BookRatingIndex", Model, null) 
         </div>
     </div>
     <div class="col-sm-4" >
@@ -83,6 +87,7 @@
         <hr />
         @Html.Action("MiniSearch", new { query = Model.Author.AuthorName, title = Model.BookName })
         <hr />
+        
     </div>
 </div>
 

@@ -16,6 +16,12 @@ namespace GeekBooks.Controllers
     public class AvatarController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult Search(string id)
+        {
+            Avatar avatar = db.Avatars.FirstOrDefault(x => x.UID == id);
+            return View(avatar);
+        }
         
         // GET: Avatars/Create
         public ActionResult Create()

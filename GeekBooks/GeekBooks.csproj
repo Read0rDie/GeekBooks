@@ -361,6 +361,7 @@
     <Content Include="Views\Store\Search.cshtml" />
     <Content Include="Views\Store\Carousel.cshtml" />
     <Content Include="Views\Store\MiniSearch.cshtml" />
+    <Content Include="Views\Avatar\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

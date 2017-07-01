@@ -1,0 +1,13 @@
+﻿@model GeekBooks.Models.Avatar
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{ 
+    string imageUrl = Model.ImageUrl.ToString();
+
+}
+
+<img class="img-circle" src="@Url.Content(imageUrl)" style="height:50px; width:50px"/>
+
