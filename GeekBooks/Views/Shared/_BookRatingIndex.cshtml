@@ -11,6 +11,67 @@
     
     @foreach (var item in Model.BookRatings)
     {
+
+        String month;
+        switch (item.PublishDate.Month)
+        {
+            case 1:
+                month = "January";
+                break;
+            case 2:
+                month = "February";
+                break;
+            case 3:
+                month = "March";
+                break;
+            case 4:
+                month = "April";
+                break;
+            case 5:
+                month = "May";
+                break;
+            case 6:
+                month = "June";
+                break;
+            case 7:
+                month = "July";
+                break;
+            case 8:
+                month = "August";
+                break;
+            case 9:
+                month = "September";
+                break;
+            case 10:
+                month = "October";
+                break;
+            case 11:
+                month = "November";
+                break;
+            case 12:
+                month = "December";
+                break;
+            default:
+                month = "";
+                break;
+        }
+        //int hour = item.PublishDate.Hour % 12;
+        //string meridiem = "AM";
+        //if (hour == 0)
+        //{
+        //    hour = 12;
+        //}
+        //if (item.PublishDate.Hour > 11)
+        //{
+        //    meridiem = "PM";
+        //}
+        string day = item.PublishDate.Day.ToString();
+        if (item.PublishDate.Day < 10)
+        {
+            day = "0" + day;
+        }
+
+
         <hr />
         <div class="col-md-12">
             <div class="col-xs-2" style="text-align:center">
@@ -19,6 +80,9 @@
                 </div>            
             </div>
             <div class="col-xs-10">
+                <table style="width: 100%">
+                    <tr>
+                        <td>
                 <h7><b>@item.User.UserName</b> rated it </h7>
 
                 @for (var i = 1; i <= 5; i++)
@@ -32,7 +96,12 @@
                         <i style="color:#BDC3C7" class="fa fa-star"></i>
                     }
                 }
-                
+                            </td>
+                            <td align="right">
+                <i style="color:#BDC3C7" >@month  @day, @item.PublishDate.Year</i>
+                                </td>
+                        </tr>
+                </table>
                 <p style="vertical-align:middle; font-size:larger">
                     @item.Comment<br />
                     @if (userid == item.User.Id)
@@ -41,57 +110,11 @@
                         <a> | </a>
                         @Html.ActionLink("Delete", "Delete", "BookRating", new { id = item.BookRatingID }, null)
                     }
-                </p>
-               
+                </p>               
+                
+                <h5></h5>
+               <br />
             </div>            
         </div>
-        <br />
-        
+        <br />        
     }
-
-@*@if (User.Identity.IsAuthenticated)
-{
-    @Html.ActionLink("Add Review", "Create", "BookRating", new { id = Model.BookID }, null)
-}
-    
-
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => user.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => bookR.Comment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => bookR.Rating)
-            </th>
-        </tr>
-
-    @foreach (var item in Model.BookRatings)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-           <td>
-                @for (var i = 1; i <= item.Rating; i++)
-                {
-                    <i style="color:darkorange" class="fa fa-star"></i>
-                }
-            </td>
-            <td>
-                @if (userid == item.User.Id)
-                {
-                    @Html.ActionLink("Edit", "Edit", "BookRating", new { id = item.BookRatingID }, null) 
-                    <a> | </a>
-                    @Html.ActionLink("Delete", "Delete", "BookRating", new { id = item.BookRatingID }, null)
-                }
-            </td> 
-        </tr>
-    }
-
-    </table>*@

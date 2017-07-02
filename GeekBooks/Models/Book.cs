@@ -28,6 +28,19 @@ namespace GeekBooks.Models
         public string Genre { get; set; }
         //Should constrain to specific strings
 
+        //[Display(Name = "Genre")]
+        //[StringLength(255)]
+        //public ICollection<string> Genre { get; set; }
+
+        //[Display(Name = "Publication Date")]
+        //[Required(ErrorMessage = "Please enter a publication date")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString ="{0:MM/dd/yyyy}")]
+        //public DateTime PublishDate { get; set; }
+
+        //[Display(Name = "Page Count")]
+        //public int Pages { get; set; }
+
         [Display(Name = "Synopsis")]
         [StringLength(2000)]
         public string Synopsis { get; set; }

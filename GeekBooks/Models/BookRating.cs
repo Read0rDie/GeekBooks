@@ -27,6 +27,10 @@ namespace GeekBooks.Models
         [Display(Name = "Rating")]
         public int Rating { get; set; }
 
+        [Display(Name = "Date Modified")]        
+        [DataType(DataType.Date)]
+        public DateTime PublishDate { get; set; }
+
         public virtual Book Book { get; set; }
 
         [ForeignKey("UID")]

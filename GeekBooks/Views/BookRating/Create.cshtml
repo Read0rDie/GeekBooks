@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Create";
-    
+
 }
 
 <script language="javascript" type="text/javascript">
@@ -55,7 +55,7 @@
 
 
 @using (Html.BeginForm("Create", "BookRating", FormMethod.Post))
-        {
+{
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
@@ -66,9 +66,9 @@
         @Html.HiddenFor(model => model.BookID)
         @Html.HiddenFor(model => model.UID)
         @Html.HiddenFor(model => model.Rating)
-
+        @Html.HiddenFor(model => model.PublishDate)        
+        
         <div class="form-group">
-            @*@Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-12">
                 @Html.TextAreaFor(model => model.Comment, new { @class = "form-control wide", @placeholder="Comment Here...", @rows=5} )
                 @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
@@ -92,10 +92,6 @@
                 <input type="submit" value="Submit" class="csbutton" />
             </div>
         </div>
-
-        
-        @*<h3>Community Reviews</h3>
-        @Html.Partial("_BookRatingIndex", Model, null)*@        
     </div>
 }
 

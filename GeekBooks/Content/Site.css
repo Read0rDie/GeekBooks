@@ -44,7 +44,16 @@ textarea {
     border: 2px solid #7f8c8d;
 }
 
- override position and transform in 3.3.x 
+.wide {
+    max-width: 700px;
+}
+
+.pagePadding{
+    padding-bottom:100px;
+    padding-top: 50px;
+}
+
+/*override position and transform in 3.3.x*/
 .carousel-inner .item.left.active {
     transform: translateX(-33%);
 }
@@ -76,13 +85,4 @@ textarea {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     width: 300px;
-}
-
-.wide {
-    max-width: 700px;
-}
-
-.pagePadding{
-    padding-bottom:100px;
-    padding-top: 50px;
 }
