@@ -8,11 +8,13 @@
 
 @section Styles {
     <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+} 
+
+@if (User.Identity.IsAuthenticated)
+{
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 }
-
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script> 
-
 <div class="container" style="padding-bottom:100px; padding-top:50px">
     <div class="col-md-8">
         <div class="col-sm-4"  style="text-align:center">
@@ -61,7 +63,28 @@
                 </tr>
                 <tr>
                     <td>Genre: </td>
-                    <td>@Html.ActionLink(Model.Genre, "Search", "Store", new { query = Model.Genre, type = 0 }, null)</td>
+                    @{ 
+                        var genres = Model.Genre.ToList();
+                    }
+                    <td>
+                        @{
+                            int count = 1;
+                        }
+                        @foreach (var genre in genres)
+                        {
+                            if (count < genres.Count)
+                            {
+                                <span>@Html.ActionLink(genre.GenreTitle, "Search", "Store", new { query = genre.GenreTitle, type = 0 }, null) | </span>
+                            }
+                            else
+                            {
+                                <span>@Html.ActionLink(genre.GenreTitle, "Search", "Store", new { query = genre.GenreTitle, type = 0 }, null)</span>                          
+                            }
+                            count++;
+                        }
+                        
+
+                    </td>
                 </tr>
                 <tr>
                     <td>Publisher: </td>
@@ -79,7 +102,10 @@
                 <hr />
                 <div id="reviews">
                     <h3>Community Reviews &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted" style="font-size:smaller"><i>@Model.BookRatings.Count() Review</i>@if (Model.BookRatings.Count() != 1) {<text><i>s</i></text>}</span></h3>
-                    @Html.Partial("_bookratingindex", Model)
+                    @if (Model.BookRatings.Count() > 0)
+                    {
+                        @Html.Partial("_bookratingindex", Model)
+                    }                    
                 </div>
 
             </div>

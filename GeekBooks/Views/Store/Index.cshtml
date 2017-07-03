@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<GeekBooks.Models.BookViewModel>
 @using GeekBooks.Helpers
 
+
 @{
     ViewBag.Title = "Index";
 }
@@ -52,70 +53,79 @@
             }
             @foreach (var item in Model)
             {
-                if (count < 5 && item.Genre.Equals("Science Fiction"))
+                foreach (var genre in item.Genre)
                 {
-                    <td>
-                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
-                        <div style="margin-top: 3px;margin-left: 20px;">
-                            @for (var i = 1; i <= 5; i++)
-                            {
-                                if (i <= item.AvgRating)
+                    if (count < 5 && genre.GenreTitle.Equals("Science Fiction"))
+                    {
+                        <td>
+                            @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
+                            <div style="margin-top: 3px;margin-left: 20px;">
+                                @for (var i = 1; i <= 5; i++)
                                 {
-                                    <i style="color:darkorange" class="fa fa-star fa-2x"></i>
-                                    if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                    if (i <= item.AvgRating)
                                     {
-                                        <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                        <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                        if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                        {
+                                            <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                        }
+                                    }
+
+                                    if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
+                                    {
+                                        <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
                                     }
                                 }
-
-                                if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
-                                {
-                                    <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
-                                }
-                            }
-                        </div>
-                    </td>
-                    count++;
+                            </div>
+                        </td>
+                        count++;
+                        break;
+                    }
                 }
+
             }
         </tr>
     </table>
 
-    <h3>Fantasy</h3>
-    <table class="table">
-        
-        <tr>
-            @{
-                count = 0;
-            }
-            @foreach (var item in Model)
-            {
-                if (count < 5 && item.Genre.Equals("Fantasy"))
-                {
-                    <td>                        
-                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
-                        <div style="margin-top: 3px;margin-left: 20px;">
-                            @for (var i = 1; i <= 5; i++)
-                            {
-                                if (i <= item.AvgRating)
-                                {
-                                    <i style="color:darkorange" class="fa fa-star fa-2x"></i>
-                                    if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
-                                    {
-                                        <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
-                                    }
-                                }
+        <h3>Fantasy</h3>
+        <table class="table">
 
-                                if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
-                                {
-                                    <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
-                                }
-                            }
-                        </div>
-                    </td>
-                    count++;
+            <tr>
+                @{
+                    count = 0;
                 }
-            }
-        </tr>
-    </table>
+                @foreach (var item in Model)
+                {
+                    foreach (var genre in item.Genre)
+                    {
+                        if (count < 5 && genre.GenreTitle.Equals("Fantasy"))
+                        {
+                            <td>
+                                @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
+                                <div style="margin-top: 3px;margin-left: 20px;">
+                                    @for (var i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= item.AvgRating)
+                                        {
+                                            <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                            if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                            {
+                                                <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                            }
+                                        }
+
+                                        if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
+                                        {
+                                            <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                            count++;
+                            break;
+                        }
+                    }
+                }
+            </tr>
+        </table>
 </div>

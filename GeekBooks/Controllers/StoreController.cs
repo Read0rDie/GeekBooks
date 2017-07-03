@@ -144,14 +144,28 @@ namespace GeekBooks.Controllers
             return View(bookList);
         }
 
-        public ActionResult Carousel(string query, string title)
+        public ActionResult Carousel(List<Genre> query, string title)
         {
             List<Book> t_bookList = new List<Book>();
             List<BookViewModel> bookList = new List<BookViewModel>();
             Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
             BookViewModel model;
-            
-            t_bookList = db.Books.Where(p => p.Genre == query && p.BookName != title).ToList();            
+
+            foreach(var bGenre in query)
+            {
+                var books = db.Books.ToList();
+                foreach (var item in books)
+                {
+                    var genres = item.Genre.ToList();
+                    foreach (var genre in genres)
+                    {
+                        if (genre.GenreTitle == bGenre.GenreTitle && item.BookName != title)
+                        {
+                            t_bookList.Add(item);
+                        }
+                    }
+                }
+            }            
 
             foreach (var item in t_bookList)
             {
@@ -179,7 +193,7 @@ namespace GeekBooks.Controllers
             Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
             BookViewModel model;
 
-            t_bookList = db.Books.Where(p => p.Author.AuthorName == query && p.BookName != title).ToList();
+            t_bookList = db.Books.Where(p => p.Author.AuthorName.Contains(query) && p.BookName != title).ToList();
 
             foreach (var item in t_bookList)
             {
@@ -206,11 +220,23 @@ namespace GeekBooks.Controllers
             List<BookViewModel> bookList = new List<BookViewModel>();
             Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
             BookViewModel model;
-            
+
+            var books = db.Books.ToList();
             switch (type)
             {
-                case 0:
-                    t_bookList = db.Books.Where(p => p.Genre.Contains(query)).ToList();
+                case 0:                    
+                    foreach(var item in books)
+                    {
+                        var genres = item.Genre.ToList();
+                        foreach(var genre in genres)
+                        {
+                            if(genre.GenreTitle == query)
+                            {
+                                t_bookList.Add(item);
+                            }
+                        }
+                    }
+                    //t_bookList = db.Books.Where(p => p.Genre.Contains(query)).ToList();
                     ViewBag.Message = query;
                     break;
                 case 1:
@@ -222,7 +248,21 @@ namespace GeekBooks.Controllers
                     ViewBag.Message = query;
                     break;
                 default:
-                    t_bookList = db.Books.Where(p => p.Author.AuthorName.Contains(query) || p.Genre.Contains(query) || p.BookName.Contains(query)).ToList();
+                    if (query.Length > 0)
+                    {
+                        foreach (var item in books)
+                        {
+                            var genres = item.Genre.ToList();
+                            foreach (var genre in genres)
+                            {
+                                if (genre.GenreTitle.ToLower().Contains(query.ToLower()) || item.Author.AuthorName.ToLower().Contains(query.ToLower()) || item.BookName.ToLower().Contains(query.ToLower()))
+                                {
+                                    t_bookList.Add(item);
+                                    break;
+                                }
+                            }
+                        }                       
+                    }
                     ViewBag.Message = "Search results for: " + query;
                     break;
             }
