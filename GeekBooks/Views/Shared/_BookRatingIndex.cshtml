@@ -2,9 +2,7 @@
 @using Microsoft.AspNet.Identity;
 @using GeekBooks.Models
 
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-     
+ 
    @{
        ApplicationUser user = new ApplicationUser();
        BookRating bookR = new BookRating();
@@ -13,6 +11,8 @@
     
     @foreach (var item in Model.BookRatings)
     {
+        <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
 
         String month;
         switch (item.PublishDate.Month)

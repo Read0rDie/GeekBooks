@@ -151,21 +151,27 @@ namespace GeekBooks.Controllers
             Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
             BookViewModel model;
 
-            foreach(var bGenre in query)
+            var books = db.Books.ToList();
+            foreach (var book in books)
             {
-                var books = db.Books.ToList();
-                foreach (var item in books)
+                foreach(var genre in book.Genre)
                 {
-                    var genres = item.Genre.ToList();
-                    foreach (var genre in genres)
+                    bool found = false;
+                    foreach(var bGenre in query)
                     {
-                        if (genre.GenreTitle == bGenre.GenreTitle && item.BookName != title)
+                        if (genre.GenreTitle == bGenre.GenreTitle && book.BookName != title)
                         {
-                            t_bookList.Add(item);
+                            t_bookList.Add(book);
+                            found = true;
+                            break;
                         }
                     }
+                    if (found == true)
+                    {
+                        break;
+                    }
                 }
-            }            
+            }                 
 
             foreach (var item in t_bookList)
             {

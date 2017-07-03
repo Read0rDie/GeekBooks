@@ -104,7 +104,12 @@
                     <h3>Community Reviews &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted" style="font-size:smaller"><i>@Model.BookRatings.Count() Review</i>@if (Model.BookRatings.Count() != 1) {<text><i>s</i></text>}</span></h3>
                     @if (Model.BookRatings.Count() > 0)
                     {
+                        
+                    }
+                    @if (Model.BookRatings.Count() > 0)
+                    {
                         @Html.Partial("_bookratingindex", Model)
+                        
                     }                    
                 </div>
 
