@@ -62,6 +62,10 @@
                     <td>@Model.BookName</td>
                 </tr>
                 <tr>
+                    <td>Author: </td>
+                    <td>@Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</td>
+                </tr>
+                <tr>
                     <td>Genre: </td>
                     @{ 
                         var genres = Model.Genre.ToList();
@@ -89,6 +93,10 @@
                 <tr>
                     <td>Publisher: </td>
                     <td>@Model.Publisher</td>
+                </tr>
+                <tr>
+                    <td>Price: </td>
+                    <td>$@Model.Price</td>
                 </tr>
             </table>        
         </div>
