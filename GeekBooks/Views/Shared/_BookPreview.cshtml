@@ -1,0 +1,23 @@
+﻿@model  GeekBooks.Models.Book
+
+@{
+    string url = "https://read.amazon.com/nc/?kcrFree=only&tag=x_gr_w_preview_sin_kcr-20&asin=" + Model.ASIN;
+}
+
+<i class="fa fa-book" style="color:orangered;" aria-hidden="true"></i><a href="#" data-toggle="modal" data-target="#myModal"> Preview</a>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog box">
+        
+        <div class="modal-header" style="padding:2px 10px 2px 10px; background-color:#DADFE1">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 style="text-align:left">Preview ~ <i>@Model.BookName</i>&nbsp; by @Model.Author.AuthorName</h4>
+        </div>
+        <div class="modal-body box3" style="padding:0 0 0 0">
+            <object class="box2" type="text/html" data="@url"></object>
+        </div>
+
+
+    </div>
+</div>

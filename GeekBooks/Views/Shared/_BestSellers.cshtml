@@ -1,0 +1,60 @@
+﻿@model IEnumerable<GeekBooks.Models.BookViewModel>
+
+<script>
+    // Built by LucyBot. www.lucybot.com
+    var url = "https://api.nytimes.com/svc/books/v3/lists.json";
+    url += '?' + $.param({
+        'api-key': "70538306ba1c40a98944a1a35e2bd482",
+        'list': "hardcover-fiction"
+    });
+    $.ajax({
+        url: url,
+        method: 'GET',
+    }).done(function (result) {
+        console.log(result);
+        var count = 1;
+        var id = "";
+        var found = 0;
+        while (count < 16) {
+            var book = result.results[count - 1].book_details["0"];
+            var name1 = String(book.title);
+            var name2 = "";
+            found = 0;
+            id = "book" + count;
+            @foreach(var item in Model)
+            {
+                <text>
+                    name2 = '@item.BookName.ToUpper()';
+                    if (name1 == name2) {
+                        var link = document.createElement('a');
+                        link.textContent = count + '. @item.BookName.ToUpper()';
+                        link.href = '@Url.Action("ProductDetails", "Store", new { id = item.BookID })';
+                        document.getElementById(id).appendChild(link);
+                        found = 1;                        
+                    }
+                </text>
+            }
+            if (!found) {                
+                document.getElementById(id).innerHTML = count + ". " + name1;                
+            }
+            count++;
+        }        
+        }).fail(function (err) {
+            throw err;
+        });
+</script>
+
+<div style="padding:0 20px">
+    <h1 style="margin-top:0">New York Times Best Seller List</h1>
+    @{
+        int count = 1;
+        string id = "";
+        while (count < 16)
+        {            
+            id = "book" + count;
+            <h5 id="@id"></h5>
+            count++;
+        }        
+    }    
+</div>
+

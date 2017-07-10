@@ -16,7 +16,7 @@ namespace GeekBooks.Models
         public int AuthorID { get; set; }
 
         [Display(Name ="Book Name")]
-        [StringLength(256)]
+        [StringLength(255)]
         public string BookName { get; set; }
 
         [Display(Name = "Cover Image")]
@@ -46,6 +46,12 @@ namespace GeekBooks.Models
 
         [Display(Name = "Number in stock")]
         public int Stock { get; set; }
+
+        [Display(Name = "ASIN")]
+        public string ASIN { get; set; }
+
+        [Display(Name = "Publication Date")]
+        public DateTime PDate { get; set; }
 
         public virtual BookAuthor Author { get; set;}
 
@@ -87,6 +93,9 @@ namespace GeekBooks.Models
 
         [Display(Name = "Number in stock")]
         public int Stock { get; set; }
+
+        [Display(Name = "Publication Date")]
+        public DateTime PDate { get; set; }
 
         [Display(Name = "Rating")]
         public double AvgRating { get; set; }

@@ -19,7 +19,7 @@ namespace GeekBooks.Models
         public int BookRatingID { get; set; }
 
         [Required]
-        [StringLength(258)]
+        [StringLength(256)]
         [Display(Name = "Comment")]
         public string Comment { get; set; }
 

@@ -321,5 +321,16 @@ namespace GeekBooks.Controllers
 
             return View(book);
         }
+
+        public ActionResult AuthorSpotlight()
+        {
+            var bookList = db.Books.ToList();
+            int size = bookList.Count;
+            Random r = new Random();
+            int random = r.Next(0, size);
+            Book book = bookList.ElementAt(random);            
+            return View(book);
+        }        
+        
     }
 }
