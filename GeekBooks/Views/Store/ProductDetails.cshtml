@@ -50,6 +50,8 @@
                                             }
                                         }
                                     </div>
+
+                                    @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, null)
                                 </td>
                             </tr>
                         </table>

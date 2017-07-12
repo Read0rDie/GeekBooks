@@ -59,34 +59,17 @@ namespace GeekBooks.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {            
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
-
 
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.Addresses).WithRequired().HasForeignKey(x => x.UID).WillCascadeOnDelete();
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.Avatar).WithRequired().HasForeignKey(x => x.UID).WillCascadeOnDelete();
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.CreditCards).WithRequired().HasForeignKey(x => x.UID).WillCascadeOnDelete();
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.BookRatings).WithOptional(y => y.User).WillCascadeOnDelete();
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.ShoppingCarts).WithOptional(y => y.User).WillCascadeOnDelete();
-
-            //modelBuilder.Entity<Address>()
-            //    .HasOptional(a => a.UID)
-            //    .WithOptionalDependent()
-            //    .WillCascadeOnDelete(true);
-
-            //modelBuilder.Entity<Avatar>()
-            //    .HasOptional(a => a.UserAccount)
-            //    .WithOptionalDependent()
-            //    .WillCascadeOnDelete(true);
-
-            //modelBuilder.Entity<CreditCard>()
-            //    .HasOptional(a => a.UserAccount)
-            //    .WithOptionalDependent()
-            //    .WillCascadeOnDelete(true);
         }
     }
 
-    public class MyDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class MyDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
@@ -135,7 +118,7 @@ namespace GeekBooks.Models
             //context.Avatars.Add(new Avatar { UID = 1, AVATARID = 1, ImageUrl = "~/Content/Images/avatar01.png" });
 
             //context.Addresses.Add(new Address { UID = 4, AID = 1, StreetAddress = "13401 NE 8th Street", AddressTwo = "", City = "Miami", Country = "United States", Postal = "33186", State_Province = "Florida" });
-            //base.Seed(context);
+            base.Seed(context);
         }
     }
 }

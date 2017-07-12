@@ -6,9 +6,11 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using AutoMapper;
+using System.Data.Entity;
 
 namespace GeekBooks.Controllers
 {
+    [Authorize]
     public class StoreController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -218,6 +220,46 @@ namespace GeekBooks.Controllers
             ViewBag.AvgRating = averg;
 
             return View(book);
+        }
+
+        public ActionResult AddBookToCart(int bookID)
+        {
+            try
+            {
+                string userid = User.Identity.GetUserId();
+
+                ShoppingCart cartItem = db.ShoppingCarts.FirstOrDefault(x => x.BookID == bookID && x.UID == userid);
+
+                if (cartItem != null)
+                {
+                    cartItem.Quantity += 1;
+                    db.Entry(cartItem).State = EntityState.Modified;
+                }
+                else
+                {
+                    ShoppingCart item = new ShoppingCart()
+                    {
+                        BookID = bookID,
+                        UID = userid,
+                        Quantity = 1,
+                        SaveForLater = false
+                    };
+
+                    db.ShoppingCarts.Add(item);
+                }
+
+                
+                db.SaveChanges();
+
+                Book book = db.Books.FirstOrDefault(x => x.BookID == bookID);
+
+                return RedirectToAction("ShoppingCartConfirmation", "ShoppingCart", book);
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("Error", ex.Message);
+                return View();
+            }
         }
     }
 }

@@ -349,7 +349,6 @@
     <Content Include="Views\CreditCard\Edit.cshtml" />
     <Content Include="Views\Shared\_CreditCardIndex.cshtml" />
     <Content Include="Views\Store\ProductDetails.cshtml" />
-    <Content Include="Views\Store\IndexOld.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
     <Content Include="Views\Shared\_BookRatingIndex.cshtml" />
     <Content Include="Views\BookRating\Create.cshtml" />
@@ -359,6 +358,8 @@
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\Store\Search.cshtml" />
+    <Content Include="Views\ShoppingCart\ShoppingCartItems.cshtml" />
+    <Content Include="Views\ShoppingCart\ShoppingCartConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

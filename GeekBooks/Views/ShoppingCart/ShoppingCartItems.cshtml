@@ -1,0 +1,47 @@
+﻿@model GeekBooks.Models.ShoppingCart
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="container">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.SCI)
+            @Html.HiddenFor(model => model.BookID)
+            @Html.HiddenFor(model => model.UID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { style = "width: 50px", @min = "1", @max = Model.Book.Stock } })
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SaveForLater, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.SaveForLater)
+                        @Html.ValidationMessageFor(model => model.SaveForLater, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" formaction="/ShoppingCart/Update" class="btn btn-default" />
+                </div>
+                <div class="col-md-offset-4 col-md-10">
+                    <input type="submit" value="Delete" formaction="/ShoppingCart/DeleteItemFromCart" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
