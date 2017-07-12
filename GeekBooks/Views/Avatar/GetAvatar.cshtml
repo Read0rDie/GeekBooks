@@ -1,0 +1,23 @@
+﻿@model IEnumerable<GeekBooks.Models.Avatar>
+@using GeekBooks.Models
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script> 
+
+@if (Model.Any()){
+
+    Avatar ava = Model.FirstOrDefault();
+    string imageUrl = ava.ImageUrl.ToString();
+    <img class="img-circle" src="@Url.Content(imageUrl)" style="height:50px; width:50px" />
+    
+
+}
+else
+{
+    <i style="color: #FB8C00; font-size:50px" class="material-icons md-96 orange">account_circle</i>
+}
