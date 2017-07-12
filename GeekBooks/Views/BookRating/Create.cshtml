@@ -12,7 +12,7 @@
         var temp = "";
         for (var i = 1; i <= id; i++) {
             temp = 'star' + i;
-            document.getElementById(temp).className = "fa fa-star fa-4x";
+            document.getElementById(temp).className = "fa fa-star fa-2x";
         }
     }
     function StarMouseExit(id) {
@@ -27,7 +27,7 @@
             }
             for (i; i <= id; i++) {
                 temp = 'star' + i;
-                document.getElementById(temp).className = "fa fa-star-o fa-4x";
+                document.getElementById(temp).className = "fa fa-star-o fa-2x";
             }
         }
     }
@@ -38,12 +38,12 @@
         else {
             for (var i = 1; i <= 5; i++) {
                 temp = 'star' + i;
-                document.getElementById(temp).className = "fa fa-star-o fa-4x";
+                document.getElementById(temp).className = "fa fa-star-o fa-2x";
             }
 
             for (var i = 1; i <= id; i++) {
                 temp = 'star' + i;
-                document.getElementById(temp).className = "fa fa-star fa-4x";
+                document.getElementById(temp).className = "fa fa-star fa-2x";
             }
 
             globalStar = id;
@@ -81,11 +81,11 @@
             </div>
             <div class="col-md-7">
                 <div class="">
-                    <i id="star1" style="color:darkorange" onmouseover="StarMouseEnter(1)" onmouseout="StarMouseExit(1)" onmousedown="StarMouseDown(1)" class="fa fa-star-o fa-4x"></i>
-                    <i id="star2" style="color:darkorange" onmouseover="StarMouseEnter(2)" onmouseout="StarMouseExit(2)" onmousedown="StarMouseDown(2)" class="fa fa-star-o fa-4x"></i>
-                    <i id="star3" style="color:darkorange" onmouseover="StarMouseEnter(3)" onmouseout="StarMouseExit(3)" onmousedown="StarMouseDown(3)" class="fa fa-star-o fa-4x"></i>
-                    <i id="star4" style="color:darkorange" onmouseover="StarMouseEnter(4)" onmouseout="StarMouseExit(4)" onmousedown="StarMouseDown(4)" class="fa fa-star-o fa-4x"></i>
-                    <i id="star5" style="color:darkorange" onmouseover="StarMouseEnter(5)" onmouseout="StarMouseExit(5)" onmousedown="StarMouseDown(5)" class="fa fa-star-o fa-4x"></i>
+                    <i id="star1" style="color:darkorange" onmouseover="StarMouseEnter(1)" onmouseout="StarMouseExit(1)" onmousedown="StarMouseDown(1)" class="fa fa-star-o fa-2x"></i>
+                    <i id="star2" style="color:darkorange" onmouseover="StarMouseEnter(2)" onmouseout="StarMouseExit(2)" onmousedown="StarMouseDown(2)" class="fa fa-star-o fa-2x"></i>
+                    <i id="star3" style="color:darkorange" onmouseover="StarMouseEnter(3)" onmouseout="StarMouseExit(3)" onmousedown="StarMouseDown(3)" class="fa fa-star-o fa-2x"></i>
+                    <i id="star4" style="color:darkorange" onmouseover="StarMouseEnter(4)" onmouseout="StarMouseExit(4)" onmousedown="StarMouseDown(4)" class="fa fa-star-o fa-2x"></i>
+                    <i id="star5" style="color:darkorange" onmouseover="StarMouseEnter(5)" onmouseout="StarMouseExit(5)" onmousedown="StarMouseDown(5)" class="fa fa-star-o fa-2x"></i>
                 </div>
             </div>
             <div class="col-md-3">
