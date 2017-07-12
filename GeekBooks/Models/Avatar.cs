@@ -17,6 +17,5 @@ namespace GeekBooks.Models
         [Required]
         [DataType(DataType.ImageUrl)]
         public string ImageUrl { get; set; }
-        
     }
 }

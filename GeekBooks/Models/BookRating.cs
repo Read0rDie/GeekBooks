@@ -19,13 +19,17 @@ namespace GeekBooks.Models
         public int BookRatingID { get; set; }
 
         [Required]
-        [StringLength(258)]
+        [StringLength(256)]
         [Display(Name = "Comment")]
         public string Comment { get; set; }
 
         [Required]
         [Display(Name = "Rating")]
         public int Rating { get; set; }
+
+        [Display(Name = "Date Modified")]        
+        [DataType(DataType.Date)]
+        public DateTime PublishDate { get; set; }
 
         public virtual Book Book { get; set; }
 

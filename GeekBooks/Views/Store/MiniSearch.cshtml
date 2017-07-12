@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "MiniSearch";
+}
+
+<div>   
+    <div class="row">
+        <div class="col-md-12">
+            @{
+                int count = 1;
+            }
+            @foreach (var item in Model)
+            {
+                if (count < 4)
+                {
+                    <div class="col-xs-4">
+                        <a href="@Url.Action("ProductDetails", "Store", new { id = item.BookID })"><img src="@item.CoverUrl" class="img-responsive"></a>
+                    </div>
+                    count++;
+                }
+            }
+        </div>
+    </div>
+</div>

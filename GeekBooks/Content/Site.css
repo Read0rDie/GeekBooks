@@ -20,6 +20,11 @@ textarea {
     font-size: 30px;
 }
 
+#margins {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .csbutton {
     background-color: #7f8c8d;
     border: 2px solid #7f8c8d;
@@ -38,3 +43,47 @@ textarea {
     color: #7f8c8d;
     border: 2px solid #7f8c8d;
 }
+
+.wide {
+    max-width: 700px;
+}
+
+.pagePadding{
+    padding-bottom:100px;
+    padding-top: 50px;
+}
+
+/*override position and transform in 3.3.x*/
+.carousel-inner .item.left.active {
+    transform: translateX(-33%);
+}
+
+.carousel-inner .item.right.active {
+    transform: translateX(33%);
+}
+
+.carousel-inner .item.next {
+    transform: translateX(33%)
+}
+
+.carousel-inner .item.prev {
+    transform: translateX(-33%)
+}
+
+.carousel-inner .item.right,
+.carousel-inner .item.left {
+    transform: translateX(0);
+}
+
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none;
+}
+
+.boxsizingBorder {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 300px;
+}
+

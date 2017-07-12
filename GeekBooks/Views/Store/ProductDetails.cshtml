@@ -1,117 +1,236 @@
 ﻿@model GeekBooks.Models.Book
 @using GeekBooks.Models
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Product Details";
 }
 
 @section Styles {
-
     <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" /> 
+} 
+
+@if (User.Identity.IsAuthenticated)
+{
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>    
 }
 
-<div class="container">
-    @using (Html.BeginForm())
-    {
-        <div class="container">
-            <fieldset>
-                <div class="form-horizontal">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    <div class="form-group">
-                        <table>
-                            <tr>
-                                <td>
-                                    @if (Model.CoverUrl == null)
-                                    {
-                                        <i style="color: #FB8C00" class="fa fa-book md-96 orange"></i>
-                                    }
-                                    else
-                                    {
-                                        <img src="@Url.Content(Model.CoverUrl)" alt="@Url.Content("~/Content/Images/avatar02.png")" />
-                                    }
-                                </td>
-                                <td >
-                                    <div style="margin: 5px;">
-                                        @for (var i = 1; i <= 5; i++)
-                                        {
-                                            if (i <= ViewBag.AvgRating)
-                                            {
-                                                <i style="color:darkorange" class="fa fa-star fa-2x"></i>
-                                                if ((ViewBag.AvgRating - i) > 0 && (ViewBag.AvgRating - i) < 1)
-                                                {
-                                                    <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
-                                                }
-                                            }
-
-                                            if ((i > Math.Ceiling(ViewBag.AvgRating)) && (i <= 5))
-                                            {
-                                                <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
-                                            }
-                                        }
-                                    </div>
-
-                                    @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, null)
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-
-        <div class="container">
-            <table class="table">
-                <tr>
-                    <th>Title</th>
-                    <th>@Html.DisplayName(Model.BookName)</th>
-                </tr>
-                <tr>
-                    <th>Author:</th>
-                    <th>@Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</th>
-                </tr>
-                <tr>
-                    <th>Genre:</th>
-                    <th>@Html.ActionLink(Model.Genre, "Search", "Store", new { query = Model.Genre, type = 0 }, null)</th>
-                </tr>
-                <tr>
-                    <th>Publisher:</th>
-                    <th>@Html.DisplayName(Model.Publisher)</th>
-                </tr>
-                <tr>
-                    <th>Price:</th>
-                    <th>@Html.DisplayFor(model => model.Price)</th>
-                </tr>
-                <tr>
-                    <th>Synopsis:</th>
-                    <th>@Model.Synopsis</th>
-                </tr>
-                <tr>
-                    <th>About the Author:</th>
-                    <th>@Model.Author.Blurb</th>
-                </tr>
-            </table>
-        </div>
-
-        if (Model.Stock <= 5 && Model.Stock > 0)
-        {
-            <h4 class="bg-warning">Only Model.Stock left in stock!</h4>
-        }
-        if (Model.Stock == 0)
-        {
-            <h4 class="bg-danger">Out of Stock!</h4>
-        }
-
-        <div class="container">
-            <h2>Book Reviews</h2>
-        </div>
-
-        Html.RenderPartial("_BookRatingIndex", Model, null);
+<style>
+    .box{
+        width: 90%;
+        height: 85%;
     }
+    .box2 {
+       
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+    .box3 {
+        width: 100%;
+        height: 100%;
+    }
+</style>
 
-    <p>
-        @Html.ActionLink("Back to List", "Index", "Store")
-    </p>
+<div class="container" style="padding-bottom:100px; padding-top:50px">
+    <div class="col-md-8">
+        <div class="col-sm-4"  style="text-align:center">
+            <div>
+                @if (Model.CoverUrl == null)
+                {
+                    <i style="color: #FB8C00" class="fa fa-book md-96 orange"></i>
+                }
+                else
+                {
+                    <img src="@Url.Content(Model.CoverUrl)" alt="@Url.Content("~/Content/Images/avatar02.png")" />
+                }
+            </div>            
+        
+            <div style="margin: 15px;">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    if (i <= ViewBag.AvgRating)
+                    {
+                        <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                        if ((ViewBag.AvgRating - i) > 0 && (ViewBag.AvgRating - i) < 1)
+                        {
+                            <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                        }
+                    }
 
-</div>
+                    if ((i > Math.Ceiling(ViewBag.AvgRating)) && (i <= 5))
+                    {
+                        <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                    }
+                }
+            </div>
+            @{ 
+                string rating = string.Format("{0:0.00}", ViewBag.AvgRating);
+            }
+            <h5>Average Rating (@rating)</h5>
+            @Html.Partial("_BookPreview", Model)
+
+        </div>
+        <div class="col-sm-8" >
+            <h1>@Model.BookName</h1>
+            <h4>by @Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</h4>
+            <p>@Model.Synopsis</p>
+            <hr />        
+            <input class="csbutton" type="submit" value="Add to Cart" /><a style="text-decoration:none; margin-left: 15px;" class="csbutton smoothScroll" href="#reviews">See Reviews</a>
+            <hr />
+            <table style="width: 100%">
+                <tr>
+                    <td>Title: </td>
+                    <td>@Model.BookName</td>
+                </tr>
+                <tr>
+                    <td>Author: </td>
+                    <td>@Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</td>
+                </tr>
+                <tr>
+                    <td>Genre: </td>
+                    @{ 
+                        var genres = Model.Genre.ToList();
+                    }
+                    <td>
+                        @{
+                            int count = 1;
+                        }
+                        @foreach (var genre in genres)
+                        {
+                            if (count < genres.Count)
+                            {
+                                <span>@Html.ActionLink(genre.GenreTitle, "Search", "Store", new { query = genre.GenreTitle, type = 0 }, null) | </span>
+                            }
+                            else
+                            {
+                                <span>@Html.ActionLink(genre.GenreTitle, "Search", "Store", new { query = genre.GenreTitle, type = 0 }, null)</span>                          
+                            }
+                            count++;
+                        }
+                        
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Publisher: </td>
+                    <td>@Model.Publisher</td>
+                </tr>
+                <tr>
+                    <td>Published: </td>
+                    @{ 
+                        String month;
+                        switch (Model.PDate.Month)
+                        {
+                            case 1:
+                                month = "January";
+                                break;
+                            case 2:
+                                month = "February";
+                                break;
+                            case 3:
+                                month = "March";
+                                break;
+                            case 4:
+                                month = "April";
+                                break;
+                            case 5:
+                                month = "May";
+                                break;
+                            case 6:
+                                month = "June";
+                                break;
+                            case 7:
+                                month = "July";
+                                break;
+                            case 8:
+                                month = "August";
+                                break;
+                            case 9:
+                                month = "September";
+                                break;
+                            case 10:
+                                month = "October";
+                                break;
+                            case 11:
+                                month = "November";
+                                break;
+                            case 12:
+                                month = "December";
+                                break;
+                            default:
+                                month = "";
+                                break;
+                        }
+                        string day = Model.PDate.Day.ToString();
+                        if (Model.PDate.Day < 10)
+                        {
+                            day = "0" + day;
+                        }
+                    }
+                    <td>@month  @day, @Model.PDate.Year</td>
+                </tr>
+                <tr>
+                    <td>Price: </td>
+                    <td>$@Model.Price</td>
+                </tr>
+            </table>        
+        </div>
+        <div class="col-sm-12">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <hr />
+                <h3>Leave a Review...</h3>
+                @Html.Action("Create", "BookRating", new { id = Model.BookID })
+            }            
+                <hr />
+                <div id="reviews">
+                    <h3>Community Reviews &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted" style="font-size:smaller"><i>@Model.BookRatings.Count() Review</i>@if (Model.BookRatings.Count() != 1) {<text><i>s</i></text>}</span></h3>
+                    @if (Model.BookRatings.Count() > 0)
+                    {
+                        
+                    }
+                    @if (Model.BookRatings.Count() > 0)
+                    {
+                        @Html.Partial("_bookratingindex", Model)
+                        
+                    }                    
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4" >
+            <h5><b>Books like this...</b></h5>
+            <hr />
+            @Html.Action("Carousel", new { query = Model.Genre , title = Model.BookName})
+            <hr />
+            <h5><b>About @Model.Author.AuthorName</b></h5>
+            <p>@Model.Author.Blurb</p>
+            <hr />
+            <h5><b>More Books by this author...</b></h5>
+            <hr />
+            @Html.Action("MiniSearch", new { query = Model.Author.AuthorName, title = Model.BookName })
+            <hr />
+        </div>
+    </div>
+
+<script>
+    $(function () {
+        $('.smoothScroll').click(function () {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 800);
+                    return false;
+                }
+            }
+        });
+    });
+       
+</script>
 

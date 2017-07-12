@@ -1,0 +1,37 @@
+﻿@model GeekBooks.Models.Book
+@using GeekBooks.Models
+@using GeekBooks.Helpers
+
+@{
+    ViewBag.Title = "Author Spotlight";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
+}
+
+<style>
+    td{
+        padding: 10px;
+    }
+</style>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<div style="padding:50px 50px">
+    <table>
+        <tr>
+            <td width="65%" style="text-align:left">
+                <h1>Author Spotlight</h1>
+                <h4>@Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</h4>
+                <p>
+                    @Model.Author.Blurb
+                </p>
+            </td>
+            <td width="35%" >
+                @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = Model.BookID }, null, Model.CoverUrl)
+            </td>
+        </tr>
+    </table>
+</div>
