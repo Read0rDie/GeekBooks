@@ -106,4 +106,43 @@ namespace GeekBooks.Models
 
         //public virtual List<BookRating> BookRatings { get; set; }
     }
+
+    public class Query
+    {
+        public string query { set; get; }
+        public int type { set; get; }
+    }
+
+    public class FilterViewModel
+    {
+        public int BookID { get; set; }
+
+        [Display(Name = "Book Name")]
+        public string BookName { get; set; }
+
+        [Display(Name = "Cover Image")]
+        public string CoverUrl { get; set; }
+
+        [Display(Name = "Synopsis")]
+        public string Synopsis { get; set; }
+        
+        [Display(Name = "Price")]
+        [DataType(DataType.Currency)]
+        public decimal Price { get; set; }
+
+        [Display(Name = "Number in stock")]
+        public int Stock { get; set; }
+
+        [Display(Name = "Publication Date")]
+        public DateTime PDate { get; set; }
+
+        [Display(Name = "Rating")]
+        public double AvgRating { get; set; }
+
+        public virtual BookAuthor Author { get; set; }
+
+        public virtual List<Genre> Genre { get; set; }
+
+        public List<Query> Queries { set; get; }
+    }
 }

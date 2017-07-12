@@ -332,6 +332,67 @@ namespace GeekBooks.Controllers
             int random = r.Next(0, size);
             Book book = bookList.ElementAt(random);            
             return View(book);
+        }        
+        
+        public ActionResult Filter(List<Query> queries)
+        {
+            List<Book> books = new List<Book>();
+            List<FilterViewModel> bookList = new List<FilterViewModel>();
+            FilterViewModel fvm = new FilterViewModel();
+            if (queries.Count() == 0)
+            {
+                books = db.Books.ToList();                
+            }
+            else
+            {
+                foreach (var query in queries)
+                {
+                    switch (query.type)
+                    {
+                        case 0:
+                            List<Book> temp = new List<Book>();
+                            temp = books.Where(p => p.Author.AuthorName.Contains(query.query)).ToList();
+                            books = temp;
+                            break;
+                        case 1:
+                            List<Book> temp2 = new List<Book>();
+                            foreach (var item in books)
+                            {
+                                var genres = item.Genre.ToList();
+                                foreach (var genre in genres)
+                                {
+                                    if (genre.GenreTitle == query.query)
+                                    {
+                                        temp2.Add(item);
+                                    }
+                                }
+                            }
+                            books = temp2;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }            
+
+            foreach(var book in books)
+            {
+                fvm = Mapper.Map<FilterViewModel>(book);
+                fvm.AvgRating = 0;
+                foreach (var rating in book.BookRatings)
+                {
+                    fvm.AvgRating += rating.Rating;
+                }
+
+                if (book.BookRatings.Count > 0)
+                {
+                    fvm.AvgRating = fvm.AvgRating / book.BookRatings.Count;
+                }
+                bookList.Add(fvm);
+            }
+
+            return View(bookList);
+        }
         }
 
         public ActionResult AddBookToCart(int bookID)

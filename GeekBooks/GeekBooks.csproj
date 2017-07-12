@@ -366,6 +366,7 @@
     <Content Include="Views\Store\AuthorSpotlight.cshtml" />
     <Content Include="Views\Shared\_BestSellers.cshtml" />
     <Content Include="Views\Shared\_BookPreview.cshtml" />
+    <Content Include="Views\Store\Filter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
