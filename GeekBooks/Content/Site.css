@@ -19,3 +19,8 @@ textarea {
     font-family: 'Raleway', sans-serif;
     font-size: 30px;
 }
+
+.modal-img {
+    height: 100%;
+    width: 100%;
+}
