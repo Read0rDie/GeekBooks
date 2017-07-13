@@ -1,0 +1,10 @@
+﻿@model GeekBooks.Models.FilterViewModel
+@using GeekBooks.Models
+
+<div>
+    @foreach(var item in Model.Queries){        
+        List<Query> filter = Model.Queries.ToList();
+        filter.Remove(item);
+        <h4>@Html.ActionLink(item.query, "Filter", "Store", new { queries = filter})</h4>
+    }
+</div>

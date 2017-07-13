@@ -11,6 +11,7 @@ using System.Data.Entity;
 
 namespace GeekBooks.Controllers
 {
+    [Authorize]
     public class BookRatingController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -32,27 +33,28 @@ namespace GeekBooks.Controllers
         {
             BookRating bookrating = new BookRating();
             bookrating.BookID = id;
-            bookrating.UID = User.Identity.GetUserId();
+            bookrating.UID = User.Identity.GetUserId();            
             return View(bookrating);
         }
 
         // POST: BookRating/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "BookRatingID,UID,BookID,Comment,Rating")] BookRating bookrating)
-        {
+        public ActionResult Create([Bind(Include = "BookRatingID,UID,BookID,Comment,Rating,PublishDate")] BookRating bookrating)
+        {           
             try
             {
                 if (ModelState.IsValid)
                 {
+                    bookrating.PublishDate = DateTime.Now;                    
                     db.BookRatings.Add(bookrating);
                     db.SaveChanges();
-                }
-
+                }                
                 return RedirectToAction("ProductDetails", "Store", new { id = bookrating.BookID });
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("Error", ex.Message);
+                //return View("~/Views/Store/ProductDetails.cshtml");
                 return View(bookrating);
             }
         }
@@ -74,17 +76,17 @@ namespace GeekBooks.Controllers
 
         // POST: BookRating/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "BookRatingID,UID,BookID,Comment,Rating")] BookRating bookrating)
+        public ActionResult Edit([Bind(Include = "BookRatingID,UID,BookID,Comment,Rating,PublishDate")] BookRating bookrating)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     string userid = User.Identity.GetUserId();
+                    bookrating.PublishDate = DateTime.Now;
+                    db.Entry(bookrating).State = EntityState.Modified;                    
+                    db.SaveChanges();       
 
-
-                    db.Entry(bookrating).State = EntityState.Modified;
-                    db.SaveChanges();
                     return RedirectToAction("ProductDetails", "Store", new { id = bookrating.BookID });
                 }
                 return View(bookrating);

@@ -12,7 +12,7 @@
         else
         {
             @Html.ActionLink("Register", "Register", "Account", null, new { @class = "navbar-brand" })
-            @Html.ActionLink("Log In", "Login", "Account", null, new { @class = "navbar-brand" })
+            @Html.ActionLink("Log In", "Login", "Account", new { returnurl = HttpContext.Current.Request.Url.AbsolutePath }, new { @class = "navbar-brand" })
         }
 
 </ul>

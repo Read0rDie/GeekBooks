@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Create";
-    
+
 }
 
 <script language="javascript" type="text/javascript">
@@ -12,7 +12,7 @@
         var temp = "";
         for (var i = 1; i <= id; i++) {
             temp = 'star' + i;
-            document.getElementById(temp).className = "fa fa-star fa-4x";
+            document.getElementById(temp).className = "fa fa-star fa-2x";
         }
     }
     function StarMouseExit(id) {
@@ -27,7 +27,7 @@
             }
             for (i; i <= id; i++) {
                 temp = 'star' + i;
-                document.getElementById(temp).className = "fa fa-star-o fa-4x";
+                document.getElementById(temp).className = "fa fa-star-o fa-2x";
             }
         }
     }
@@ -38,12 +38,12 @@
         else {
             for (var i = 1; i <= 5; i++) {
                 temp = 'star' + i;
-                document.getElementById(temp).className = "fa fa-star-o fa-4x";
+                document.getElementById(temp).className = "fa fa-star-o fa-2x";
             }
 
             for (var i = 1; i <= id; i++) {
                 temp = 'star' + i;
-                document.getElementById(temp).className = "fa fa-star fa-4x";
+                document.getElementById(temp).className = "fa fa-star fa-2x";
             }
 
             globalStar = id;
@@ -52,53 +52,48 @@
     }
 </script>
 
-<h2>Create</h2>
 
-@using (Html.BeginForm())
+
+@using (Html.BeginForm("Create", "BookRating", FormMethod.Post))
 {
-    @Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>BookRating</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="">
-                <div class="">
-                    <i id="star1" style="color:darkorange" onmouseover="StarMouseEnter(1)" onmouseout="StarMouseExit(1)" onmousedown="StarMouseDown(1)" class="fa fa-star-o fa-4x"></i>
-                    <i id="star2" style="color:darkorange" onmouseover="StarMouseEnter(2)" onmouseout="StarMouseExit(2)" onmousedown="StarMouseDown(2)" class="fa fa-star-o fa-4x"></i>
-                    <i id="star3" style="color:darkorange" onmouseover="StarMouseEnter(3)" onmouseout="StarMouseExit(3)" onmousedown="StarMouseDown(3)" class="fa fa-star-o fa-4x"></i>
-                    <i id="star4" style="color:darkorange" onmouseover="StarMouseEnter(4)" onmouseout="StarMouseExit(4)" onmousedown="StarMouseDown(4)" class="fa fa-star-o fa-4x"></i>
-                    <i id="star5" style="color:darkorange" onmouseover="StarMouseEnter(5)" onmouseout="StarMouseExit(5)" onmousedown="StarMouseDown(5)" class="fa fa-star-o fa-4x"></i>
-                </div>
-            </div>
-        </div>
+            <div class="form-horizontal">
+        
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })       
 
         @Html.HiddenFor(model => model.BookID)
         @Html.HiddenFor(model => model.UID)
         @Html.HiddenFor(model => model.Rating)
-
+        @Html.HiddenFor(model => model.PublishDate)        
+        
         <div class="form-group">
-            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-12">
+                @Html.TextAreaFor(model => model.Comment, new { @class = "form-control wide", @placeholder="Comment Here...", @rows=5} )
                 @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>      
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+            <div class="col-md-7">
+                <div class="">
+                    <i id="star1" style="color:darkorange" onmouseover="StarMouseEnter(1)" onmouseout="StarMouseExit(1)" onmousedown="StarMouseDown(1)" class="fa fa-star-o fa-2x"></i>
+                    <i id="star2" style="color:darkorange" onmouseover="StarMouseEnter(2)" onmouseout="StarMouseExit(2)" onmousedown="StarMouseDown(2)" class="fa fa-star-o fa-2x"></i>
+                    <i id="star3" style="color:darkorange" onmouseover="StarMouseEnter(3)" onmouseout="StarMouseExit(3)" onmousedown="StarMouseDown(3)" class="fa fa-star-o fa-2x"></i>
+                    <i id="star4" style="color:darkorange" onmouseover="StarMouseEnter(4)" onmouseout="StarMouseExit(4)" onmousedown="StarMouseDown(4)" class="fa fa-star-o fa-2x"></i>
+                    <i id="star5" style="color:darkorange" onmouseover="StarMouseEnter(5)" onmouseout="StarMouseExit(5)" onmousedown="StarMouseDown(5)" class="fa fa-star-o fa-2x"></i>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input type="submit" value="Submit" class="csbutton" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

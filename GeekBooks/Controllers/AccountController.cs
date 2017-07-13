@@ -166,7 +166,7 @@ namespace GeekBooks.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Store");
                 }
                 AddErrors(result);
             }
@@ -407,7 +407,7 @@ namespace GeekBooks.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Store");
         }
         
         public ActionResult Delete(UserProfileViewModel model)
