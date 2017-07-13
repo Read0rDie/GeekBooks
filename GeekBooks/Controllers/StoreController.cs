@@ -392,8 +392,7 @@ namespace GeekBooks.Controllers
             }
 
             return View(bookList);
-        }
-        }
+        }       
 
         public ActionResult AddBookToCart(int bookID)
         {
@@ -419,14 +418,16 @@ namespace GeekBooks.Controllers
                     };
 
                     db.ShoppingCarts.Add(item);
-                }
-
+                }   
                 
                 db.SaveChanges();
 
-                Book book = db.Books.FirstOrDefault(x => x.BookID == bookID);
+                ShoppingCartConfrmCViewModel cartConfrm = new ShoppingCartConfrmCViewModel()
+                {
+                    BookID = bookID
+                };
 
-                return RedirectToAction("ShoppingCartConfirmation", "ShoppingCart", book);
+                return RedirectToAction("ShoppingCartConfirmation", "ShoppingCart", cartConfrm);
             }
             catch(Exception ex)
             {

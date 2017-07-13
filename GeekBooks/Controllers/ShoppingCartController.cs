@@ -66,8 +66,9 @@ namespace GeekBooks.Controllers
             }
         }
 
-        public ActionResult ShoppingCartConfirmation(Book book)
+        public ActionResult ShoppingCartConfirmation(ShoppingCartConfrmCViewModel cartConfrm)
         {
+            Book book = db.Books.FirstOrDefault(x => x.BookID == cartConfrm.BookID);
             return View(book);
         }
 

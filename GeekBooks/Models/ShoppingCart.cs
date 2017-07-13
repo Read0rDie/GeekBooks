@@ -17,7 +17,7 @@ namespace GeekBooks.Models
         [ForeignKey("Book")]
         public int BookID { get; set; }
 
-        [Display(Name = "Quantity")]       
+        [Display(Name = "Quantity")]
         [Required(ErrorMessage = "Quantity is Required")]
         public int Quantity { get; set; }
 
@@ -28,5 +28,10 @@ namespace GeekBooks.Models
 
         [ForeignKey("UID")]
         public virtual ApplicationUser User { get; set; }
+    }
+
+    public class ShoppingCartConfrmCViewModel
+    {
+        public int BookID { get; set; }
     }
 }
