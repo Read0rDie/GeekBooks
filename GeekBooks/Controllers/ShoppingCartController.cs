@@ -5,9 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 
 namespace GeekBooks.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -15,28 +17,46 @@ namespace GeekBooks.Controllers
         // GET: ShoppingCart
         public ActionResult Index()
         {
-            return View();
+            string usr = User.Identity.GetUserId();
+            List<ShoppingCart> cartList = new List<ShoppingCart>();
+            cartList = (from a in db.ShoppingCarts
+                        where a.UID == usr
+                        select a).ToList();
+            return View(cartList);
         }
-
-        // GET: ShoppingCart/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ShoppingCart/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ShoppingCart/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        
+        public ActionResult Update([Bind(Include = "SCI,UID,BookID,Quantity,SaveForLater")] ShoppingCart cartItem)
         {
             try
             {
-                // TODO: Add insert logic here
+                int bookQty = (from a in db.Books
+                               where a.BookID == cartItem.BookID
+                               select a.Stock).FirstOrDefault();
+                if (cartItem.Quantity > bookQty)
+                {
+                    ModelState.AddModelError("Quantity", "Insufficient books in stock");
+                    return View();
+                }
+
+                db.Entry(cartItem).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("Error", ex.Message);
+                return View();
+            }
+        }
+
+        public ActionResult DeleteItemFromCart([Bind(Include = "SCI,UID,BookID,Quantity,SaveForLater")] ShoppingCart cartItem)
+        {
+            try
+            {
+                ShoppingCart item = db.ShoppingCarts.FirstOrDefault(x => x.BookID == cartItem.BookID && x.UID == cartItem.UID);
+                db.ShoppingCarts.Remove(item);
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -46,48 +66,10 @@ namespace GeekBooks.Controllers
             }
         }
 
-        // GET: ShoppingCart/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult ShoppingCartConfirmation(ShoppingCartConfrmCViewModel cartConfrm)
         {
-            return View();
-        }
-
-        // POST: ShoppingCart/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ShoppingCart/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ShoppingCart/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            Book book = db.Books.FirstOrDefault(x => x.BookID == cartConfrm.BookID);
+            return View(book);
         }
 
         protected override void Dispose(bool disposing)

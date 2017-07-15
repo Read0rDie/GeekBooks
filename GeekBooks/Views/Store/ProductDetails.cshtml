@@ -53,8 +53,10 @@
                 string rating = string.Format("{0:0.00}", ViewBag.AvgRating);
             }
             <h5>Average Rating (@rating)</h5>
+
             @Html.Partial("_BookPreview", Model)
 
+            @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, null)
         </div>
         <div class="col-sm-8" >
             <h1>@Model.BookName</h1>

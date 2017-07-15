@@ -1,12 +1,61 @@
 ﻿@model ICollection<GeekBooks.Models.ShoppingCart>
+@using GeekBooks.Helpers
 
 @{
     ViewBag.Title = "Index";
 }
 
-<div>
-    <table class="table table-striped table-bordered">
-    
-    
-    </table>
-</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <h3> Items in Cart </h3>
+
+        <table class="">
+            @foreach (var item in Model)
+            {
+                if (item.SaveForLater)
+                {
+                    continue;
+                }
+                <tr>
+                    <td>
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.Book.CoverUrl)
+                    </td>
+
+                    <td>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.Partial("ShoppingCartItems", item)                                   
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <HR WIDTH=100% style="color: black;" ALIGN=CENTER>
+        <h3> Items Saved For Later </h3>
+
+        <table class="">
+            @foreach (var item in Model)
+            {
+                if (!item.SaveForLater)
+                {
+                    continue;
+                }
+                <tr>
+                    <td>
+                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.Book.CoverUrl)
+                    </td>
+                    <td>
+                        @Html.Partial("ShoppingCartItems", item)    
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+}
+
+
+
