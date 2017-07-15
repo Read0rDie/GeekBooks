@@ -54,9 +54,8 @@
             }
             <h5>Average Rating (@rating)</h5>
 
-            @Html.Partial("_BookPreview", Model)
-
-            @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, null)
+            @Html.Partial("_BookPreview", Model)            
+            
         </div>
         <div class="col-sm-8" >
             <h1>@Model.BookName</h1>
@@ -79,7 +78,9 @@
             }          
             
             <hr />        
-            <input class="csbutton" type="submit" value="Add to Cart" /><a style="text-decoration:none; margin-left: 15px;" class="csbutton smoothScroll" href="#reviews">See Reviews</a>
+            
+            @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, new { @class = "csbutton" })
+            <a style="text-decoration:none; margin-left: 15px;" class="csbutton smoothScroll" href="#reviews">See Reviews</a>
             <hr />
             <table style="width: 100%">
                 <tr>
@@ -230,18 +231,6 @@
                     return false;
                 }
             }
-        });
-    });
-
-    $(document).ready(function () {
-        $(".btn-primary").click(function () {
-            $(".collapse").collapse('toggle');
-        });
-        $(".btn-success").click(function () {
-            $(".collapse").collapse('show');
-        });
-        $(".btn-warning").click(function () {
-            $(".collapse").collapse('hide');
         });
     });
 
