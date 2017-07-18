@@ -1,0 +1,12 @@
+﻿@model GeekBooks.Models.ShoppingCart
+
+@using (Html.BeginForm("Update", "ShoppingCartController"))
+{
+    @Html.AntiForgeryToken()
+
+
+@Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { style = "width: 50px", @min = "1", @max = Model.Book.Stock } })
+@Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+@Html.ActionLink("Update", "Update", "ShoppingCartController", Model.Quantity, null)
+    
+}
