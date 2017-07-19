@@ -56,14 +56,14 @@
 
             @Html.Partial("_BookPreview", Model)
 
-            @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, null)
+           
         </div>
         <div class="col-sm-8" >
             <h1>@Model.BookName</h1>
             <h4>by @Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</h4>
             <p>@Model.Synopsis</p>
             <hr />        
-            <input class="csbutton" type="submit" value="Add to Cart" /><a style="text-decoration:none; margin-left: 15px;" class="csbutton smoothScroll" href="#reviews">See Reviews</a>
+            @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, new { @class = "csbutton" })<a style="text-decoration:none; margin-left: 15px;" class="csbutton smoothScroll" href="#reviews">See Reviews</a>
             <hr />
             <table style="width: 100%">
                 <tr>
