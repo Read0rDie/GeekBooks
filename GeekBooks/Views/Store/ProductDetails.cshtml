@@ -56,12 +56,28 @@
 
             @Html.Partial("_BookPreview", Model)
 
-           
+            @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, null)
         </div>
         <div class="col-sm-8" >
             <h1>@Model.BookName</h1>
             <h4>by @Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</h4>
-            <p>@Model.Synopsis</p>
+            
+            @{
+                string synopsis = Model.Synopsis;
+                string sum;
+                if (Model.Synopsis.Length > 600)
+                {
+                    sum = synopsis.Substring(0, 600);
+                    sum = sum + "...";                    
+                    <p id="complete" style="display:none">@synopsis <br /><a href="#" id="less">(less)</a></p>
+                    <p id="partial" style="display:contents">@sum <br /><a href="#" id="more">more...</a></p>
+                }
+                else
+                {
+                    <p>@synopsis</p>
+                }
+            }          
+            
             <hr />        
             @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, new { @class = "csbutton" })<a style="text-decoration:none; margin-left: 15px;" class="csbutton smoothScroll" href="#reviews">See Reviews</a>
             <hr />
@@ -214,6 +230,24 @@
                     return false;
                 }
             }
+        });
+    });
+
+    $('#more').click(function () {
+        $('#complete').css({
+            'display': 'unset'
+        });
+        $('#partial').css({
+            'display': 'none'
+        });
+    });
+
+    $('#less').click(function () {
+        $('#complete').css({
+            'display': 'none'
+        });
+        $('#partial').css({
+            'display': 'unset'
         });
     });
        

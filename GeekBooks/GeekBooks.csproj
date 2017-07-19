@@ -267,6 +267,8 @@
     <Content Include="Content\Images\avatar38.png" />
     <Content Include="Content\Images\avatar39.png" />
     <Content Include="Content\Images\avatar40.png" />
+    <Content Include="Content\Images\best-books-book-youll-ever-read.jpg" />
+    <Content Include="Content\Images\N777cIL.jpg" />
     <Content Include="Content\profile.css" />
     <Content Include="Content\register.css" />
     <Content Include="favicon.ico" />
