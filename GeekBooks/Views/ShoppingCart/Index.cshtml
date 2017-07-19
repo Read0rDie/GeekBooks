@@ -121,7 +121,7 @@
                 <div class="text-center">
                     <input class="csbutton special-cs" type="submit" value="Checkout" />
                     <div class="spacer"></div>
-                    @Html.ActionLink("Continue Shopping", "Index", "Store", null, new { @class = "csbutton special-cs" })
+                    @Html.ActionLink("Continue Shopping", "PrevPage", "Store", new { returnurl = Request.UrlReferrer.AbsolutePath }, new { @class = "csbutton special-cs" })
                 </div>
             </div>
         </div>                

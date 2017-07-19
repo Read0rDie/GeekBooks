@@ -435,5 +435,10 @@ namespace GeekBooks.Controllers
                 return View();
             }
         }
+
+        public ActionResult PrevPage(string returnurl)
+        {
+            return Redirect(returnurl);
+        }
     }
 }

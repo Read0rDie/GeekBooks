@@ -28,19 +28,15 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-                    <li>@Html.ActionLink("Store", "Index", "Store")</li>   
+                    
+                    <li>@Html.ActionLink("Home", "Index", "Store", null, new { @class = "active" })</li>   
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Category <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Fiction", "Search", "Store", new { query = "Fiction", type = 0 }, null)</li>
                             <li>@Html.ActionLink("Fantasy", "Search", "Store", new { query = "Fantasy", type = 0 }, null)</li>
                             <li>@Html.ActionLink("Sci-fi", "Search", "Store", new { query = "Science Fiction", type = 0 }, null)</li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
+                         </ul>
                     </li>
                 </ul>
                 <form class="navbar-form navbar-left" action="@Url.Action("Search", "Store")" role="search">
