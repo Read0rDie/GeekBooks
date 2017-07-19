@@ -11,9 +11,7 @@
     @RenderSection("Styles", false)
     <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
     <title>geekBooks</title>
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>    
-
+    
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -25,7 +23,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("geekBooks", "Index", "Home", null, new { @class = "navbar-brand", id = "home-logo" })
+                @Html.ActionLink("geekBooks", "Index", "Store", null, new { @class = "navbar-brand", id = "home-logo" })
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -60,5 +58,7 @@
     </nav>
     @RenderBody()
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script> 
 </body>
 </html>
