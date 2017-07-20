@@ -229,11 +229,34 @@ namespace GeekBooks.Controllers
             Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
             BookViewModel model;
 
-            var books = db.Books.ToList();
+            var books = from b in db.Books
+                        select b;
+
+            string sort = Request.Form["sort"];
+            switch (sort)
+            {
+                case "title":
+                    books = books.OrderBy(b => b.BookName);
+                    break;
+                case "author":
+                    books = books.OrderBy(b => b.Author.AuthorName);
+                    break;
+                case "price":
+                    books = books.OrderBy(b => b.Price);
+                    break;
+                case "rating":
+                    books = books.OrderBy(b => b.BookRatings);
+                    break;
+                case "release":
+                    break; //No release date attribute, use existing order
+            }
+
+            List<Book> book_list = books.ToList();
+
             switch (type)
             {
                 case 0:                    
-                    foreach(var item in books)
+                    foreach(var item in book_list)
                     {
                         var genres = item.Genre.ToList();
                         foreach(var genre in genres)
@@ -258,7 +281,7 @@ namespace GeekBooks.Controllers
                 default:
                     if (query.Length > 0)
                     {
-                        foreach (var item in books)
+                        foreach (var item in book_list)
                         {
                             var genres = item.Genre.ToList();
                             foreach (var genre in genres)
