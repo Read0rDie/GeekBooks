@@ -14,47 +14,187 @@
         console.log(result);
         var count = 1;
         var id = "";
+        var pid = "";
+        var hid = "";
+        var aid = "";
+        var lid = "";        
+        var tid = "";
         var found = 0;
+        var ISBN = "";
+        var coverurl = "";
         while (count < 16) {
             var book = result.results[count - 1].book_details["0"];
+            var rank = result.results[count - 1];            
             var name1 = String(book.title);
             var name2 = "";
+            ISBN = String(book.primary_isbn10);
+            coverurl = "http://images.amazon.com/images/P/" + ISBN + ".01.20TRZZZZ.jpg";
             found = 0;
             id = "book" + count;
+            pid = "para" + count;
+            hid = "head" + count;
+            aid = "auth" + count;
+            lid = "link" + count;            
+            tid = "time" + count;
             @foreach(var item in Model)
             {
                 <text>
                     name2 = '@item.BookName.ToUpper()';
                     if (name1 == name2) {
-                        var link = document.createElement('a');
-                        link.textContent = count + '. @item.BookName.ToUpper()';
-                        link.href = '@Url.Action("ProductDetails", "Store", new { id = item.BookID })';
-                        document.getElementById(id).appendChild(link);
-                        found = 1;                        
+                        if (String(rank.weeks_on_list) == "1") {
+                            document.getElementById(tid).innerHTML = "NEW THIS WEEK";
+                        }
+                        else {
+                            document.getElementById(tid).innerHTML = rank.weeks_on_list + " WEEKS ON THE LIST";
+                        }
+                        document.getElementById(id).src = coverurl;
+                        document.getElementById(hid).innerHTML = count + ". " + book.title;
+                        document.getElementById(aid).innerHTML = " " + book.author;
+                        document.getElementById(pid).innerHTML = book.description;
+                        document.getElementById(lid).href = "@Url.Action("ProductDetails", "Store", new { id = item.BookID })";
+                        document.getElementById(lid).innerHTML = "In Stock!!";                                                
+                        found = 1;
                     }
                 </text>
             }
-            if (!found) {                
-                document.getElementById(id).innerHTML = count + ". " + name1;                
+                if (!found) {
+
+                if (String(rank.weeks_on_list) == "1") {
+                    document.getElementById(tid).innerHTML = "NEW THIS WEEK";
+                }
+                else {
+                    document.getElementById(tid).innerHTML = rank.weeks_on_list + " WEEKS ON THE LIST";
+                }
+                document.getElementById(id).src = coverurl;                
+                document.getElementById(lid).className = "disabled";
+                document.getElementById(lid).innerHTML = "Not in Stock!!";
+                document.getElementById(hid).innerHTML = count + ". " + book.title;
+                document.getElementById(aid).innerHTML = " " + book.author;
+                document.getElementById(pid).innerHTML = book.description;                      
+                
             }
             count++;
-        }        
+        }
         }).fail(function (err) {
             throw err;
         });
+
 </script>
 
-<div style="padding:0 20px">
-    <h1 style="margin-top:0">New York Times Best Seller List</h1>
-    @{
-        int count = 1;
-        string id = "";
-        while (count < 16)
-        {            
-            id = "book" + count;
-            <h5 id="@id"></h5>
-            count++;
-        }        
+<style>
+    a.disabled {
+        pointer-events: none;
+        cursor: default;
+        color:darkgray;
+    }
+
+    .carousel-fade .carousel-inner .item {
+        opacity: 0;
+        -webkit-transition-property: opacity;
+        -moz-transition-property: opacity;
+        -o-transition-property: opacity;
+        transition-property: opacity;
+        transition-duration: 1s;
+       
+    }
+
+    .carousel-fade .carousel-inner .active {
+        opacity: 1;
+    }
+
+        .carousel-fade .carousel-inner .active.left,
+        .carousel-fade .carousel-inner .active.right {
+            left: 0;
+            opacity: 0;
+            z-index: 1;
+            transition-duration: 0s;
+        }
+
+    .carousel-fade .carousel-inner .next.left,
+    .carousel-fade .carousel-inner .prev.right {
+        opacity: 0;
+        
+    }
+
+    .carousel-fade .carousel-control {
+        z-index: 2;
     }    
+</style>
+
+<div style="padding:0 20px">
+    <h2 style="padding-bottom:3px; margin-bottom:0; font-family:Georgia, 'Times New Roman', Times, serif">New York Times Best Sellers</h2>
+    <h6 style="padding-bottom:20px; padding-top:0; margin:0; color:dimgray; font-family:Georgia, 'Times New Roman', Times, serif">Authoritatively ranked lists of books sold in the United States</h6>
+    <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="10000">
+        
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" >
+            <div class="item active">
+
+                <div class="row">
+                    <div class="col-md-3">                        
+                        <img id="book1">                 
+                    </div>
+                    <div class="col-md-9" style="padding-left:30px">
+                        <h6 id="time1" style="padding-bottom:3px; margin-bottom:0"></h6>
+                        <h4 id="head1" style="font-weight:bold; padding:0; margin:0"></h4>
+                        <h5 style="padding-top:3px; margin-top:0">by<span id="auth1" style="font-weight:bold; color:orangered"></span></h5>
+                        <p id="para1"></p>                        
+                    </div>                   
+                </div>
+                <h2><a id="link1"></a></h2>
+               
+            </div>
+
+            @{
+                int count = 2;
+                string id = "";
+                string pid = "";
+                string hid = "";
+                string aid = "";
+                string lid = "";                
+                string tid = "";
+                while (count < 16)
+                {
+                    id = "book" + count;
+                    pid = "para" + count;
+                    hid = "head" + count;
+                    aid = "auth" + count;
+                    lid = "link" + count;                    
+                    tid = "time" + count;
+                    <div class="item">
+
+                        <div class="row">
+                            <div class="col-md-3">                                
+                                <img id="@id">
+                            </div>
+                            <div class="col-md-9" style="padding-left:30px">
+                                <h6 id="@tid" style="padding-bottom:3px; margin-bottom:0"></h6>
+                                <h4 id="@hid" style="font-weight:bold; padding:0; margin:0"></h4>
+                                <h5 style="padding-top:3px; margin-top:0">by<span id="@aid" style="font-weight:bold; color:orangered"></span></h5>
+                                <p id="@pid"></p>                                
+                            </div>                           
+                        </div> 
+                        <h2><a id="@lid"></a></h2>
+
+                    </div>
+                    count++;
+                }
+            }
+        </div>
+
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 </div>
 
+<script>
+    $('#myCarousel').carousel({
+        interval: 10000
+    });
+</script>
