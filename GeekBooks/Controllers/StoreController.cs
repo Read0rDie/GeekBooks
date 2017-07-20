@@ -245,10 +245,11 @@ namespace GeekBooks.Controllers
                     books = books.OrderBy(b => b.Price);
                     break;
                 case "rating":
-                    books = books.OrderBy(b => b.BookRatings);
+                    books = books.OrderByDescending(b => b.BookRatings.Average(review => review.Rating));
                     break;
                 case "release":
-                    break; //No release date attribute, use existing order
+                    books = books.OrderBy(b => b.PDate);
+                    break;
             }
 
             List<Book> book_list = books.ToList();
