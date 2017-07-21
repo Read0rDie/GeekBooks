@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -267,6 +268,8 @@
     <Content Include="Content\Images\avatar38.png" />
     <Content Include="Content\Images\avatar39.png" />
     <Content Include="Content\Images\avatar40.png" />
+    <Content Include="Content\Images\best-books-book-youll-ever-read.jpg" />
+    <Content Include="Content\Images\N777cIL.jpg" />
     <Content Include="Content\profile.css" />
     <Content Include="Content\register.css" />
     <Content Include="favicon.ico" />
