@@ -6,6 +6,8 @@
     ViewBag.Title = "Index";
 }
 
+
+
 <script>
     // Built by LucyBot. www.lucybot.com
     var url = "https://api.nytimes.com/svc/books/v3/lists.json";
@@ -40,19 +42,21 @@
 
     .spotlight {
         background-color: #2C3E50;
-        
-        color:white;
+        border-right: thick solid white;
+        color: white;
     }
     
 </style>
 
 <div class="container">
     <br />
-    <div class="col-md-7 spotlight">
-        @Html.Action("AuthorSpotlight", "Store", null)
-    </div>
-    <div class="col-md-5">
-        @Html.Partial("_BestSellers", Model)
+    <div class="col-md-12" style="padding:0; margin:0; background-color:white">
+        <div class="col-md-7 spotlight">
+            @Html.Action("AuthorSpotlight", "Store", null)
+        </div>
+        <div class="col-md-5" style="height:100%">
+            @Html.Partial("_BestSellers", Model)
+        </div>
     </div>
     <div class="col-md-12">
         <h3>New Releases</h3>
