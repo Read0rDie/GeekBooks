@@ -10,7 +10,7 @@ using System.Data.Entity;
 
 namespace GeekBooks.Controllers
 {
-    [Authorize]
+    
     public class StoreController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
