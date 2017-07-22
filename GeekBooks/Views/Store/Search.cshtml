@@ -8,6 +8,17 @@
 
 <div class="container">
     <h2>@ViewBag.Message</h2>
+    <div align ="right">Sort results by:
+        <form method="post">
+            <select id="sort" name="sort">
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="price">Price</option>
+                <option value="rating">Rating</option>
+                <option value="release">Release date</option>
+            </select>
+            <input type="submit" value="Go">
+        </form>
     <table class="table">
             @foreach (var item in Model)
             {                
