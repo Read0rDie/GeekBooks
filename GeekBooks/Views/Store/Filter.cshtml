@@ -54,6 +54,13 @@
         background-color: #aea79f;
         color: white;
     }
+
+    .break {
+        margin-top: 20px;
+        text-align: center;
+        color: #ECF0F1;
+    }
+    
 </style>
 
 <div class="col-md-12" style="margin-top:40px">
@@ -64,7 +71,13 @@
                 <h5><b>Applied Filters</b></h5>
             </div>
             @{ 
-                var filters = Model.FirstOrDefault();            
+                var filters = Model.FirstOrDefault();
+                if(filters.Queries.Count == 0)
+                {                    
+                    <div class="col-md-12 break">
+                        <p>______________________</p>
+                    </div>
+                }
             }
         
             @foreach (var item in filters.Queries)
@@ -145,7 +158,13 @@
                         }
                     }
                 }
-                if (categories.Count < 5)
+                if (categories.Count == 0)
+                {
+                    <div class="col-md-12 break">
+                        <p>______________________</p>
+                    </div>
+                }
+                if (categories.Count <= 5)
                 {
                     foreach (var item in categories)
                     {
@@ -230,7 +249,13 @@
 
                 }
 
-                if (categoriesA.Count < 5)
+                if (categoriesA.Count == 0)
+                {
+                    <div class="col-md-12 break">
+                        <p>______________________</p>
+                    </div>
+                }
+                if (categoriesA.Count <= 5)
                 {
                     foreach (var item in categoriesA)
                     {
@@ -358,39 +383,43 @@
 </script>
 
 <script>
-    $('#more').click(function () {
+    $('#more').click(function (e) {
         $('#complete').css({
             'display': 'unset'
         });
         $('#partial').css({
             'display': 'none'
         });
+        e.preventDefault();
     });
 
-    $('#less').click(function () {
+    $('#less').click(function (e) {
         $('#complete').css({
             'display': 'none'
         });
         $('#partial').css({
             'display': 'unset'
         });
+        e.preventDefault();
     });
 
-    $('#moreA').click(function () {
+    $('#moreA').click(function (e) {
         $('#completeA').css({
             'display': 'unset'
         });
         $('#partialA').css({
             'display': 'none'
         });
+        e.preventDefault();
     });
 
-    $('#lessA').click(function () {
+    $('#lessA').click(function (e) {
         $('#completeA').css({
             'display': 'none'
         });
         $('#partialA').css({
             'display': 'unset'
         });
+        e.preventDefault();
     });
 </script>
