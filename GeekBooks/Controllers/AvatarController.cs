@@ -13,7 +13,7 @@ using GeekBooks.Models;
 
 namespace GeekBooks.Controllers
 {
-    [Authorize]
+    
     public class AvatarController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

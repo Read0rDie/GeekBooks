@@ -1,4 +1,4 @@
-﻿
+﻿@using GeekBooks.Models;
 
 <!DOCTYPE html>
 <html>
@@ -37,7 +37,7 @@
                             <li>@Html.ActionLink("Fantasy", "Search", "Store", new { query = "Fantasy", type = 0 }, null)</li>
                             <li>@Html.ActionLink("Sci-fi", "Search", "Store", new { query = "Science Fiction", type = 0 }, null)</li>
                             <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li>@Html.ActionLink("Fantasy Filter", "Filter", "Store", new { queries = "Fantasy1,Classic1,Adventure1" }, null)</li>
                             <li class="divider"></li>
                             <li><a href="#">One more separated link</a></li>
                         </ul>

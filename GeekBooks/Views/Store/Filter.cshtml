@@ -1,34 +1,161 @@
 ﻿@model IEnumerable<GeekBooks.Models.FilterViewModel>
+@using GeekBooks.Helpers
 @using GeekBooks.Models
 
-<div>
-    <h3>Applied Filters</h3>
-    @{ 
-        var filters = Model.FirstOrDefault();
-    }
-    @foreach(var item in filters.Queries){        
-        List<Query> filter = filters.Queries.ToList();
-        filter.Remove(item);
-        <h4>@Html.ActionLink(item.query, "Filter", "Store", new { queries = filter})</h4>
-    }
-    <h3>Choose Filter</h3>
-    @{ 
-        <h4>Genre:</h4>
-        List<string> categories = new List<string>();
-        foreach (var item in Model){
-            foreach(var genre in item.Genre)
+<div class="col-md-12">
+    <div class="col-md-4">
+        <h3>Applied Filters</h3>
+        @{ 
+            var filters = Model.FirstOrDefault();            
+        }
+        
+        @foreach(var item in filters.Queries){
+            List<Query> filter = filters.Queries.ToList();            
+            String fname = item.query;
+            filter.Remove(item);
+            String newQuery = "";
+            int count = 1;
+            foreach(var query in filter)
             {
-                if (!categories.Exists(x => x == genre.GenreTitle))
+                if(count < filter.Count)
                 {
-                    categories.Add(genre.GenreTitle);
-                }               
+                    newQuery = newQuery + query.query + query.type + ",";
+                }
+                else
+                {
+                    newQuery = newQuery + query.query + query.type;
+                }
+                count++;
+            }
+            <h4>@Html.ActionLink(fname, "Filter", "Store", new { queries = newQuery}, null)</h4>
+        }
+
+        <h3>Choose Filter</h3>
+        @{ 
+            <h4>Genre:</h4>
+            HashSet<String> categories = new HashSet<string>();
+            foreach (var item in Model){
+                foreach(var genre in item.Genre)
+                {
+                    bool found = false;
+                    foreach (var query in item.Queries)
+                    {
+                        if (query.query == genre.GenreTitle)
+                        {
+                            found = true;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        categories.Add(genre.GenreTitle);
+                    }
+                }
+            }
+            foreach (var item in categories)
+            {
+                String newQuery = "";
+                foreach (var query in filters.Queries)
+                {                    
+                    newQuery = newQuery + query.query + query.type + ",";                    
+                }
+                newQuery += item + "1";
+                <h4>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, null)</h4>
             }
         }
-        foreach (var item in categories)
-        {
-            <h4></h4>
+        <h4>Author:</h4>
+        @{
+            HashSet<String> categoriesA = new HashSet<string>();
+            foreach (var item in Model)
+            {
+                bool found = false;
+                foreach (var query in item.Queries)
+                {
+                    if (query.query == item.Author.AuthorName)
+                    {
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    categoriesA.Add(item.Author.AuthorName);
+                }
+
+            }
+
+            foreach (var item in categoriesA)
+            {
+                String newQuery = "";
+                foreach (var query in filters.Queries)
+                {                    
+                    newQuery = newQuery + query.query + query.type + ",";                    
+                }
+                newQuery += item + "0";
+                <h4>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, null)</h4>
+            }
         }
-    }
-    <h4>Author:</h4>
+
+    </div>
+
+    <div class="col-md-8">
+        <h2>@ViewBag.Message</h2>
+        <div align="right">
+            Sort results by:
+            <form method="post">
+                <select id="sort" name="sort">
+                    <option value="title">Title</option>
+                    <option value="author">Author</option>
+                    <option value="price">Price</option>
+                    <option value="rating">Rating</option>
+                    <option value="release">Release date</option>
+                </select>
+                <input type="submit" value="Go">
+            </form>
+            <table class="table">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
+                        </td>
+                        <td>
+                            <h3>@item.BookName</h3>
+                            <h4>by @Html.ActionLink(item.Author.AuthorName, "Search", "Store", new { query = item.Author.AuthorName, type = 1 }, null)</h4>
+                            <p>@item.Synopsis</p>
+                            <h4>Price: $@item.Price</h4>
+                            <div style="margin-top: 3px;">
+                                @for (var i = 1; i <= 5; i++)
+                                {
+                                    if (i <= item.AvgRating)
+                                    {
+                                        <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                        if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                        {
+                                            <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                        }
+                                    }
+
+                                    if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
+                                    {
+                                        <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
+                                    }
+                                }
+                            </div>
+                            @if (item.Stock > 0)
+                            {
+                                <h2>Still in Stock</h2>
+                                <input class="csbutton" type="submit" value="Add to Cart" />
+                            }
+                            else
+                            {
+                                <h2>Out of Stock!</h2>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 
 </div>

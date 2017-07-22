@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace GeekBooks.Controllers
 {
-    [Authorize]
+    
     public class BookRatingController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

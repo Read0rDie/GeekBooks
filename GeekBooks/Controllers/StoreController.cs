@@ -358,18 +358,33 @@ namespace GeekBooks.Controllers
             return View(book);
         }        
         
-        public ActionResult Filter(List<Query> queries)
+        public ActionResult Filter(String queries)
         {
             List<Book> books = new List<Book>();
             List<FilterViewModel> bookList = new List<FilterViewModel>();
+            Mapper.Initialize(ffg => { ffg.CreateMap<Book, FilterViewModel>().ReverseMap(); });
             FilterViewModel fvm = new FilterViewModel();
-            if (queries.Count() == 0)
+            List<Query> qList = new List<Query>();
+
+            if (!String.IsNullOrEmpty(queries))
+            {
+                char[] delimiterChars = {','};
+                string[] rawQuery = queries.Split(delimiterChars);
+                foreach (var item in rawQuery)
+                {
+                    qList.Add(new Query { type = Convert.ToInt32(item.Substring(item.Length - 1, 1)), query = item.Substring(0, item.Length - 1) });
+                }
+            }
+
+            if (qList.Count() == 0)
             {
                 books = db.Books.ToList();                
             }
             else
             {
-                foreach (var query in queries)
+                books = db.Books.ToList();
+
+                foreach (var query in qList)
                 {
                     switch (query.type)
                     {
@@ -412,6 +427,7 @@ namespace GeekBooks.Controllers
                 {
                     fvm.AvgRating = fvm.AvgRating / book.BookRatings.Count;
                 }
+                fvm.Queries = qList;
                 bookList.Add(fvm);
             }
 
