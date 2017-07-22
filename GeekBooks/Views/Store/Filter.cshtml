@@ -2,8 +2,9 @@
 @using GeekBooks.Helpers
 @using GeekBooks.Models
 
+<div class="container">
 <div class="col-md-12">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h3>Applied Filters</h3>
         @{ 
             var filters = Model.FirstOrDefault();            
@@ -98,7 +99,7 @@
 
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-9">
         <h2>@ViewBag.Message</h2>
         <div align="right">
             Sort results by:
@@ -158,4 +159,5 @@
         </div>
     </div>
 
+</div>
 </div>
