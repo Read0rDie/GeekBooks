@@ -1,15 +1,41 @@
 ﻿@model GeekBooks.Models.Book
-
+@using GeekBooks.Helpers
 @{
     ViewBag.Title = "Shopping Cart Confirmation";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
-<div>
-    <p>
-        "@Model.BookName" was added to your cart.
-    </p>
+<style>
+
+    .row {
+        padding: 10px;
+        margin-top: 10%;
+        border: solid 2px #e3e3e3;
+    }
+
+    .special-cs {
+        width: 80%;
+        text-decoration: none;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="cart-wrapper">
+            <div class="col-md-offset-3 col-md-3">
+                @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = Model.BookID }, new { @class = "img-thumbnail" }, Model.CoverUrl)
+                <h4>@Model.BookName</h4>
+                <h5>by @Model.Author.AuthorName</h5>
+                <h5>$ @Model.Price</h5>
+
+
+            </div>
+
+            <div class="col-md-3">
+                <h2>@Model.BookName</h2>
+                <h5>Was added to your shopping cart.</h5>
+                
+                @Html.ActionLink("Continue Shopping", "PrevPage", "Store", new { returnurl = Request.UrlReferrer.AbsolutePath }, new { @class = "csbutton special-cs" })
+            </div>
+        </div>
+    </div>
 </div>
-	

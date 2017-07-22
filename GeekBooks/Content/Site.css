@@ -1,8 +1,9 @@
-﻿html{
-font-family:Raleway;
+﻿html {
+    font-family: Raleway;
 }
 
 body {
+font-family: Raleway;
 margin-top: 70px;
 }
 
@@ -14,8 +15,7 @@ margin-top: 70px;
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select {
     max-width: 280px;
 }
 
@@ -46,15 +46,6 @@ textarea {
     background-color: white;
     color: #7f8c8d;
     border: 2px solid #7f8c8d;
-}
-
-.wide {
-    max-width: 700px;
-}
-
-.pagePadding{
-    padding-bottom:100px;
-    padding-top: 50px;
 }
 
 /*override position and transform in 3.3.x*/

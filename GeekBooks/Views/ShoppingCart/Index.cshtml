@@ -1,10 +1,36 @@
 ﻿@model ICollection<GeekBooks.Models.ShoppingCart>
+
 @using GeekBooks.Helpers
 
 @{
     ViewBag.Title = "Index";
 }
 
+<style>
+    li {
+        list-style-type: none;
+       
+    }
+
+    thead {
+        color: black;
+        background: #e3e3e3;
+    }
+
+    .mini-cart {
+        height: 400px;
+        border: solid 2px #e3e3e3;
+    }
+
+    .special-cs {
+        width: 80%;
+    }
+
+    .spacer {
+
+       padding: 3px;                
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -12,50 +38,119 @@
 
     <div class="container">
         <h3> Items in Cart </h3>
+        <div class="row">
+            <div class="col-md-7">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Item(s)</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        if (item.SaveForLater)
+                        {
+                            continue;
+                        }
+                        <tr>
+                            <td width="70%">
+                                <div class="col-md-3 thumbnail">
+                                    @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.Book.CoverUrl)
+                                </div>
+                                <div class="col-md-9">
+                                    <ul>
+                                        <li><h4>@item.Book.BookName</h4></li>
+                                        <li><h5>by @item.Book.Author.AuthorName</h5></li>
+                                        <li><h5>$ @item.Book.Price</h5></li>
+                                        <li><i class="fa fa-gift"></i> Gift wrap available at checkout</li>
+                                    </ul>
+                                </div>
+                            </td>
 
-        <table class="">
-            @foreach (var item in Model)
-            {
-                if (item.SaveForLater)
+                            <td width="25%">
+                                @Html.Partial("_quantity", item)
+                            </td>
+                            @{
+                                var totals = item.Book.Price * item.Quantity;
+                                var taxes = (double)totals * .07;
+
+                            }
+                            <td>$@totals</td>
+                        </tr>
+                                }
+                </table>
+            </div>
+
+            @{
+                var count = 0;
+                decimal tax = 0.07M;
+                decimal total = 0;
+
+                foreach (var item in Model)
                 {
-                    continue;
+                    count += item.Quantity;
+                    total += item.Book.Price * item.Quantity;
                 }
-                <tr>
-                    <td>
-                        @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.Book.CoverUrl)
-                    </td>
-
-                    <td>
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.Partial("ShoppingCartItems", item)                                   
-                    </td>
-                </tr>
+                tax = Math.Round(total * tax, 2);
+                decimal final = Math.Round(total + tax, 2);
             }
-        </table>
 
-        <HR WIDTH=100% style="color: black;" ALIGN=CENTER>
-        <h3> Items Saved For Later </h3>
+            <div class="mini-cart col-md-offset-1 col-md-4">
+                <h3 class="text-center">Order Summary</h3>
 
-        <table class="">
-            @foreach (var item in Model)
-            {
-                if (!item.SaveForLater)
+                <table class="table" style="height: 200px;">
+                    <tr>
+                        <td width="90%">Subtotal (@count items)</td>
+                        <td width="10%">$@total</td>
+                    </tr>
+                    <tr>
+                        <td>Estimated Shipping</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr style="border-bottom: solid 1px #e3e3e3">
+                        <td>Estimated Tax</td>
+                        <td>$@tax</td>
+                    </tr>
+                    <tr>
+                        <td><h3>Order Total:</h3></td>
+                        <td><h3>$@final</h3></td>
+                    </tr>
+                </table>
+                <div class="text-center">
+                    <input class="csbutton special-cs" type="submit" value="Checkout" />
+                    <div class="spacer"></div>
+                    @Html.ActionLink("Continue Shopping", "PrevPage", "Store", new { returnurl = Request.UrlReferrer.AbsolutePath }, new { @class = "csbutton special-cs" })
+                </div>
+            </div>
+        </div>                
+           
+        <hr />
+
+        <h3 class="text-center"> Items Saved For Later </h3>
+
+                @foreach (var item in Model)
                 {
-                    continue;
-                }
-                <tr>
-                    <td>
+                    if (!item.SaveForLater)
+                    {
+                        continue;
+                    }
+                    <div class="col-md-3 thumbnail">
                         @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.Book.CoverUrl)
-                    </td>
-                    <td>
-                        @Html.Partial("ShoppingCartItems", item)    
-                    </td>
-                </tr>
-            }
-        </table>
+                    </div>
+                    <div class="col-md-9">
+                        <ul>
+                            <li><h4>@item.Book.BookName</h4></li>
+                            <li><h5>by @item.Book.Author.AuthorName</h5></li>
+                            <li><h5>$ @item.Book.Price</h5></li>
+                        </ul>
+                     </div>
+                        }
+                    </div>
 
-    </div>
-}
+
+                }
 
 
 

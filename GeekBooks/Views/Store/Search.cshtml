@@ -5,6 +5,7 @@
     ViewBag.Title = "Search";
 }
 
+
 <div class="container">
     <h2>@ViewBag.Message</h2>
     <div align ="right">Sort results by:
@@ -51,7 +52,7 @@
                         @if(item.Stock > 0)
                         {
                             <h2>Still in Stock</h2>
-                            <input class="csbutton" type="submit" value="Add to Cart" />
+                            @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = item.BookID }, new { @class = "csbutton csb-special" })
                         }
                         else
                         {

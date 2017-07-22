@@ -1,0 +1,36 @@
+﻿@model GeekBooks.Models.ShoppingCart
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.SCI)
+    @Html.HiddenFor(model => model.BookID)
+    @Html.HiddenFor(model => model.UID)
+
+    <div id="quantity-form" class="form-group">
+        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { style = "width: 50px", @min = "1", @max = Model.Book.Stock } })
+        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+        <div class="option-wrapper">
+            <table style="height:100px">
+                <tr>
+                    <td>
+                        <input type="submit" value="Update" formaction="/ShoppingCart/Update" class="btn btn-xs" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Delete" formaction="/ShoppingCart/DeleteItemFromCart" class="btn btn-xs" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>                    
+                            @Html.LabelFor(model => model.SaveForLater, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.SaveForLater)
+                            @Html.ValidationMessageFor(model => model.SaveForLater, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
