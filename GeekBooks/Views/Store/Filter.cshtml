@@ -2,46 +2,145 @@
 @using GeekBooks.Helpers
 @using GeekBooks.Models
 
-<div class="container">
-<div class="col-md-12">
-    <div class="col-md-3">
-        <h3>Applied Filters</h3>
-        @{ 
-            var filters = Model.FirstOrDefault();            
-        }
-        
-        @foreach(var item in filters.Queries){
-            List<Query> filter = filters.Queries.ToList();            
-            String fname = item.query;
-            filter.Remove(item);
-            String newQuery = "";
-            int count = 1;
-            foreach(var query in filter)
-            {
-                if(count < filter.Count)
-                {
-                    newQuery = newQuery + query.query + query.type + ",";
-                }
-                else
-                {
-                    newQuery = newQuery + query.query + query.type;
-                }
-                count++;
-            }
-            <h4>@Html.ActionLink(fname, "Filter", "Store", new { queries = newQuery}, null)</h4>
-        }
+<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
 
-        <h3>Choose Filter</h3>
-        @{ 
-            <h4>Genre:</h4>
-            HashSet<String> categories = new HashSet<string>();
-            foreach (var item in Model){
-                foreach(var genre in item.Genre)
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
+
+<style>
+    div.btn-group.bootstrap-select.col-md-12 {
+        padding: 0;
+        border-radius:0;
+    }
+
+    .btn {
+        border-radius: 0;
+        background-color: #D2D7D3;
+        border-color: #D2D7D3;
+        color: black;
+    }
+
+    .btn:hover {
+        background-color: #D2D7D3;
+        border-color: #D2D7D3;
+    }
+
+    a.filter{
+        display:block;
+        padding: 10px 30px;
+        text-decoration:none;
+        color:black;
+    }
+
+    a.filter:hover{
+        background-color:#e95420;
+        color:white;
+    }
+</style>
+
+<div class="col-md-12" style="margin-top:40px">
+    <div class="col-md-4">
+        <div class="col-md-3"></div>
+        <div class="col-md-7" style="margin:auto; padding:0;">
+            <div class="col-md-12">
+                <h5><b>Applied Filters</b></h5>
+            </div>
+            @{ 
+                var filters = Model.FirstOrDefault();            
+            }
+        
+            @foreach (var item in filters.Queries)
+            {
+                List<Query> filter = filters.Queries.ToList();
+                String fname = item.query;
+                filter.Remove(item);
+                String newQuery = "";
+                int count = 1;
+                foreach (var query in filter)
+                {
+                    if (count < filter.Count)
+                    {
+                        newQuery = newQuery + query.query + query.type + ",";
+                    }
+                    else
+                    {
+                        newQuery = newQuery + query.query + query.type;
+                    }
+                    count++;
+                }
+                <div class=" col-md-12" style="padding: 0">
+                    <div class="col-md-10" style="padding: 0 10px; margin-bottom: 10px; background-color:#D2D7D3">
+                        <h5>@fname</h5>
+                    </div>
+                    <div class="col-md-2" style="padding: 0 10px; margin-bottom: 10px; background-color:#D2D7D3">
+                        <h5>@Html.ActionLink("X", "Filter", "Store", new { queries = newQuery}, new { @style="text-decoration:none; color:black"})</h5>
+                    </div>
+                </div>
+            }
+            <div class="col-md-12" style="margin:0; padding:0">
+                <h5 style="margin: 20px 0 10px 10px"><b>Sort results by:</b></h5>
+                
+                <form method="post">                    
+                    <select id="sort" class="selectpicker col-md-12" style="width:100%; padding:0; margin:0" name="sort" onchange="this.form.submit();" >
+                        <option id ="title" value="title">Title</option>
+                        <option id ="author" value="author">Author</option>
+                        <option id ="price" value="price">Price</option>
+                        <option id ="rating" value="rating">Rating</option>
+                        <option id ="release" value="release">Release date</option>
+                    </select>                    
+                </form>
+            </div>
+
+            <div class="col-md-12">
+                <h5 style="margin-top:40px"><b>Choose Filters</b></h5>
+            </div>
+            @{
+                <div class="col-md-12" style="margin:0; padding:0; background-color:#D2D7D3">
+                    <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px">Genre</h5>
+                </div>            
+                HashSet<String> categories = new HashSet<string>();
+                foreach (var item in Model){
+                    foreach(var genre in item.Genre)
+                    {
+                        bool found = false;
+                        foreach (var query in item.Queries)
+                        {
+                            if (query.query == genre.GenreTitle)
+                            {
+                                found = true;
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            categories.Add(genre.GenreTitle);
+                        }
+                    }
+                }
+                foreach (var item in categories)
+                {
+                    String newQuery = "";
+                    foreach (var query in filters.Queries)
+                    {                    
+                        newQuery = newQuery + query.query + query.type + ",";                    
+                    }
+                    newQuery += item + "1";
+                    <div class="col-md-12" style="padding:0">
+                        <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                    </div>
+                }
+            }
+            <div class="col-md-12" style="margin-top:20px; padding:0px; background-color:#D2D7D3">
+                <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px">Author</h5>
+            </div>        
+            @{
+                HashSet<String> categoriesA = new HashSet<string>();
+                foreach (var item in Model)
                 {
                     bool found = false;
                     foreach (var query in item.Queries)
                     {
-                        if (query.query == genre.GenreTitle)
+                        if (query.query == item.Author.AuthorName)
                         {
                             found = true;
                         }
@@ -49,70 +148,32 @@
 
                     if (!found)
                     {
-                        categories.Add(genre.GenreTitle);
+                        categoriesA.Add(item.Author.AuthorName);
                     }
+
                 }
-            }
-            foreach (var item in categories)
-            {
-                String newQuery = "";
-                foreach (var query in filters.Queries)
-                {                    
-                    newQuery = newQuery + query.query + query.type + ",";                    
-                }
-                newQuery += item + "1";
-                <h4>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, null)</h4>
-            }
-        }
-        <h4>Author:</h4>
-        @{
-            HashSet<String> categoriesA = new HashSet<string>();
-            foreach (var item in Model)
-            {
-                bool found = false;
-                foreach (var query in item.Queries)
+
+                foreach (var item in categoriesA)
                 {
-                    if (query.query == item.Author.AuthorName)
+                    String newQuery = "";
+                    foreach (var query in filters.Queries)
                     {
-                        found = true;
+                        newQuery = newQuery + query.query + query.type + ",";
                     }
+                    newQuery += item + "0";
+                    <div class="col-md-12" style="padding:0">
+                        <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                    </div>
                 }
-
-                if (!found)
-                {
-                    categoriesA.Add(item.Author.AuthorName);
-                }
-
             }
 
-            foreach (var item in categoriesA)
-            {
-                String newQuery = "";
-                foreach (var query in filters.Queries)
-                {                    
-                    newQuery = newQuery + query.query + query.type + ",";                    
-                }
-                newQuery += item + "0";
-                <h4>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, null)</h4>
-            }
-        }
-
+        </div>
+        <div class="col-md-2"></div>
     </div>
 
-    <div class="col-md-9">
+    <div class="col-md-7">
         <h2>@ViewBag.Message</h2>
-        <div align="right">
-            Sort results by:
-            <form method="post">
-                <select id="sort" name="sort">
-                    <option value="title">Title</option>
-                    <option value="author">Author</option>
-                    <option value="price">Price</option>
-                    <option value="rating">Rating</option>
-                    <option value="release">Release date</option>
-                </select>
-                <input type="submit" value="Go">
-            </form>
+        <div align="right">            
             <table class="table">
                 @foreach (var item in Model)
                 {
@@ -160,4 +221,12 @@
     </div>
 
 </div>
-</div>
+<script>
+    @{
+        var fvm = Model.FirstOrDefault();
+        String sort = fvm.sortName;
+    }
+
+    var id = '@sort';
+    document.getElementById(id).selected = 'selected';
+</script>

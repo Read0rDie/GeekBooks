@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using AutoMapper;
 using System.Data.Entity;
+using System.Collections.Specialized;
+using System.Reflection;
 
 namespace GeekBooks.Controllers
 {
@@ -233,6 +235,7 @@ namespace GeekBooks.Controllers
                         select b;
 
             string sort = Request.Form["sort"];
+            
             switch (sort)
             {
                 case "title":
@@ -375,14 +378,40 @@ namespace GeekBooks.Controllers
                     qList.Add(new Query { type = Convert.ToInt32(item.Substring(item.Length - 1, 1)), query = item.Substring(0, item.Length - 1) });
                 }
             }
+            
+            var bookSort = from b in db.Books
+                        select b;
+
+            string sort = Request.Form["sort"];            
+
+            switch (sort)
+            {
+                case "title":
+                    bookSort = bookSort.OrderBy(b => b.BookName);
+                    break;
+                case "author":
+                    bookSort = bookSort.OrderBy(b => b.Author.AuthorName);
+                    break;
+                case "price":
+                    bookSort = bookSort.OrderBy(b => b.Price);
+                    break;
+                case "rating":
+                    bookSort = bookSort.OrderByDescending(b => b.BookRatings.Average(review => review.Rating));
+                    break;
+                case "release":
+                    bookSort = bookSort.OrderBy(b => b.PDate);
+                    break;
+            }
+
+            //List<Book> book_list = bookSort.ToList();
 
             if (qList.Count() == 0)
             {
-                books = db.Books.ToList();                
+                books = bookSort.ToList();                 
             }
             else
             {
-                books = db.Books.ToList();
+                books = bookSort.ToList();
 
                 foreach (var query in qList)
                 {
@@ -428,6 +457,7 @@ namespace GeekBooks.Controllers
                     fvm.AvgRating = fvm.AvgRating / book.BookRatings.Count;
                 }
                 fvm.Queries = qList;
+                fvm.sortName = sort;
                 bookList.Add(fvm);
             }
 

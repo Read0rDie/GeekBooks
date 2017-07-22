@@ -33,13 +33,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Category <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("Fiction", "Search", "Store", new { query = "Fiction", type = 0 }, null)</li>
-                            <li>@Html.ActionLink("Fantasy", "Search", "Store", new { query = "Fantasy", type = 0 }, null)</li>
-                            <li>@Html.ActionLink("Sci-fi", "Search", "Store", new { query = "Science Fiction", type = 0 }, null)</li>
-                            <li class="divider"></li>
-                            <li>@Html.ActionLink("Fantasy Filter", "Filter", "Store", new { queries = "Fantasy1,Classic1,Adventure1" }, null)</li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li>@Html.ActionLink("Fiction", "Filter", "Store", new { queries = "Fiction1" }, null)</li>
+                            <li>@Html.ActionLink("Fantasy", "Filter", "Store", new { queries = "Fantasy1" }, null)</li>
+                            <li>@Html.ActionLink("Science Fiction", "Filter", "Store", new { queries = "Science Fiction1" }, null)</li>                            
                         </ul>
                     </li>
                 </ul>
@@ -58,6 +54,7 @@
     </nav>
     @RenderBody()
     @RenderSection("scripts", required: false)
+
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script> 
 </body>

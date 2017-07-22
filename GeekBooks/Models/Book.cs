@@ -126,5 +126,7 @@ namespace GeekBooks.Models
         public virtual List<Genre> Genre { get; set; }
 
         public List<Query> Queries { set; get; }
+
+        public String sortName { set; get; }
     }
 }
