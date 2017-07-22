@@ -20,6 +20,13 @@
         color: black;
     }
 
+    .btn:hover {
+        
+        background-color: #aea79f;
+        border-color: #aea79f;
+        
+    }
+
     a.filter{
         display:block;
         padding: 10px 30px;
@@ -60,6 +67,16 @@
         text-align: center;
         color: #ECF0F1;
     }
+
+    .csbutton.inactive {
+        background-color: #BDC3C7;
+        border: 2px solid #BDC3C7;
+    }
+
+        .csbutton.inactive:hover {
+            background-color: #BDC3C7;
+            color: white;            
+        }
     
 </style>
 
@@ -136,7 +153,7 @@
             </div>
             @{
                 <div class="col-md-12" style="margin:0; padding:0; background-color:#D2D7D3">
-                    <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px">Genre</h5>
+                    <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px"><b>Genre</b></h5>
                 </div>
                 HashSet<String> categories = new HashSet<string>();
                 foreach (var item in Model)
@@ -195,7 +212,7 @@
                         </div>
                         }
                         <div class="col-md-12" style="padding-left:30px">
-                            <a href="#" id="less"><h5>less</h5></a>
+                            <a href="#" id="less">less</a>
                         </div>
                     </div>
                     <div id="partial" class="col-md-12" style="margin:0; padding:0; display:contents">
@@ -220,14 +237,14 @@
                             }
                         }
                         <div class="col-md-12" style="padding-left: 30px">
-                            <a href="#" id="more" ><h5>more</h5></a>
+                            <a href="#" id="more" >more</a>
                         </div>
                     </div>
                 }
                 
             }
             <div class="col-md-12" style="margin-top:20px; padding:0px; background-color:#D2D7D3">
-                <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px">Author</h5>
+                <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px"><b>Author</b></h5>
             </div>        
             @{
                 HashSet<String> categoriesA = new HashSet<string>();
@@ -286,7 +303,7 @@
                             </div>
                         }
                         <div class="col-md-12" style="padding-left:30px">
-                            <a href="#" id="lessA"><h5>less</h5></a>
+                            <a href="#" id="lessA">less</a>
                         </div>
                     </div>
                     <div id="partialA" class="col-md-12" style="margin:0; padding:0; display:contents">
@@ -311,7 +328,7 @@
                             }
                         }
                         <div class="col-md-12" style="padding-left: 30px">
-                            <a href="#" id="moreA"><h5>more</h5></a>
+                            <a href="#" id="moreA">more</a>
                         </div>
                     </div>
                             }
@@ -355,13 +372,12 @@
                                 }
                             </div>
                             @if (item.Stock > 0)
-                            {
-                                <h2>Still in Stock</h2>
-                                <input class="csbutton" type="submit" value="Add to Cart" />
+                            {                                
+                                @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = item.BookID }, new { @class = "csbutton" })
                             }
                             else
                             {
-                                <h2>Out of Stock!</h2>
+                                <button type="button" class="csbutton inactive" disabled>Out of Stock!</button>
                             }
                         </td>
                     </tr>
