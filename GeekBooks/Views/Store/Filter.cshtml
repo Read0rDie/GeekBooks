@@ -20,11 +20,6 @@
         color: black;
     }
 
-    .btn:hover {
-        background-color: #D2D7D3;
-        border-color: #D2D7D3;
-    }
-
     a.filter{
         display:block;
         padding: 10px 30px;
@@ -35,6 +30,29 @@
     a.filter:hover{
         background-color:#e95420;
         color:white;
+    }
+
+    a.appfilter {
+        
+        padding: 10px 0px;
+        text-decoration: none;
+        color: black;
+        background-color: #D2D7D3;
+    }
+
+        a.appfilter:hover {
+            background-color: #e95420;
+            color: white;
+        }
+
+    .tag {
+        background-color: #D2D7D3;
+        margin-bottom: 10px;
+    }
+
+    .tag:hover {
+        background-color: #aea79f;
+        color: white;
     }
 </style>
 
@@ -68,13 +86,22 @@
                     }
                     count++;
                 }
-                <div class=" col-md-12" style="padding: 0">
-                    <div class="col-md-10" style="padding: 0 10px; margin-bottom: 10px; background-color:#D2D7D3">
-                        <h5>@fname</h5>
+                <div class=" col-md-12 tag" style="padding: 0">
+                    <a class ="appfilter" href='@Url.Action("Filter", "Store", new { queries = newQuery })'>
+                        <div class="col-md-10">
+                            <h5>@fname</h5>
+                        </div>
+                        <div class="col-md-2">
+                            <h5>X</h5>
+                        </div>
+                    </a>
+
+                    @*<div class="col-md-10" style="padding: 0 0 0 10px; margin-bottom: 10px; background-color:#D2D7D3">
+                        <h5>@Html.ActionLink(fname, "Filter", "Store", new { queries = newQuery }, new { @class = "appfilter" })</h5>
                     </div>
-                    <div class="col-md-2" style="padding: 0 10px; margin-bottom: 10px; background-color:#D2D7D3">
-                        <h5>@Html.ActionLink("X", "Filter", "Store", new { queries = newQuery}, new { @style="text-decoration:none; color:black"})</h5>
-                    </div>
+                    <div class="col-md-2" style="padding: 0 10px 0 0; margin-bottom: 10px; background-color:#D2D7D3">
+                        <h5>@Html.ActionLink("X", "Filter", "Store", new { queries = newQuery}, new { @class = "appfilter"})</h5>
+                    </div>*@
                 </div>
             }
             <div class="col-md-12" style="margin:0; padding:0">
@@ -97,10 +124,11 @@
             @{
                 <div class="col-md-12" style="margin:0; padding:0; background-color:#D2D7D3">
                     <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px">Genre</h5>
-                </div>            
+                </div>
                 HashSet<String> categories = new HashSet<string>();
-                foreach (var item in Model){
-                    foreach(var genre in item.Genre)
+                foreach (var item in Model)
+                {
+                    foreach (var genre in item.Genre)
                     {
                         bool found = false;
                         foreach (var query in item.Queries)
@@ -117,18 +145,67 @@
                         }
                     }
                 }
-                foreach (var item in categories)
+                if (categories.Count < 5)
                 {
-                    String newQuery = "";
-                    foreach (var query in filters.Queries)
-                    {                    
-                        newQuery = newQuery + query.query + query.type + ",";                    
+                    foreach (var item in categories)
+                    {
+                        String newQuery = "";
+                        foreach (var query in filters.Queries)
+                        {
+                            newQuery = newQuery + query.query + query.type + ",";
+                        }
+                        newQuery += item + "1";
+                        <div class="col-md-12" style="padding:0">
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                        </div>
                     }
-                    newQuery += item + "1";
-                    <div class="col-md-12" style="padding:0">
-                        <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                }
+                else
+                {
+                    <div id="complete" class="col-md-12" style="margin:0; padding:0; display:none">
+                        @foreach (var item in categories)
+                        {
+                        String newQuery = "";
+                        foreach (var query in filters.Queries)
+                        {
+                        newQuery = newQuery + query.query + query.type + ",";
+                        }
+                        newQuery += item + "1";
+                        <div class="col-md-12" style="padding:0">
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                        </div>
+                        }
+                        <div class="col-md-12" style="padding-left:30px">
+                            <a href="#" id="less"><h5>less</h5></a>
+                        </div>
+                    </div>
+                    <div id="partial" class="col-md-12" style="margin:0; padding:0; display:contents">
+                        @{
+                            int inc = 0;
+                            foreach (var item in categories)
+                            {                                
+                                String newQuery = "";
+                                foreach (var query in filters.Queries)
+                                {
+                                    newQuery = newQuery + query.query + query.type + ",";
+                                }
+                                newQuery += item + "1";
+                                <div class="col-md-12" style="padding:0">
+                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                                </div>
+                                inc++;
+                                if(inc == 5)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        <div class="col-md-12" style="padding-left: 30px">
+                            <a href="#" id="more" ><h5>more</h5></a>
+                        </div>
                     </div>
                 }
+                
             }
             <div class="col-md-12" style="margin-top:20px; padding:0px; background-color:#D2D7D3">
                 <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px">Author</h5>
@@ -153,18 +230,66 @@
 
                 }
 
-                foreach (var item in categoriesA)
+                if (categoriesA.Count < 5)
                 {
-                    String newQuery = "";
-                    foreach (var query in filters.Queries)
+                    foreach (var item in categoriesA)
                     {
-                        newQuery = newQuery + query.query + query.type + ",";
+                        String newQuery = "";
+                        foreach (var query in filters.Queries)
+                        {
+                            newQuery = newQuery + query.query + query.type + ",";
+                        }
+                        newQuery += item + "0";
+                        <div class="col-md-12" style="padding:0">
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                        </div>
                     }
-                    newQuery += item + "0";
-                    <div class="col-md-12" style="padding:0">
-                        <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
-                    </div>
                 }
+                else
+                {
+                    <div id="completeA" class="col-md-12" style="margin:0; padding:0; display:none">
+                        @foreach (var item in categoriesA)
+                        {
+                            String newQuery = "";
+                            foreach (var query in filters.Queries)
+                            {
+                                newQuery = newQuery + query.query + query.type + ",";
+                            }
+                            newQuery += item + "0";
+                            <div class="col-md-12" style="padding:0">
+                                <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                            </div>
+                        }
+                        <div class="col-md-12" style="padding-left:30px">
+                            <a href="#" id="lessA"><h5>less</h5></a>
+                        </div>
+                    </div>
+                    <div id="partialA" class="col-md-12" style="margin:0; padding:0; display:contents">
+                        @{
+                            int inc = 0;
+                            foreach (var item in categoriesA)
+                            {
+                                String newQuery = "";
+                                foreach (var query in filters.Queries)
+                                {
+                                    newQuery = newQuery + query.query + query.type + ",";
+                                }
+                                newQuery += item + "0";
+                                <div class="col-md-12" style="padding:0">
+                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                                </div>
+                                inc++;
+                                if (inc == 5)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        <div class="col-md-12" style="padding-left: 30px">
+                            <a href="#" id="moreA"><h5>more</h5></a>
+                        </div>
+                    </div>
+                            }
             }
 
         </div>
@@ -229,4 +354,43 @@
 
     var id = '@sort';
     document.getElementById(id).selected = 'selected';
+
+</script>
+
+<script>
+    $('#more').click(function () {
+        $('#complete').css({
+            'display': 'unset'
+        });
+        $('#partial').css({
+            'display': 'none'
+        });
+    });
+
+    $('#less').click(function () {
+        $('#complete').css({
+            'display': 'none'
+        });
+        $('#partial').css({
+            'display': 'unset'
+        });
+    });
+
+    $('#moreA').click(function () {
+        $('#completeA').css({
+            'display': 'unset'
+        });
+        $('#partialA').css({
+            'display': 'none'
+        });
+    });
+
+    $('#lessA').click(function () {
+        $('#completeA').css({
+            'display': 'none'
+        });
+        $('#partialA').css({
+            'display': 'unset'
+        });
+    });
 </script>
