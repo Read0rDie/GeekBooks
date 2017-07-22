@@ -10,6 +10,7 @@
 
     <div class="form-horizontal">
         <div class="container">
+                        
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             @Html.HiddenFor(model => model.SCI)
@@ -17,10 +18,9 @@
             @Html.HiddenFor(model => model.UID)
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { style = "width: 50px", @min = "1", @max = Model.Book.Stock } })
-                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                   
                 </div>
             </div>
 
