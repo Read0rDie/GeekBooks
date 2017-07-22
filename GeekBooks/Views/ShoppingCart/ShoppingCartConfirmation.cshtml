@@ -34,7 +34,7 @@
                 <h2>@Model.BookName</h2>
                 <h5>Was added to your shopping cart.</h5>
                 
-                @Html.ActionLink("Continue Shopping", "PrevPage", "Store", new { returnurl = Request.UrlReferrer.AbsolutePath }, new { @class = "csbutton special-cs" })
+                @Html.ActionLink("Continue Shopping", "ProductDetails", "Store", new { id = Model.BookID }, new { @class = "csbutton special-cs" })
             </div>
         </div>
     </div>

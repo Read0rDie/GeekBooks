@@ -464,6 +464,7 @@ namespace GeekBooks.Controllers
             return View(bookList);
         }       
 
+        [Authorize]
         public ActionResult AddBookToCart(int bookID)
         {
             try

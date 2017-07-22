@@ -371,14 +371,7 @@
                                     }
                                 }
                             </div>
-                            @if (item.Stock > 0)
-                            {                                
-                                @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = item.BookID }, new { @class = "csbutton" })
-                            }
-                            else
-                            {
-                                <button type="button" class="csbutton inactive" disabled>Out of Stock!</button>
-                            }
+                            
                         </td>
                     </tr>
                 }
