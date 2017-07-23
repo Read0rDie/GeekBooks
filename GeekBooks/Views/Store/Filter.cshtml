@@ -117,7 +117,7 @@
                     count++;
                 }
                 <div class=" col-md-12 tag" style="padding: 0">
-                    <a class ="appfilter" href='@Url.Action("Filter", "Store", new { queries = newQuery })'>
+                    <a class ="appfilter" href='@Url.Action("Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true})'>
                         <div class="col-md-10">
                             <h5>@fname</h5>
                         </div>
@@ -136,8 +136,36 @@
             }
             <div class="col-md-12" style="margin:0; padding:0">
                 <h5 style="margin: 20px 0 10px 10px"><b>Sort results by:</b></h5>
+                @{ 
+                    String qString = "";
+                    int qCount = 1;
+                    foreach (var item in filters.Queries)
+                    {
+                        if (qCount < filters.Queries.Count)
+                        {
+                            qString = qString + item.query + item.type + ",";
+                        }
+                        else
+                        {
+                            qString = qString + item.query + item.type;
+                        }
+                        qCount++;
+                    }
+                }
                 
-                <form method="post">                    
+
+                @using (Html.BeginForm("Filter", "Store", new { queries = qString, save = false }, FormMethod.Post, null))
+                {
+                    <select id="sort" class="selectpicker col-md-12" style="width:100%; padding:0; margin:0" name="sort" onchange="this.form.submit();">
+                        <option id="title" value="title">Title</option>
+                        <option id="author" value="author">Author</option>
+                        <option id="price" value="price">Price</option>
+                        <option id="rating" value="rating">Rating</option>
+                        <option id="release" value="release">Release date</option>
+                    </select>
+                }
+                @*<form method="post">          
+                    
                     <select id="sort" class="selectpicker col-md-12" style="width:100%; padding:0; margin:0" name="sort" onchange="this.form.submit();" >
                         <option id ="title" value="title">Title</option>
                         <option id ="author" value="author">Author</option>
@@ -145,7 +173,7 @@
                         <option id ="rating" value="rating">Rating</option>
                         <option id ="release" value="release">Release date</option>
                     </select>                    
-                </form>
+                </form>*@
             </div>
 
             <div class="col-md-12">
@@ -155,7 +183,7 @@
                 <div class="col-md-12" style="margin:0; padding:0; background-color:#D2D7D3">
                     <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px"><b>Genre</b></h5>
                 </div>
-                HashSet<String> categories = new HashSet<string>();
+                    HashSet<String> categories = new HashSet<string>();
                 foreach (var item in Model)
                 {
                     foreach (var genre in item.Genre)
@@ -192,7 +220,7 @@
                         }
                         newQuery += item + "1";
                         <div class="col-md-12" style="padding:0">
-                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter"})</i></h5>
                         </div>
                     }
                 }
@@ -208,7 +236,7 @@
                         }
                         newQuery += item + "1";
                         <div class="col-md-12" style="padding:0">
-                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter"})</i></h5>
                         </div>
                         }
                         <div class="col-md-12" style="padding-left:30px">
@@ -227,7 +255,7 @@
                                 }
                                 newQuery += item + "1";
                                 <div class="col-md-12" style="padding:0">
-                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter" })</i></h5>
                                 </div>
                                 inc++;
                                 if(inc == 5)
@@ -283,7 +311,7 @@
                         }
                         newQuery += item + "0";
                         <div class="col-md-12" style="padding:0">
-                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter"})</i></h5>
                         </div>
                     }
                 }
@@ -299,7 +327,7 @@
                             }
                             newQuery += item + "0";
                             <div class="col-md-12" style="padding:0">
-                                <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                                <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter"})</i></h5>
                             </div>
                         }
                         <div class="col-md-12" style="padding-left:30px">
@@ -318,7 +346,7 @@
                                 }
                                 newQuery += item + "0";
                                 <div class="col-md-12" style="padding:0">
-                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery }, new { @class = "filter" })</i></h5>
+                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter" })</i></h5>
                                 </div>
                                 inc++;
                                 if (inc == 5)
@@ -432,3 +460,4 @@
         e.preventDefault();
     });
 </script>
+
