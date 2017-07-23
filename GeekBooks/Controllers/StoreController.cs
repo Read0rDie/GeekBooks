@@ -224,105 +224,105 @@ namespace GeekBooks.Controllers
             return PartialView(bookList.ToList());
         }
 
-        public ActionResult Search(string query, int? type)
-        {
-            List<Book> t_bookList = new List<Book>();
-            List<BookViewModel> bookList = new List<BookViewModel>();
-            Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
-            BookViewModel model;
+        //public ActionResult Search(string query, int? type)
+        //{
+        //    List<Book> t_bookList = new List<Book>();
+        //    List<BookViewModel> bookList = new List<BookViewModel>();
+        //    Mapper.Initialize(cfg => { cfg.CreateMap<Book, BookViewModel>().ReverseMap(); });
+        //    BookViewModel model;
 
-            var books = from b in db.Books
-                        select b;
+        //    var books = from b in db.Books
+        //                select b;
 
-            string sort = Request.Form["sort"];
+        //    string sort = Request.Form["sort"];
             
-            switch (sort)
-            {
-                case "title":
-                    books = books.OrderBy(b => b.BookName);
-                    break;
-                case "author":
-                    books = books.OrderBy(b => b.Author.AuthorName);
-                    break;
-                case "price":
-                    books = books.OrderBy(b => b.Price);
-                    break;
-                case "rating":
-                    books = books.OrderByDescending(b => b.BookRatings.Average(review => review.Rating));
-                    break;
-                case "release":
-                    books = books.OrderBy(b => b.PDate);
-                    break;
-            }
+        //    switch (sort)
+        //    {
+        //        case "title":
+        //            books = books.OrderBy(b => b.BookName);
+        //            break;
+        //        case "author":
+        //            books = books.OrderBy(b => b.Author.AuthorName);
+        //            break;
+        //        case "price":
+        //            books = books.OrderBy(b => b.Price);
+        //            break;
+        //        case "rating":
+        //            books = books.OrderByDescending(b => b.BookRatings.Average(review => review.Rating));
+        //            break;
+        //        case "release":
+        //            books = books.OrderBy(b => b.PDate);
+        //            break;
+        //    }
 
-            List<Book> book_list = books.ToList();
+        //    List<Book> book_list = books.ToList();
 
-            switch (type)
-            {
-                case 0:                    
-                    foreach(var item in book_list)
-                    {
-                        var genres = item.Genre.ToList();
-                        foreach(var genre in genres)
-                        {
-                            if(genre.GenreTitle == query)
-                            {
-                                t_bookList.Add(item);
-                            }
-                        }
-                    }
-                    //t_bookList = db.Books.Where(p => p.Genre.Contains(query)).ToList();
-                    ViewBag.Message = query;
-                    break;
-                case 1:
-                    t_bookList = db.Books.Where(p => p.Author.AuthorName.Contains(query)).ToList();
-                    ViewBag.Message = "Books by " + query;
-                    break;
-                case 2:
-                    t_bookList = db.Books.Where(p => p.BookName.Contains(query)).ToList();
-                    ViewBag.Message = query;
-                    break;
-                default:
-                    if (query.Length > 0)
-                    {
-                        foreach (var item in book_list)
-                        {
-                            var genres = item.Genre.ToList();
-                            foreach (var genre in genres)
-                            {
-                                if (genre.GenreTitle.ToLower().Contains(query.ToLower()) || item.Author.AuthorName.ToLower().Contains(query.ToLower()) || item.BookName.ToLower().Contains(query.ToLower()))
-                                {
-                                    t_bookList.Add(item);
-                                    break;
-                                }
-                            }
-                        }                       
-                    }
-                    ViewBag.Message = "Search results for: " + query;
-                    break;
-            }
+        //    switch (type)
+        //    {
+        //        case 0:                    
+        //            foreach(var item in book_list)
+        //            {
+        //                var genres = item.Genre.ToList();
+        //                foreach(var genre in genres)
+        //                {
+        //                    if(genre.GenreTitle == query)
+        //                    {
+        //                        t_bookList.Add(item);
+        //                    }
+        //                }
+        //            }
+        //            //t_bookList = db.Books.Where(p => p.Genre.Contains(query)).ToList();
+        //            ViewBag.Message = query;
+        //            break;
+        //        case 1:
+        //            t_bookList = db.Books.Where(p => p.Author.AuthorName.Contains(query)).ToList();
+        //            ViewBag.Message = "Books by " + query;
+        //            break;
+        //        case 2:
+        //            t_bookList = db.Books.Where(p => p.BookName.Contains(query)).ToList();
+        //            ViewBag.Message = query;
+        //            break;
+        //        default:
+        //            if (query.Length > 0)
+        //            {
+        //                foreach (var item in book_list)
+        //                {
+        //                    var genres = item.Genre.ToList();
+        //                    foreach (var genre in genres)
+        //                    {
+        //                        if (genre.GenreTitle.ToLower().Contains(query.ToLower()) || item.Author.AuthorName.ToLower().Contains(query.ToLower()) || item.BookName.ToLower().Contains(query.ToLower()))
+        //                        {
+        //                            t_bookList.Add(item);
+        //                            break;
+        //                        }
+        //                    }
+        //                }                       
+        //            }
+        //            ViewBag.Message = "Search results for: " + query;
+        //            break;
+        //    }
 
             
-            foreach (var item in t_bookList)
-            {
-                model = Mapper.Map<BookViewModel>(item);
-                model.AvgRating = 0;
-                foreach (var item2 in item.BookRatings)
-                {
-                    model.AvgRating += item2.Rating;
-                }
+        //    foreach (var item in t_bookList)
+        //    {
+        //        model = Mapper.Map<BookViewModel>(item);
+        //        model.AvgRating = 0;
+        //        foreach (var item2 in item.BookRatings)
+        //        {
+        //            model.AvgRating += item2.Rating;
+        //        }
 
-                if (item.BookRatings.Count > 0)
-                {
-                    model.AvgRating = model.AvgRating / item.BookRatings.Count;
-                }
+        //        if (item.BookRatings.Count > 0)
+        //        {
+        //            model.AvgRating = model.AvgRating / item.BookRatings.Count;
+        //        }
 
-                bookList.Add(model);
-            }
+        //        bookList.Add(model);
+        //    }
 
-            return View(bookList.ToList());
+        //    return View(bookList.ToList());
             
-        }
+        //}
 
         public ActionResult ProductDetails(int? id)
         {
@@ -361,7 +361,7 @@ namespace GeekBooks.Controllers
             return View(book);
         }        
         
-        public ActionResult Filter(String queries)
+        public ActionResult Filter(String queries, String sortS, bool save)
         {
             List<Book> books = new List<Book>();
             List<FilterViewModel> bookList = new List<FilterViewModel>();
@@ -457,7 +457,15 @@ namespace GeekBooks.Controllers
                     fvm.AvgRating = fvm.AvgRating / book.BookRatings.Count;
                 }
                 fvm.Queries = qList;
-                fvm.sortName = sort;
+                if (save)
+                {
+                    fvm.sortName = sortS;
+                }
+                else
+                {
+                    fvm.sortName = sort;
+                }
+                
                 bookList.Add(fvm);
             }
 
