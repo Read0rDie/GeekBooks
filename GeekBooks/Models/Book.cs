@@ -16,7 +16,7 @@ namespace GeekBooks.Models
         public int AuthorID { get; set; }
 
         [Display(Name ="Book Name")]
-        [StringLength(255)]
+        [StringLength(256)]
         public string BookName { get; set; }
 
         [Display(Name = "Cover Image")]

@@ -68,7 +68,7 @@
         </div>
         <div class="col-sm-8" >
             <h1>@Model.BookName</h1>
-            <h4>by @Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</h4>
+            <h4>by @Html.ActionLink(Model.Author.AuthorName, "Filter", "Store", new { queries = Model.Author.AuthorName + "0", sortS = "title", save = true }, null)</h4>
             
             @{
                 string synopsis = Model.Synopsis;
@@ -107,7 +107,7 @@
                 </tr>
                 <tr>
                     <td>Author: </td>
-                    <td>@Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 1 }, null)</td>
+                    <td>@Html.ActionLink(Model.Author.AuthorName, "Search", "Store", new { query = Model.Author.AuthorName, type = 0 }, null)</td>
                 </tr>
                 <tr>
                     <td>Genre: </td>
@@ -236,39 +236,5 @@
         </div>
     </div>
 
-<script>
-    $(function () {
-        $('.smoothScroll').click(function () {
-            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-                var target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-                if (target.length) {
-                    $('html,body').animate({
-                        scrollTop: target.offset().top
-                    }, 800);
-                    return false;
-                }
-            }
-        });
-    });
 
-    $('#more').click(function () {
-        $('#complete').css({
-            'display': 'unset'
-        });
-        $('#partial').css({
-            'display': 'none'
-        });
-    });
-
-    $('#less').click(function () {
-        $('#complete').css({
-            'display': 'none'
-        });
-        $('#partial').css({
-            'display': 'unset'
-        });
-    });
-       
-</script>
 

@@ -436,6 +436,7 @@
 
             @if (Model.Pager.EndPage > 1)
             {
+                
                 <ul class="pagination" style="float:right">
                     @if (Model.Pager.CurrentPage > 1)
                     {
@@ -446,12 +447,72 @@
                             <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage - 1), itemCount = Model.ItemsPerPage})'>Previous</a>
                         </li>
                     }
-
-                    @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    @if (Model.Pager.EndPage < 6)
                     {
-                        <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = page, itemCount = Model.ItemsPerPage})'>@page</a>
-                        </li>}
+                        for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                        {
+                            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = page, itemCount = Model.ItemsPerPage })'>@page</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="@(Model.Pager.CurrentPage == 1 ? "active" : "")">
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = 1, itemCount = Model.ItemsPerPage })'>1</a>
+                        </li>
+                        if (Model.Pager.CurrentPage - 1 > 2)
+                        {
+                            <li>
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage - 2), itemCount = Model.ItemsPerPage})'>...</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="@(Model.Pager.CurrentPage == 2 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = 2, itemCount = Model.ItemsPerPage })'>2</a>
+                            </li>
+                            <li class="@(Model.Pager.CurrentPage == 3 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = 3, itemCount = Model.ItemsPerPage })'>3</a>
+                            </li>
+                            <li class="@(Model.Pager.CurrentPage == 4 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = 4, itemCount = Model.ItemsPerPage })'>4</a>
+                            </li>                            
+                        }
+                        if (Model.Pager.CurrentPage > 3 && Model.Pager.CurrentPage < (Model.Pager.EndPage - 2))
+                        {
+                            for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                            {
+                                if ((Math.Abs(Model.Pager.CurrentPage - page) < 2) && page > 1 && page < Model.Pager.EndPage)
+                                {
+                                    <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                                        <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = page, itemCount = Model.ItemsPerPage })'>@page</a>
+                                    </li>
+                                }
+                            }                            
+                        }
+                        if (Model.Pager.EndPage - Model.Pager.CurrentPage > 2)
+                        {
+                            <li>
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage + 2), itemCount = Model.ItemsPerPage})'>...</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="@(Model.Pager.CurrentPage == Model.Pager.EndPage - 3 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = Model.Pager.EndPage - 3, itemCount = Model.ItemsPerPage })'>@(Model.Pager.EndPage - 3)</a>
+                            </li>
+                            <li class="@(Model.Pager.CurrentPage == Model.Pager.EndPage - 2 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = Model.Pager.EndPage - 2, itemCount = Model.ItemsPerPage })'>@(Model.Pager.EndPage - 2)</a>
+                            </li>
+                            <li class="@(Model.Pager.CurrentPage == Model.Pager.EndPage -1 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = Model.Pager.EndPage - 1, itemCount = Model.ItemsPerPage })'>@(Model.Pager.EndPage - 1)</a>
+                            </li>
+                        }
+                        <li class="@(Model.Pager.CurrentPage == Model.Pager.EndPage ? "active" : "")">
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = Model.Pager.EndPage, itemCount = Model.ItemsPerPage })'>@Model.Pager.EndPage</a>
+                        </li>
+                    }
 
                     @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                     {
@@ -471,12 +532,12 @@
                     @foreach (var item in Model.Items)
                     {
                         <tr>
-                            <td>
+                            <td style="vertical-align:middle">
                                 @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
                             </td>
                             <td>
                                 <h3>@item.BookName</h3>
-                                <h4>by @Html.ActionLink(item.Author.AuthorName, "Search", "Store", new { query = item.Author.AuthorName, type = 1 }, null)</h4>
+                                <h4>by @Html.ActionLink(item.Author.AuthorName, "Filter", "Store", new { queries = item.Author.AuthorName + "0", sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage }, null)</h4>
                                 <p>@item.Synopsis</p>
                                 <h4>Price: $@item.Price</h4>
                                 <div style="margin-top: 3px;">
@@ -506,7 +567,8 @@
 
             @if (Model.Pager.EndPage > 1)
             {
-                <ul class="pagination" style="float: right">
+                
+                <ul class="pagination" style="float:right">
                     @if (Model.Pager.CurrentPage > 1)
                     {
                         <li>
@@ -516,12 +578,72 @@
                             <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage - 1), itemCount = Model.ItemsPerPage})'>Previous</a>
                         </li>
                     }
-
-                    @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    @if (Model.Pager.EndPage < 6)
                     {
-                        <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = page, itemCount = Model.ItemsPerPage})'>@page</a>
-                        </li>}
+                        for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                        {
+                            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = page, itemCount = Model.ItemsPerPage })'>@page</a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="@(Model.Pager.CurrentPage == 1 ? "active" : "")">
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = 1, itemCount = Model.ItemsPerPage })'>1</a>
+                        </li>
+                        if (Model.Pager.CurrentPage - 1 > 2)
+                        {
+                            <li>
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage - 2), itemCount = Model.ItemsPerPage})'>...</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="@(Model.Pager.CurrentPage == 2 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = 2, itemCount = Model.ItemsPerPage })'>2</a>
+                            </li>
+                            <li class="@(Model.Pager.CurrentPage == 3 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = 3, itemCount = Model.ItemsPerPage })'>3</a>
+                            </li>
+                            <li class="@(Model.Pager.CurrentPage == 4 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = 4, itemCount = Model.ItemsPerPage })'>4</a>
+                            </li>
+                        }
+                        if (Model.Pager.CurrentPage > 3 && Model.Pager.CurrentPage < (Model.Pager.EndPage - 2))
+                        {
+                            for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                            {
+                                if ((Math.Abs(Model.Pager.CurrentPage - page) < 2) && page > 1 && page < Model.Pager.EndPage)
+                                {
+                                    <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                                        <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = page, itemCount = Model.ItemsPerPage })'>@page</a>
+                                    </li>
+                                }
+                            }
+                        }
+                        if (Model.Pager.EndPage - Model.Pager.CurrentPage > 2)
+                        {
+                            <li>
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage + 2), itemCount = Model.ItemsPerPage})'>...</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="@(Model.Pager.CurrentPage == Model.Pager.EndPage - 3 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = Model.Pager.EndPage - 3, itemCount = Model.ItemsPerPage })'>@(Model.Pager.EndPage - 3)</a>
+                            </li>
+                            <li class="@(Model.Pager.CurrentPage == Model.Pager.EndPage - 2 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = Model.Pager.EndPage - 2, itemCount = Model.ItemsPerPage })'>@(Model.Pager.EndPage - 2)</a>
+                            </li>
+                            <li class="@(Model.Pager.CurrentPage == Model.Pager.EndPage -1 ? "active" : "")">
+                                <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = Model.Pager.EndPage - 1, itemCount = Model.ItemsPerPage })'>@(Model.Pager.EndPage - 1)</a>
+                            </li>
+                        }
+                        <li class="@(Model.Pager.CurrentPage == Model.Pager.EndPage ? "active" : "")">
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = Model.Pager.EndPage, itemCount = Model.ItemsPerPage })'>@Model.Pager.EndPage</a>
+                        </li>
+                    }
 
                     @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                     {
