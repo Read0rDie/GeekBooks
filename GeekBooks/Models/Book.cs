@@ -121,6 +121,8 @@ namespace GeekBooks.Models
         public Pager Pager { set; get; }
 
         public int ItemsPerPage { set; get; }
+
+        public int totalCount { set; get; }
     }
 
 

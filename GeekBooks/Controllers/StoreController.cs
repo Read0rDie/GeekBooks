@@ -224,7 +224,7 @@ namespace GeekBooks.Controllers
             return PartialView(bookList.ToList());
         }
 
-        public ActionResult Search(string query, int? type, int? itemCount, int? page)
+        public ActionResult Search(string query, int? type, String sortS, bool? save, int? itemCount, int? page)
         {
             List<Book> t_bookList = new List<Book>();
             List<BookViewModel> bookList = new List<BookViewModel>();
@@ -234,7 +234,12 @@ namespace GeekBooks.Controllers
             var books = from b in db.Books
                         select b;
 
-            string sort = Request.Form["sort"];
+            if (save == null)
+            {
+                save = false;
+            }
+
+            string sort = (bool)save ? sortS : Request.Form["sort"];
 
             switch (sort)
             {
@@ -318,21 +323,22 @@ namespace GeekBooks.Controllers
                 }
 
                 bookList.Add(model);
-
-                int IPP = (itemCount != null) ? (int)itemCount : 5;
-                var pager = new Pager(bookList.Count(), page, IPP);
-
-                var viewModel = new SearchViewModel
-                {
-                    Items = bookList.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                    Pager = pager,
-                    Query = new Query { query = query, type = type },
-                    SortName = sort,
-                    ItemsPerPage = IPP
-                };
             }
 
-            return View(bookList.ToList());
+            int IPP = (itemCount != null) ? (int)itemCount : 5;
+            var pager = new Pager(bookList.Count(), page, IPP);
+
+            var viewModel = new SearchViewModel
+            {
+                Items = bookList.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                Pager = pager,
+                Query = new Query { query = query, type = type },
+                SortName = (bool)save ? sortS : sort,
+                ItemsPerPage = IPP,
+                totalCount = bookList.Count()
+            };
+
+            return View(viewModel);
         }
 
         public ActionResult ProductDetails(int? id)

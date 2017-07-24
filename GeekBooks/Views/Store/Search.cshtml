@@ -5,19 +5,103 @@
     ViewBag.Title = "Search";
 }
 
+
+<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>
+
+<style>
+    .bootstrap-select.btn-group .dropdown-menu li.disabled a {
+        cursor:default;
+    }
+    .btn.dropdown-toggle.btn-default {
+        color: #e95420;
+        background-color: white;
+        border-color: #dddddd;
+    }
+</style>
+
 <div class="container">
     <h2>@ViewBag.Message</h2>
-    <div align ="right">Sort results by:
-        <form method="post">
-            <select id="sort" name="sort">
-                <option value="title">Title</option>
-                <option value="author">Author</option>
-                <option value="price">Price</option>
-                <option value="rating">Rating</option>
-                <option value="release">Release date</option>
+
+    @{
+        int start = Model.ItemsPerPage * (Model.Pager.CurrentPage - 1) + 1;
+        int end = (Model.ItemsPerPage * (Model.Pager.CurrentPage)) <= Model.totalCount ? (Model.ItemsPerPage * (Model.Pager.CurrentPage)) : Model.totalCount;
+    }
+    @if (Model.Items.Count() > 1)
+    {
+        <p>
+            Displaying @start - @end of @Model.totalCount results
+        </p>
+    }
+    else
+    {
+        <p>
+            @Model.Items.Count() result
+        </p>
+    }
+
+    <div class="col-md-12 row" style="margin:0; padding:0">
+        <div class="col-md-6">
+    @if (Model.totalCount > 5)
+            {
+        <ul class="pagination" style="float: left" id="exp">
+            <li>
+                <a id="expand" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Results @Model.ItemsPerPage <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+            </li>
+        </ul>
+    }
+    <ul class="pagination" style="display:none; float: left" id="pageitems">
+        @if (Model.totalCount > 5)
+        {
+            <li>
+                <a id="shrink" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Results @Model.ItemsPerPage <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+            </li>
+                    <li>
+                        <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = Model.Pager.CurrentPage, sortS = Model.SortName, save = true, itemCount = 5})'>5</a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = Model.Pager.CurrentPage, sortS = Model.SortName, save = true, itemCount = 10})'>10</a>
+                    </li>
+        }
+        @if (Model.totalCount > 10)
+        {
+            <li>
+                <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = Model.Pager.CurrentPage, sortS = Model.SortName, save = true, itemCount = 25})'>25</a>
+            </li>
+        }
+        @if (Model.totalCount > 25)
+        {
+            <li>
+                <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = Model.Pager.CurrentPage, sortS = Model.SortName, save = true, itemCount = 50})'>50</a>
+            </li>
+        }
+        @if (Model.totalCount > 50)
+        {
+            <li>
+                <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = Model.Pager.CurrentPage, sortS = Model.SortName, save = true, itemCount = 100})'>100</a>
+            </li>
+        }
+    </ul>
+</div>
+
+
+    <div class="col-md-6" style="margin-top:20px; margin-bottom: 20px" align="right">
+
+        @using (Html.BeginForm("Search", "Store", new { query = Model.Query.query, type = Model.Query.query, save = false, itemCount = Model.ItemsPerPage }, FormMethod.Post, null))
+        {
+            <select id="sort" class="selectpicker sortbutton" style="width:100%; padding:0; margin:0" name="sort" onchange="this.form.submit();">
+                <option disabled selected>Sort results by:</option>
+                <option id="title" value="title">Title</option>
+                <option id="author" value="author">Author</option>
+                <option id="price" value="price">Price</option>
+                <option id="rating" value="rating">Rating</option>
+                <option id="release" value="release">Release date</option>
             </select>
-            <input type="submit" value="Go">
-        </form>
+        }
+    </div>
+    </div>  
         <table class="table">
                 @foreach (var item in Model.Items)
                 {                
@@ -52,7 +136,7 @@
                     </tr>
                 }        
         </table>
-    </div>
+   
     
     @if (Model.Pager.EndPage > 1)
             {
@@ -60,28 +144,61 @@
             @if (Model.Pager.CurrentPage > 1)
             {
                 <li>
-                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, itemCount = Model.ItemsPerPage})'>First</a>
+                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage})'>First</a>
                 </li>
                         <li>
-                            <a href='@Url.Action("Serach", "Store", new { query = Model.Query.query, type = Model.Query.type, itemCount = Model.ItemsPerPage, page = (Model.Pager.CurrentPage - 1)})'>Previous</a>
+                            <a href='@Url.Action("Serach", "Store", new { query = Model.Query.query, type = Model.Query.type, itemCount = Model.ItemsPerPage, save = true, sortS = Model.SortName, page = (Model.Pager.CurrentPage - 1)})'>Previous</a>
                         </li>
             }
 
             @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
             {
                 <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = page, itemCount = Model.ItemsPerPage})'>@page</a>
+                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = page, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage})'>@page</a>
                 </li>}
 
             @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
             {
                 <li>
-                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = (Model.Pager.CurrentPage + 1), itemCount = Model.ItemsPerPage})'>Next</a>
+                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, sortS = Model.SortName, page = (Model.Pager.CurrentPage + 1), save = true, itemCount = Model.ItemsPerPage})'>Next</a>
                 </li>
                         <li>
-                            <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = (Model.Pager.TotalPages), itemCount = Model.ItemsPerPage})'>Last</a>
+                            <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, sortS = Model.SortName, page = (Model.Pager.TotalPages), save = true, itemCount = Model.ItemsPerPage})'>Last</a>
                         </li>
             }
         </ul>
     }
 </div>
+
+<script>
+    @{
+
+        String sort = Model.SortName;
+    }
+
+    var id = '@sort';
+    document.getElementById(id).selected = 'selected';
+
+</script>
+
+<script>
+    $('#expand').click(function (e) {
+        $('#pageitems').css({
+            'display': 'unset'
+        });
+        $('#exp').css({
+            'display': 'none'
+        });
+        e.preventDefault();
+    });
+
+    $('#shrink').click(function (e) {
+        $('#pageitems').css({
+            'display': 'none'
+        });
+        $('#exp').css({
+            'display': 'unset'
+        });
+        e.preventDefault();
+    });
+</script>
