@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GeekBooks.Models.BookViewModel>
+﻿@model GeekBooks.Models.SearchViewModel
 @using GeekBooks.Helpers
 
 @{
@@ -19,7 +19,7 @@
             <input type="submit" value="Go">
         </form>
         <table class="table">
-                @foreach (var item in Model)
+                @foreach (var item in Model.Items)
                 {                
                     <tr>
                         <td>
@@ -47,19 +47,41 @@
                                         <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
                                     }
                                 }
-                            </div>
-                            @if(item.Stock > 0)
-                            {
-                                <h2>Still in Stock</h2>
-                                <input class="csbutton" type="submit" value="Add to Cart" />
-                            }
-                            else
-                            {
-                                <h2>Out of Stock!</h2>                            
-                            }                        
+                            </div>                                          
                         </td>
                     </tr>
                 }        
         </table>
     </div>
+    
+    @if (Model.Pager.EndPage > 1)
+            {
+        <ul class="pagination" style="float: right">
+            @if (Model.Pager.CurrentPage > 1)
+            {
+                <li>
+                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, itemCount = Model.ItemsPerPage})'>First</a>
+                </li>
+                        <li>
+                            <a href='@Url.Action("Serach", "Store", new { query = Model.Query.query, type = Model.Query.type, itemCount = Model.ItemsPerPage, page = (Model.Pager.CurrentPage - 1)})'>Previous</a>
+                        </li>
+            }
+
+            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+            {
+                <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = page, itemCount = Model.ItemsPerPage})'>@page</a>
+                </li>}
+
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li>
+                    <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = (Model.Pager.CurrentPage + 1), itemCount = Model.ItemsPerPage})'>Next</a>
+                </li>
+                        <li>
+                            <a href='@Url.Action("Search", "Store", new { query = Model.Query.query, type = Model.Query.type, page = (Model.Pager.TotalPages), itemCount = Model.ItemsPerPage})'>Last</a>
+                        </li>
+            }
+        </ul>
+    }
 </div>

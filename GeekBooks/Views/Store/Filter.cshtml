@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GeekBooks.Models.FilterViewModel>
+﻿@model FilterViewModel
 @using GeekBooks.Helpers
 @using GeekBooks.Models
 
@@ -32,6 +32,10 @@
         padding: 10px 30px;
         text-decoration:none;
         color:black;
+    }
+
+    a.filter.expand{
+        color: #e95420;
     }
 
     a.filter:hover{
@@ -73,10 +77,12 @@
         border: 2px solid #BDC3C7;
     }
 
-        .csbutton.inactive:hover {
-            background-color: #BDC3C7;
-            color: white;            
-        }
+    .csbutton.inactive:hover {
+        background-color: #BDC3C7;
+        color: white;            
+    }
+
+    
     
 </style>
 
@@ -87,9 +93,8 @@
             <div class="col-md-12">
                 <h5><b>Applied Filters</b></h5>
             </div>
-            @{ 
-                var filters = Model.FirstOrDefault();
-                if(filters.Queries.Count == 0)
+            @{
+                if(Model.Queries.Count == 0)
                 {                    
                     <div class="col-md-12 break">
                         <p>______________________</p>
@@ -97,9 +102,9 @@
                 }
             }
         
-            @foreach (var item in filters.Queries)
+            @foreach (var item in Model.Queries)
             {
-                List<Query> filter = filters.Queries.ToList();
+                List<Query> filter = Model.Queries.ToList();
                 String fname = item.query;
                 filter.Remove(item);
                 String newQuery = "";
@@ -117,7 +122,7 @@
                     count++;
                 }
                 <div class=" col-md-12 tag" style="padding: 0">
-                    <a class ="appfilter" href='@Url.Action("Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true})'>
+                    <a class ="appfilter" href='@Url.Action("Filter", "Store", new { queries = newQuery, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage})'>
                         <div class="col-md-10">
                             <h5>@fname</h5>
                         </div>
@@ -139,9 +144,9 @@
                 @{ 
                     String qString = "";
                     int qCount = 1;
-                    foreach (var item in filters.Queries)
+                    foreach (var item in Model.Queries)
                     {
-                        if (qCount < filters.Queries.Count)
+                        if (qCount < Model.Queries.Count)
                         {
                             qString = qString + item.query + item.type + ",";
                         }
@@ -154,7 +159,7 @@
                 }
                 
 
-                @using (Html.BeginForm("Filter", "Store", new { queries = qString, save = false }, FormMethod.Post, null))
+                @using (Html.BeginForm("Filter", "Store", new { queries = qString, save = false, itemCount = Model.ItemsPerPage }, FormMethod.Post, null))
                 {
                     <select id="sort" class="selectpicker col-md-12" style="width:100%; padding:0; margin:0" name="sort" onchange="this.form.submit();">
                         <option id="title" value="title">Title</option>
@@ -184,12 +189,12 @@
                     <h5 style="padding-left:20px; margin-top: 10px; margin-bottom: 10px"><b>Genre</b></h5>
                 </div>
                     HashSet<String> categories = new HashSet<string>();
-                foreach (var item in Model)
+                foreach (var item in Model.FilterItems)
                 {
                     foreach (var genre in item.Genre)
                     {
                         bool found = false;
-                        foreach (var query in item.Queries)
+                        foreach (var query in Model.Queries)
                         {
                             if (query.query == genre.GenreTitle)
                             {
@@ -214,13 +219,13 @@
                     foreach (var item in categories)
                     {
                         String newQuery = "";
-                        foreach (var query in filters.Queries)
+                        foreach (var query in Model.Queries)
                         {
                             newQuery = newQuery + query.query + query.type + ",";
                         }
                         newQuery += item + "1";
                         <div class="col-md-12" style="padding:0">
-                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter"})</i></h5>
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage }, new { @class = "filter"})</i></h5>
                         </div>
                     }
                 }
@@ -230,17 +235,17 @@
                         @foreach (var item in categories)
                         {
                         String newQuery = "";
-                        foreach (var query in filters.Queries)
+                        foreach (var query in Model.Queries)
                         {
                         newQuery = newQuery + query.query + query.type + ",";
                         }
                         newQuery += item + "1";
                         <div class="col-md-12" style="padding:0">
-                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter"})</i></h5>
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage }, new { @class = "filter"})</i></h5>
                         </div>
                         }
-                        <div class="col-md-12" style="padding-left:30px">
-                            <a href="#" id="less">less</a>
+                        <div class="col-md-12" style="padding: 0">
+                            <a class="filter expand" href="#" id="less">less</a>
                         </div>
                     </div>
                     <div id="partial" class="col-md-12" style="margin:0; padding:0; display:contents">
@@ -249,13 +254,13 @@
                             foreach (var item in categories)
                             {                                
                                 String newQuery = "";
-                                foreach (var query in filters.Queries)
+                                foreach (var query in Model.Queries)
                                 {
                                     newQuery = newQuery + query.query + query.type + ",";
                                 }
                                 newQuery += item + "1";
                                 <div class="col-md-12" style="padding:0">
-                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter" })</i></h5>
+                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage }, new { @class = "filter" })</i></h5>
                                 </div>
                                 inc++;
                                 if(inc == 5)
@@ -264,8 +269,8 @@
                                 }
                             }
                         }
-                        <div class="col-md-12" style="padding-left: 30px">
-                            <a href="#" id="more" >more</a>
+                        <div class="col-md-12" style="padding:0">
+                            <a class="filter expand" href="#" id="more" >more</a>
                         </div>
                     </div>
                 }
@@ -276,10 +281,10 @@
             </div>        
             @{
                 HashSet<String> categoriesA = new HashSet<string>();
-                foreach (var item in Model)
+                foreach (var item in Model.FilterItems)
                 {
                     bool found = false;
-                    foreach (var query in item.Queries)
+                    foreach (var query in Model.Queries)
                     {
                         if (query.query == item.Author.AuthorName)
                         {
@@ -305,13 +310,13 @@
                     foreach (var item in categoriesA)
                     {
                         String newQuery = "";
-                        foreach (var query in filters.Queries)
+                        foreach (var query in Model.Queries)
                         {
                             newQuery = newQuery + query.query + query.type + ",";
                         }
                         newQuery += item + "0";
                         <div class="col-md-12" style="padding:0">
-                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter"})</i></h5>
+                            <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage }, new { @class = "filter"})</i></h5>
                         </div>
                     }
                 }
@@ -321,17 +326,17 @@
                         @foreach (var item in categoriesA)
                         {
                             String newQuery = "";
-                            foreach (var query in filters.Queries)
+                            foreach (var query in Model.Queries)
                             {
                                 newQuery = newQuery + query.query + query.type + ",";
                             }
                             newQuery += item + "0";
                             <div class="col-md-12" style="padding:0">
-                                <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter"})</i></h5>
+                                <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage }, new { @class = "filter"})</i></h5>
                             </div>
                         }
-                        <div class="col-md-12" style="padding-left:30px">
-                            <a href="#" id="lessA">less</a>
+                        <div class="col-md-12" style="padding:0">
+                            <a class="filter expand" href="#" id="lessA">less</a>
                         </div>
                     </div>
                     <div id="partialA" class="col-md-12" style="margin:0; padding:0; display:contents">
@@ -340,13 +345,13 @@
                             foreach (var item in categoriesA)
                             {
                                 String newQuery = "";
-                                foreach (var query in filters.Queries)
+                                foreach (var query in Model.Queries)
                                 {
                                     newQuery = newQuery + query.query + query.type + ",";
                                 }
                                 newQuery += item + "0";
                                 <div class="col-md-12" style="padding:0">
-                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = filters.sortName, save = true }, new { @class = "filter" })</i></h5>
+                                    <h5 style="margin:0; padding:0"><i>@Html.ActionLink(@item, "Filter", "Store", new { queries = newQuery, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage }, new { @class = "filter" })</i></h5>
                                 </div>
                                 inc++;
                                 if (inc == 5)
@@ -355,8 +360,10 @@
                                 }
                             }
                         }
-                        <div class="col-md-12" style="padding-left: 30px">
-                            <a href="#" id="moreA">more</a>
+
+
+                        <div class="col-md-12" style="padding:0">
+                            <a class="filter expand" href="#" id="moreA">more</a>
                         </div>
                     </div>
                             }
@@ -368,50 +375,173 @@
 
     <div class="col-md-7">
         <h2>@ViewBag.Message</h2>
-        <div align="right">            
-            <table class="table">
-                @foreach (var item in Model)
+
+        <div style="margin:0; padding:0">
+            @{ 
+                int start = Model.ItemsPerPage * (Model.Pager.CurrentPage - 1) + 1;
+                int end  = (Model.ItemsPerPage * (Model.Pager.CurrentPage)) <= Model.FilterItems.Count() ? (Model.ItemsPerPage * (Model.Pager.CurrentPage)) : Model.FilterItems.Count();
+            }
+            @if(Model.FilterItems.Count() > 1)
+            {
+                <p>
+                    Displaying @start - @end of @Model.FilterItems.Count() results
+                </p>
+            }
+            else
+            {
+                <p>
+                    @Model.FilterItems.Count() result
+                </p>
+            }
+            @if (Model.FilterItems.Count() > 5)
+            {
+                <ul class="pagination" style="float: left" id="exp">
+                    <li>
+                        <a id="expand" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Results @Model.ItemsPerPage <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                    </li>                
+                </ul>
+            }
+            <ul class="pagination" style="display:none; float: left" id="pageitems">    
+                @if (Model.FilterItems.Count() > 5)
                 {
-                    <tr>
-                        <td>
-                            @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
-                        </td>
-                        <td>
-                            <h3>@item.BookName</h3>
-                            <h4>by @Html.ActionLink(item.Author.AuthorName, "Search", "Store", new { query = item.Author.AuthorName, type = 1 }, null)</h4>
-                            <p>@item.Synopsis</p>
-                            <h4>Price: $@item.Price</h4>
-                            <div style="margin-top: 3px;">
-                                @for (var i = 1; i <= 5; i++)
-                                {
-                                    if (i <= item.AvgRating)
+                    <li>
+                        <a id="shrink" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Results @Model.ItemsPerPage <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, itemCount = 5})'>5</a>
+                    </li>
+                    <li>
+                        <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, itemCount = 10})'>10</a>
+                    </li>
+                }
+                @if (Model.FilterItems.Count() > 10)
+                {
+                    <li>
+                        <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, itemCount = 25})'>25</a>
+                    </li>
+                }
+                @if (Model.FilterItems.Count() > 25)
+                {
+                    <li>
+                        <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, itemCount = 50})'>50</a>
+                    </li>
+                }
+                @if (Model.FilterItems.Count() > 50)
+                {
+                    <li>
+                        <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, itemCount = 100})'>100</a>
+                    </li>
+                }
+            </ul>
+
+            @if (Model.Pager.EndPage > 1)
+            {
+                <ul class="pagination" style="float:right">
+                    @if (Model.Pager.CurrentPage > 1)
+                    {
+                        <li>
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage})'>First</a>
+                        </li>
+                        <li>
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage - 1), itemCount = Model.ItemsPerPage})'>Previous</a>
+                        </li>
+                    }
+
+                    @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+                        <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = page, itemCount = Model.ItemsPerPage})'>@page</a>
+                        </li>}
+
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <li>
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage + 1), itemCount = Model.ItemsPerPage})'>Next</a>
+                        </li>
+                        <li>
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.TotalPages), itemCount = Model.ItemsPerPage})'>Last</a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>    
+
+            <div align="right">
+                <table class="table">
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.CoverUrl)
+                            </td>
+                            <td>
+                                <h3>@item.BookName</h3>
+                                <h4>by @Html.ActionLink(item.Author.AuthorName, "Search", "Store", new { query = item.Author.AuthorName, type = 1 }, null)</h4>
+                                <p>@item.Synopsis</p>
+                                <h4>Price: $@item.Price</h4>
+                                <div style="margin-top: 3px;">
+                                    @for (var i = 1; i <= 5; i++)
                                     {
-                                        <i style="color:darkorange" class="fa fa-star fa-2x"></i>
-                                        if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                        if (i <= item.AvgRating)
                                         {
-                                            <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                            <i style="color:darkorange" class="fa fa-star fa-2x"></i>
+                                            if ((item.AvgRating - i) > 0 && (item.AvgRating - i) < 1)
+                                            {
+                                                <i style="color:darkorange" class="fa fa-star-half-full fa-2x"></i>
+                                            }
+                                        }
+
+                                        if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
+                                        {
+                                            <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
                                         }
                                     }
+                                </div>
 
-                                    if ((i > Math.Ceiling(item.AvgRating)) && (i <= 5))
-                                    {
-                                        <i style="color:darkorange" class="fa fa-star-o fa-2x"></i>
-                                    }
-                                }
-                            </div>
-                            
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
-    </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            @if (Model.Pager.EndPage > 1)
+            {
+                <ul class="pagination" style="float: right">
+                    @if (Model.Pager.CurrentPage > 1)
+                    {
+                        <li>
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, itemCount = Model.ItemsPerPage})'>First</a>
+                        </li>
+                        <li>
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage - 1), itemCount = Model.ItemsPerPage})'>Previous</a>
+                        </li>
+                    }
+
+                    @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+                        <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = page, itemCount = Model.ItemsPerPage})'>@page</a>
+                        </li>}
+
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <li>
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.CurrentPage + 1), itemCount = Model.ItemsPerPage})'>Next</a>
+                        </li>
+                        <li>
+                            <a href='@Url.Action("Filter", "Store", new { queries = qString, sortS = Model.SortName, save = true, page = (Model.Pager.TotalPages), itemCount = Model.ItemsPerPage})'>Last</a>
+                        </li>
+                    }
+                </ul>
+            }
+
+</div>    
 
 </div>
 <script>
     @{
-        var fvm = Model.FirstOrDefault();
-        String sort = fvm.sortName;
+        
+        String sort = Model.SortName;
     }
 
     var id = '@sort';
@@ -457,6 +587,26 @@
         $('#partialA').css({
             'display': 'unset'
         });
+        e.preventDefault();
+    });
+
+    $('#expand').click(function (e) {       
+        $('#pageitems').css({
+            'display': 'unset'
+        });
+        $('#exp').css({
+            'display': 'none'
+        });
+        e.preventDefault();
+    });
+
+    $('#shrink').click(function (e) {
+        $('#pageitems').css({
+            'display': 'none'
+        });
+        $('#exp').css({
+            'display': 'unset'
+        });        
         e.preventDefault();
     });
 </script>
