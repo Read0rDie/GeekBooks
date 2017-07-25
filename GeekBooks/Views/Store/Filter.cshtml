@@ -82,12 +82,34 @@
         color: white;            
     }
 
+.Container {
+    display: flex;
+    overflow: hidden;
+    height: 100vh;
+    margin-top: -70px;       
+    position: relative;
+    width: 100%;
+    backface-visibility: hidden;
+    will-change: overflow;
+}
+
+.Left,
+.Right {
+    overflow: auto;
+    height: auto;        
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;    
+}
     
-    
+.Left::-webkit-scrollbar,
+.Right::-webkit-scrollbar {
+    display:none;    
+}
+
 </style>
 
-<div class="col-md-12" style="margin-top:40px">
-    <div class="col-md-4">
+<div class="col-md-12 Container" onclick="sFunction()">
+    <div class="col-md-4 Left" id="Left" style="padding-top: 120px; padding-bottom: 140px">
         <div class="col-md-3"></div>
         <div class="col-md-7" style="margin:auto; padding:0;">
             <div class="col-md-12">
@@ -373,7 +395,7 @@
         <div class="col-md-2"></div>
     </div>
 
-    <div class="col-md-7">
+    <div class="col-md-7 Right" style="padding-top: 120px; padding-bottom: 140px">
         <h2>@ViewBag.Message</h2>
 
         <div style="margin:0; padding:0">
@@ -730,6 +752,6 @@
             'display': 'unset'
         });        
         e.preventDefault();
-    });
+    });    
 </script>
 
