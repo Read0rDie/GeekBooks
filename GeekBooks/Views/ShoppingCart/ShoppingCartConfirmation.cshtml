@@ -9,13 +9,16 @@
     .row {
         padding: 10px;
         margin-top: 10%;
-        border: solid 2px #e3e3e3;
+        
     }
 
     .special-cs {
         width: 80%;
-        text-decoration: none;
+        text-decoration: none;       
     }
+
+ 
+
 </style>
 
 <div class="container">
@@ -23,18 +26,35 @@
         <div class="cart-wrapper">
             <div class="col-md-offset-3 col-md-3">
                 @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = Model.BookID }, new { @class = "img-thumbnail" }, Model.CoverUrl)
-                <h4>@Model.BookName</h4>
-                <h5>by @Model.Author.AuthorName</h5>
-                <h5>$ @Model.Price</h5>
-
-
             </div>
 
             <div class="col-md-3">
                 <h2>@Model.BookName</h2>
-                <h5>Was added to your shopping cart.</h5>
-                
-                @Html.ActionLink("Continue Shopping", "ProductDetails", "Store", new { id = Model.BookID }, new { @class = "csbutton special-cs" })
+                <h5>Was added to your shopping cart.</h5> 
+                <h5>@Model.BookName</h5>
+                <div id="button-wrapper">
+                    @Html.ActionLink("Continue Shopping", "ProductDetails", "Store", new { id = Model.BookID }, new { @class = "csbutton special-cs" })
+                    <p></p>
+                    @Html.ActionLink("Go To Cart", "Index", "ShoppingCart", null, new { @class = "csbutton special-cs" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cartmodal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = Model.BookID }, new { @class = "img-thumbnail" }, Model.CoverUrl)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

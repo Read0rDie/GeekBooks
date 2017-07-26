@@ -1,5 +1,5 @@
 ﻿@model ICollection<GeekBooks.Models.ShoppingCart>
-
+@using System.Linq
 @using GeekBooks.Helpers
 
 @{
@@ -48,6 +48,15 @@
                             <th>Total</th>
                         </tr>
                     </thead>
+                    @if(!Model.Any())
+                    {
+                       @Html.Raw("</table>")
+                        <div class="text-center">
+                            <h2>Your cart is empty...</h2>
+                            <hr />
+                            <h1 id="home-logo">geekBooks</h1>
+                        </div>
+                    }
                     @foreach (var item in Model)
                     {
                         if (item.SaveForLater)

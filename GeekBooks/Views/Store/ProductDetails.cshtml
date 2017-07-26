@@ -9,6 +9,12 @@
 @section Styles {
     <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" /> 
+<style>
+    .btn-disabled {
+        pointer-events: none;
+        opacity: .2;
+    }
+</style>
 } 
 
 @if (User.Identity.IsAuthenticated)
@@ -17,13 +23,7 @@
     <script src="~/Scripts/bootstrap.min.js"></script>    
 }
 
-<style>
-    .btn-disabled {
-        pointer-events: none;
-        opacity: .2;
-    }
 
-</style>
 
 <div class="container" style="padding-bottom:100px; padding-top:50px">
     <div class="col-md-8">
@@ -90,14 +90,20 @@
             @{
                 if (Model.Stock > 0)
                 {
+                    if (User.Identity.IsAuthenticated) { 
+                    <button onclick="addToCart(@Model.BookID)" class="csbutton">Add to Cart</button>
+                    }
+                    else
+                    {
                     @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, new { @class = "csbutton" })
+                    }
                 }
                 else
                 {
-                    @Html.ActionLink("Out of Stock", "AddBookToCart", "Store", new { bookID = Model.BookID }, new { @class = "csbutton btn-disabled" })
+                        @Html.ActionLink("Out of Stock", "AddBookToCart", "Store", new { bookID = Model.BookID }, new { @class = "csbutton btn-disabled" })
                 }
-            } 
-          
+                }
+
             <a style="text-decoration:none; margin-left: 15px;" class="csbutton smoothScroll" href="#reviews">See Reviews</a>
             <hr />
             <table style="width: 100%">
@@ -236,5 +242,51 @@
         </div>
     </div>
 
+<div id="confirm-modal">
+        <div class="modal fade" id="cartmodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title" id="myModalLabel">You added @Model.BookName to your cart!</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <img src="@Url.Content(Model.CoverUrl)" />
+                        </div>
+                        <div class="col-md-5">
+                            <h4>Title: @Model.BookName</h4>
+                        <h4>by: @Model.Author.AuthorName</h4>
+                        <h5><i class="fa fa-truck"></i> Usually Ships within 24 hours</h5>
+                    </div>
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="csbutton special-cs" data-dismiss="modal">Back</button>
+                    @Html.ActionLink("Go To Cart", "Index", "ShoppingCart", null, new { @class = "csbutton special-cs" })
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+
+        $(function() {
+            
+        });
+
+        function addToCart() {
+            $.ajax({
+                url: '@Url.Action("AddBookToCart", "Store", new { bookID = Model.BookID })',
+
+                success: function (data) {
+                   // $('#confirm-modal').html(data);
+                    $('#cartmodal').modal('show');
+                }
+            });
+        }
+    </script>
 
 
