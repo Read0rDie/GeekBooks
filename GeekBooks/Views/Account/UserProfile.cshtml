@@ -1,4 +1,5 @@
 ﻿@model GeekBooks.Models.UserProfileViewModel
+@using Microsoft.AspNet.Identity;
 @using GeekBooks.Models
 
 @{
@@ -30,22 +31,87 @@
         border: 2px solid #7f8c8d;
     }
 
-    .csbutton.ava {
-        border-color: #F39C12;
-        background-color: #F39C12;
-        text-decoration: none;
-        width: unset;
-    }
+        .csbutton.ava {
+            background-color: white;
+            color: #F39C12;
+            border: 2px solid #F39C12;
+            text-decoration: none;
+            width: unset;
+        }
 
-    .csbutton.ava:hover {
-        background-color: white;
-        color: #F39C12;
-        border: 2px solid #F39C12;
-    }
+            .csbutton.ava:hover {
+                border-color: #F39C12;
+                background-color: #F39C12;
+                border: 2px solid #F39C12;
+                color:white;
+            }
 
     .my-icon {
         text-shadow: 0px 0px 3px #000;
     }
+    .c-icon {
+        border: 2px solid #f39c12;
+        padding: 20px;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+       
+
+        background-color: white;
+        color: #f39c12;
+    }
+
+        .c-icon:hover {
+            background-color: #f39c12;
+            color: white;
+        }
+
+    .c-icon2 {
+        border: 2px solid #f39c12;
+        padding: 22px;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background-color: white;
+        color: #f39c12;
+    }
+
+    .c-icon2:hover {
+        background-color: white;
+        color: #f39c12;
+
+         background-color: #f39c12;
+        color: white;
+    }
+
+    .c-icon3 {
+        border: 2px solid #f39c12;
+        padding: 20px 16px;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background-color: white;
+        color: #f39c12;
+    }
+
+        .c-icon3:hover {
+            
+            background-color: #f39c12;
+            color: white;
+        }
+
+    .section {
+        border: 1px solid #FDE3A7;
+        border-radius: 5px;
+        margin: 0 0 30px 0;
+        padding: 0;
+        vertical-align:middle;
+    }
+
+    .s-title{
+        padding-left: 30px;
+    }
+
 </style>
 
 @using (Html.BeginForm())
@@ -62,8 +128,8 @@
     }
 
 
-    <div class="col-md-12" style="margin:0; padding:0">
-        <div class="col-md-6" style="margin-left:50px; padding:0">
+    <div class="col-md-12" style="margin:0 0 20px 0; padding:0">
+        <div class="col-md-6" style="margin-left:50px; margin-top: 20px; padding:0">
             @if (!Model.AvatarExist)
             {
                 <div class="col-md-4" style="margin-top:20px; padding:0; text-align:center">
@@ -86,20 +152,81 @@
             }
         </div>
         <div class="col-md-5" style="margin:0; padding:0">
-            <div class="row">
-                <div class="col-md-3">
-                    <a href='@Url.Action("Update", "Account", Model)'><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            <table width="100%" style="margin-top:50px">
+                <tr>
+                    <td align="center">                        
+                        <a href='@Url.Action("Update", "Account", Model)'><i class="fa fa-pencil-square-o fa-2x c-icon2" aria-hidden="true"></i></a>                        
+                        <h5>Update Account</h5>
+                    </td>
+                    <td align="center">                        
+                        <a href='@Url.Action("ChangePassword", "Account")'><i class="fa fa-braille fa-2x c-icon3" aria-hidden="true"></i></a>
+                        <h5>Change Password</h5>
+                    </td>
+                    <td align="center">
+                        <a href='@Url.Action("Delete", "Account", Model)'><i class="fa fa-scissors fa-2x c-icon" aria-hidden="true"></i></a>
+                        <h5>Delete Account</h5>                        
+                    </td>
+                </tr>
+            </table>
+            
+        </div>        
+    </div>
+    
+    <div class="col-md-12">
+        <hr />
+        <div class="col-md-4" style="margin:0; padding:0 0 0 20px">
+            
+            <div class="col-md-12 section" >
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <h3 class="s-title">Addresses</h3>
+                        </td>
+                        <td>
+                            <h5>@Html.ActionLink("Details", "Index", "Address")</h5>
+                        </td>
+                    </tr>
+                </table>
+                <hr />
+                <div>
+                    @{
+                        bool found = false;
+                    }
+                    @foreach (var address in Model.AddressList)
+                    {
+                        if (address.IsShipping)
+                        {
+                            <h5 style="text-align:center"> <b>Primary Address - </b>@address.Address1 &nbsp;&nbsp;&nbsp;&nbsp; @address.City, @address.State_Province</h5>                            
+                            found = true;
+                            break;
+                        }
+                    }
+                    @if (!found)
+                    {
+                        <h5 style="text-align:center; color:lightgrey"><b> Shipping Address not Set</b></h5>
+
+                    }
                 </div>
-                <div class="col-md-3">
-                    <a href='@Url.Action("ChangePassword", "Account")'>hello<i></i></a>
+                <hr />
+                <div>
+                    <h5 style="text-align:center">@Html.ActionLink("Add New Address", "Create", "Address", User.Identity.GetUserId(), null)</h5>
                 </div>
-                <div class="col-md-3">
-                    @Html.ActionLink("Delete Profile", "Delete", Model, new { @class= "csbutton" })
+            </div>
+            <div class=" col-md-12 section">
+                <div class="col-md-6">
+                    <h3 class="s-title">Credit Cards</h3>
+                </div>
+                <div class="col-md-6" align="right">
+                    <h3>Details</h3>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="col-md-8" style="margin:0; padding:0">
 
+        </div>
+    </div>
+     
+    
     @*<div class="container">
 
         <fieldset>
@@ -154,6 +281,6 @@
     </div>
     Html.RenderPartial("_CreditCardIndex");*@  
 
-}
+        }
 
 
