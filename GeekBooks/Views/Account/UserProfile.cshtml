@@ -10,12 +10,50 @@
     <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
 }
 
+<style>
+    .csbutton {
+        background-color: #7f8c8d;
+        border: 2px solid #7f8c8d;
+        border-radius: 50px;
+        color: white;
+        padding: 10px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        width: 150px;
+    }
+
+    .csbutton:hover {
+        background-color: white;
+        color: #7f8c8d;
+        border: 2px solid #7f8c8d;
+    }
+
+    .csbutton.ava {
+        border-color: #F39C12;
+        background-color: #F39C12;
+        text-decoration: none;
+        width: unset;
+    }
+
+    .csbutton.ava:hover {
+        background-color: white;
+        color: #F39C12;
+        border: 2px solid #F39C12;
+    }
+
+    .my-icon {
+        text-shadow: 0px 0px 3px #000;
+    }
+</style>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()   
 
     string imageUrl = "error";
-    int AID  = 0;
+    int AID = 0;
 
     if (Model.AvatarExist)
     {
@@ -23,7 +61,46 @@
         imageUrl = Model.AvatarUrl;
     }
 
-    <div class="container">
+
+    <div class="col-md-12" style="margin:0; padding:0">
+        <div class="col-md-6" style="margin-left:50px; padding:0">
+            @if (!Model.AvatarExist)
+            {
+                <div class="col-md-4" style="margin-top:20px; padding:0; text-align:center">
+                    <i style="color: #FB8C00" class="material-icons md-96 orange">account_circle</i>
+                </div>
+                <div class="col-md-8" style="margin:0; padding:0">
+                    <h3 style="padding-bottom:10px; padding-top: 5px">Hello again, @Model.UserName!</h3>
+                    <h4> @Html.ActionLink("Change your avatar", "Create", "Avatar", null, new { @class = "csbutton ava" })</h4>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-4" style="margin-top:20px; padding:0; text-align:center">
+                    <img class="img-circle" src="@Url.Content(imageUrl)" alt="error" style="width:125px; height:125px"/>
+                </div>
+                <div class="col-md-8" style="margin:0; padding:0">
+                    <h3 style="padding-bottom:10px; padding-top: 5px">Hello again, @Model.UserName!</h3>
+                    <h4 style="padding-left:10px"> @Html.ActionLink("Change your avatar", "Edit", "Avatar", new { id = AID }, new { @class = "csbutton ava" })</h4>
+                </div>
+            }
+        </div>
+        <div class="col-md-5" style="margin:0; padding:0">
+            <div class="row">
+                <div class="col-md-3">
+                    <a href='@Url.Action("Update", "Account", Model)'><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </div>
+                <div class="col-md-3">
+                    <a href='@Url.Action("ChangePassword", "Account")'>hello<i></i></a>
+                </div>
+                <div class="col-md-3">
+                    @Html.ActionLink("Delete Profile", "Delete", Model, new { @class= "csbutton" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="container">
 
         <fieldset>
             <legend>Avatar</legend>
@@ -75,7 +152,8 @@
     <div class="container">
         <h2>Credit Cards</h2>
     </div>
-    Html.RenderPartial("_CreditCardIndex");   
+    Html.RenderPartial("_CreditCardIndex");*@  
+
 }
 
 
