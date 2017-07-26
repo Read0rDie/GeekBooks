@@ -531,7 +531,7 @@ namespace GeekBooks.Controllers
                     BookID = bookID
                 };
 
-                return RedirectToAction("_ShoppingCartModal", "ShoppingCart", cartConfrm);
+                return Redirect("/Store/ProductDetails/" + bookID); //RedirectToAction("_ShoppingCartModal", "ShoppingCart", cartConfrm);
             }
             catch(Exception ex)
             {

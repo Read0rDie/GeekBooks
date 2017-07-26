@@ -6,6 +6,8 @@
     ViewBag.Title = "Product Details";
 }
 
+
+
 @section Styles {
     <link href="@Url.Content("~/Content/register.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" /> 
@@ -95,7 +97,8 @@
                     }
                     else
                     {
-                    @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID }, new { @class = "csbutton" })
+                        
+                        @Html.ActionLink("Add to Cart", "AddBookToCart", "Store", new { bookID = Model.BookID, url = Request.UrlReferrer.AbsolutePath }, new { @class = "csbutton" })
                     }
                 }
                 else
