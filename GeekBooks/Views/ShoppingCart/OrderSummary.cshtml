@@ -1,0 +1,137 @@
+﻿@model IEnumerable<GeekBooks.Models.ShoppingCart>
+    @using GeekBooks.Helpers
+
+
+@{
+    ViewBag.Title = "OrderSummary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .this-container {
+        border: 2px solid #e3e3e3;
+    }
+
+    .orange {
+        color: darkorange;
+    }
+
+    .rale {
+        font-family: Raleway;
+    }
+
+</style>
+
+<div class="container this-container">
+    <div class="heading text-center">
+        <h1 class="orange rale">geekBooks</h1>
+        <h2>Thank you for your order, @User.Identity.Name.ToUpperInvariant()</h2>
+        
+        <h3>Order Summary</h3>
+        @{
+            Random random = new Random();
+        }
+        <h4>Your order number is <b>@random.Next()</b></h4>
+        <h4 class="orange">Estimated Ship Date: @DateTime.Today.ToShortDateString()</h4>
+        
+    </div>
+    <hr />
+        <div class="row">
+            <div class="col-md-7">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Item(s)</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    @if (!Model.Any())
+                    {
+                        @Html.Raw("</table>")
+                        <div class="text-center emtpy-cart">
+                            <h1 class="opaque" id="home-logo">geekBooks</h1>
+                            <i class="fa fa-exclamation-circle fa-5x opaque"></i>
+                            <h2 class="opaque">Your cart is empty...</h2>
+                        </div>
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.SaveForLater)
+                        {
+                            continue;
+                        }
+                        <tr>
+                            <td width="70%">
+                                <div class="col-md-3 thumbnail">
+                                    @Html.ImageActionLink(" ", "ProductDetails", "Store", new { id = item.BookID }, null, item.Book.CoverUrl)
+                                </div>
+                                <div class="col-md-9">
+                                    <ul>
+                                        <li><h4>@item.Book.BookName</h4></li>
+                                        <li><h5>by @item.Book.Author.AuthorName</h5></li>
+                                        <li><h5>$ @item.Book.Price</h5></li>
+                                        <li><i class="fa fa-gift"></i> Gift wrap available at checkout</li>
+                                    </ul>
+                                </div>
+                            </td>
+
+                            <td width="25%">
+                                <h4>@item.Quantity</h4>
+                            </td>
+                            @{
+                                var totals = item.Book.Price * item.Quantity;
+                                var taxes = (double)totals * .07;
+
+                            }
+                            <td>$@totals</td>
+                        </tr>
+                                }
+                </table>
+            </div>
+        
+
+        @{
+            var count = 0;
+            decimal tax = 0.07M;
+            decimal total = 0;
+
+            foreach (var item in Model)
+            {
+                count += item.Quantity;
+                total += item.Book.Price * item.Quantity;
+            }
+            tax = Math.Round(total * tax, 2);
+            decimal final = Math.Round(total + tax, 2);
+        }
+
+        <div class="mini-cart col-md-offset-1 col-md-4">
+            <h3 class="text-center">Order Summary</h3>
+
+            <table class="table" style="height: 200px;">
+                <tr>
+                    <td width="90%">Subtotal (@count items)</td>
+                    <td width="10%">$@total</td>
+                </tr>
+                <tr>
+                    <td>Estimated Shipping</td>
+                    <td>Free</td>
+                </tr>
+                <tr style="border-bottom: solid 1px #e3e3e3">
+                    <td>Estimated Tax</td>
+                    <td>$@tax</td>
+                </tr>
+                <tr>
+                    <td><h3>Order Total:</h3></td>
+                    <td><h3>$@final</h3></td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <h2>Questions?</h2>
+                <h4 class="orange">info@geekbooks.com</h4>
+                <h3>Call Customer Serivce</h3>
+                <h4><b>800-GEE-KOUT</b></h4>
+            </div>
+        </div>
+    </div>
+</div>

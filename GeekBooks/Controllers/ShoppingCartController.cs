@@ -66,10 +66,46 @@ namespace GeekBooks.Controllers
             }
         }
 
+        public ActionResult DeleteAllFromCart()
+        {
+            try
+            {
+                ApplicationDbContext db = new ApplicationDbContext();
+                db.Database.ExecuteSqlCommand("DELETE FROM shoppingcart");
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         public ActionResult _ShoppingCartModal(ShoppingCartConfrmCViewModel cartConfrm)
         {
             Book book = db.Books.FirstOrDefault(x => x.BookID == cartConfrm.BookID);
             return View(book);
+        }
+
+        public ActionResult OrderSummary()
+        {
+            string usr = User.Identity.GetUserId();
+            List<ShoppingCart> cartList = new List<ShoppingCart>();
+            
+            cartList = (from a in db.ShoppingCarts
+                        where a.UID == usr
+                        select a).ToList();
+
+            if (cartList.Count <= 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            { 
+                DeleteAllFromCart();
+                return View(cartList);
+            }
         }
 
         protected override void Dispose(bool disposing)

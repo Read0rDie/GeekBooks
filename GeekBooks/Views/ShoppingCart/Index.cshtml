@@ -30,6 +30,19 @@
 
        padding: 3px;                
     }
+
+    .opaque {
+        opacity: .2;
+    }
+
+    .emtpy-cart {
+        margin-top: 10%;
+        
+    }
+
+        .emtpy-cart h2 {
+            font-family: Raleway;
+        }
 </style>
 
 @using (Html.BeginForm())
@@ -38,6 +51,7 @@
 
     <div class="container">
         <h3> Items in Cart </h3>
+        @Html.ActionLink("Empty Cart", "DeleteAllFromCart", "ShoppingCart", null, null)
         <div class="row">
             <div class="col-md-7">
                 <table class="table">
@@ -51,10 +65,10 @@
                     @if(!Model.Any())
                     {
                        @Html.Raw("</table>")
-                        <div class="text-center">
-                            <h2>Your cart is empty...</h2>
-                            <hr />
-                            <h1 id="home-logo">geekBooks</h1>
+                        <div class="text-center emtpy-cart">
+                            <h1 class="opaque" id="home-logo">geekBooks</h1>
+                            <i class="fa fa-exclamation-circle fa-5x opaque"></i>
+                            <h2 class="opaque">Your cart is empty...</h2>
                         </div>
                     }
                     @foreach (var item in Model)
@@ -128,7 +142,7 @@
                     </tr>
                 </table>
                 <div class="text-center">
-                    <input class="csbutton special-cs" type="submit" value="Checkout" />
+                    @Html.ActionLink("Checkout", "OrderSummary", "ShoppingCart", null, new { @class = "csbutton special-cs" })
                     <div class="spacer"></div>
                     @Html.ActionLink("Continue Shopping", "PrevPage", "Store", new { returnurl = Request.UrlReferrer.AbsolutePath}, new { @class = "csbutton special-cs" })
                 </div>
