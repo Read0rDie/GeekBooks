@@ -333,7 +333,7 @@
 
     function addressRender() {
         $.ajax({
-            url: "/Address",     //"@Url.Action("Index", "Address")",
+            url: "/Address", 
                 success: function (data) {
                     $("#view-wrapper").html(data);
                 }
@@ -353,3 +353,6 @@
 
 
 </script>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
