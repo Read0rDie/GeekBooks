@@ -109,7 +109,8 @@
     }
 
     .section-special {
-        margin-left: 5px;
+        height: 391px;
+        margin-left: 20px;
         padding: 0 0 0 5px;
     }
     .s-title{
@@ -120,6 +121,12 @@
         color: darkorange;
         opacity: .5;
         font-family: Raleway !important;
+    }
+
+    #view-render-btn {
+        text-decoration: underline, initial;
+        color: darkorange;
+        cursor: pointer;
     }
 
 </style>
@@ -195,7 +202,7 @@
                             <h3 class="s-title">Addresses</h3>
                         </td>
                         <td>
-                            <h5><a id="view-render-btn" onclick="addressRender()" href="#"> Details</a></h5>
+                            <h5><p id="view-render-btn" onclick="addressRender()" > Details</p></h5>
                         </td>
                     </tr>
                 </table>
@@ -231,7 +238,7 @@
                             <h3 class="s-title">Credit Cards</h3>
                         </td>
                         <td>
-                            <h5><a id="view-render-btn" onclick="creditRender()" href="#"> Details</a></h5>
+                            <h5><p id="view-render-btn" onclick="creditRender()" > Details</p></h5>
                             
                         </td>
                     </tr>
