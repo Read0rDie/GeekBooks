@@ -108,8 +108,18 @@
         vertical-align:middle;
     }
 
+    .section-special {
+        margin-left: 5px;
+        padding: 0 0 0 5px;
+    }
     .s-title{
         padding-left: 30px;
+    }
+
+    .orange h1 {
+        color: darkorange;
+        opacity: .5;
+        font-family: Raleway !important;
     }
 
 </style>
@@ -172,6 +182,8 @@
         </div>        
     </div>
     
+
+    @*Begin Adresses and credit cards*@
     <div class="col-md-12">
         <hr />
         <div class="col-md-4" style="margin:0; padding:0 0 0 20px">
@@ -183,7 +195,7 @@
                             <h3 class="s-title">Addresses</h3>
                         </td>
                         <td>
-                            <h5>@Html.ActionLink("Details", "Index", "Address")</h5>
+                            <h5><a id="view-render-btn" onclick="addressRender()" href="#"> Details</a></h5>
                         </td>
                     </tr>
                 </table>
@@ -213,15 +225,47 @@
                 </div>
             </div>
             <div class=" col-md-12 section">
-                <div class="col-md-6">
-                    <h3 class="s-title">Credit Cards</h3>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <h3 class="s-title">Credit Cards</h3>
+                        </td>
+                        <td>
+                            <h5><a id="view-render-btn" onclick="creditRender()" href="#"> Details</a></h5>
+                            
+                        </td>
+                    </tr>
+                </table>
+                <hr />
+                <div>
+                    @{
+                        bool found2 = false;
+                    }
+                    @foreach (var card in Model.CreditCardList)
+                    {
+                        if (card.IsPreferred)
+                        {
+                            <h5 style="text-align:center"> <b>Primary Address - </b> @card.CardNumber</h5>
+                            found2 = true;
+                            break;
+                        }
+                    }
+                    @if (!found2)
+                    {
+                        <h5 style="text-align:center; color:lightgrey"><b> Primary Card not Set</b></h5>
+
+                    }
                 </div>
-                <div class="col-md-6" align="right">
-                    <h3>Details</h3>
+                <hr />
+                <div>
+                    <h5 style="text-align:center">@Html.ActionLink("Add New Credit Card", "Create", "CreditCard", User.Identity.GetUserId(), null)</h5>
                 </div>
             </div>
         </div>
-        <div class="col-md-8" style="margin:0; padding:0">
+        <div id="view-wrapper" class="col-md-8 section-special" style="margin:0; padding:0">
+            <div class="text-center orange">
+                <h1>geekBooks</h1>
+            </div>
 
         </div>
     </div>
@@ -284,3 +328,28 @@
         }
 
 
+<script>
+
+
+    function addressRender() {
+        $.ajax({
+            url: "/Address",     //"@Url.Action("Index", "Address")",
+                success: function (data) {
+                    $("#view-wrapper").html(data);
+                }
+            })
+
+    }
+
+    function creditRender() {
+            $.ajax({
+                url: "/CreditCard",
+                success: function (data) {
+                    $("#view-wrapper").html(data);
+                }
+            })
+
+        }
+
+
+</script>
