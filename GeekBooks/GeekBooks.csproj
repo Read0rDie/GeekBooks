@@ -372,6 +372,7 @@
     <Content Include="Views\Store\Filter.cshtml" />
     <Content Include="Views\ShoppingCart\_quantity.cshtml" />
     <Content Include="Views\ShoppingCart\_ShoppingCartModal.cshtml" />
+    <Content Include="Views\ShoppingCart\OrderSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
