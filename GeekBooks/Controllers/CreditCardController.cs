@@ -26,6 +26,57 @@ namespace GeekBooks.Controllers
         // POST: CreditCard/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
+        public ActionResult Index()
+        {
+            string userid = User.Identity.GetUserId();
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            UserProfileViewModel model = new UserProfileViewModel();
+
+
+            List<Address> modelA = (from a in db.Addresses
+                                    where a.UID == userid
+                                    select a).ToList();
+
+            List<CreditCard> modelCC = (from a in db.CreditCards
+                                        where a.UID == userid
+                                        select a).ToList();
+
+            if (modelA == null)
+            {
+                modelA = new List<Address>();
+            }
+
+            if (modelCC == null)
+            {
+                modelCC = new List<CreditCard>();
+            }
+
+            Avatar avatar = db.Avatars.FirstOrDefault(x => x.UID == userid);
+            ApplicationUser user = db.Users.FirstOrDefault(x => x.Id == userid);
+
+            if (avatar != null)
+            {
+                model.AID = avatar.AVATARID;
+                model.AvatarUrl = avatar.ImageUrl;
+                model.AvatarExist = true;
+            }
+            else
+            { model.AvatarExist = false; }
+
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Email = user.Email;
+            //model.HasPassword = HasPassword();
+            model.UserName = user.UserName;
+            model.AddressList = modelA;
+            model.CreditCardList = modelCC;
+
+            return PartialView(model);
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "UID,CardName,CardNumber,ExpirationMonth,ExpirationYear,SecurityCode,IsPreferred")] CreditCard creditCard)

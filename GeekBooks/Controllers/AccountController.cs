@@ -570,7 +570,7 @@ namespace GeekBooks.Controllers
         //[ValidateAntiForgeryToken]
 
 
-        private bool HasPassword()
+        public bool HasPassword()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
             if (user != null)
