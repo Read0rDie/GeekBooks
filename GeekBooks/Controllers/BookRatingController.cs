@@ -34,7 +34,7 @@ namespace GeekBooks.Controllers
             BookRating bookrating = new BookRating();
             bookrating.BookID = id;
             bookrating.UID = User.Identity.GetUserId();            
-            return View(bookrating);
+            return PartialView(bookrating);
         }
 
         // POST: BookRating/Create
