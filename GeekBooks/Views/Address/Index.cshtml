@@ -9,10 +9,13 @@
     @{ 
         Address address = new Address();
     }
+    <h1>Address Details</h1>
+    <br />
     <p>
         
         @Html.ActionLink("Add New Address", "Create", "Address", User.Identity.GetUserId(), null)
     </p>
+    <br />
     <table class="table">
         <tr>            
             <th>
@@ -82,4 +85,5 @@
         }
 
     </table>
+    @Html.ActionLink("Back to Profile", "UserProfile", "Account", null, null)
 </div>
