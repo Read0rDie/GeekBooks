@@ -62,7 +62,7 @@ namespace GeekBooks.Controllers
             model.AddressList = modelA;
             model.CreditCardList = modelCC;
 
-            return View(model);
+            return PartialView(model);
         }        
 
         // GET: Address/Create

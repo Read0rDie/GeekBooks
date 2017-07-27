@@ -374,6 +374,7 @@
     <Content Include="Views\ShoppingCart\_ShoppingCartModal.cshtml" />
     <Content Include="Views\ShoppingCart\OrderSummary.cshtml" />
     <Content Include="Views\Address\Index.cshtml" />
+    <Content Include="Views\CreditCard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
