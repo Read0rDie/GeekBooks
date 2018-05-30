@@ -70,7 +70,7 @@ namespace GeekBooks.Models
         }
     }
 
-    public class MyDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class MyDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
