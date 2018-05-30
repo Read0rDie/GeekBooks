@@ -1,0 +1,36 @@
+@keyframes background-animation {
+    0% {
+        background-image: url("https://images7.alphacoders.com/377/thumb-1920-377754.jpg");
+    }
+
+    60% {
+        background-image: url("https://images6.alphacoders.com/370/thumb-1920-370428.jpg");
+    }
+
+    100% {
+        background-image: url("http://www.cutprintfilm.com/wp-content/uploads/2014/06/WaroftheWorlds.jpg");
+    }
+}
+
+
+body {
+    color: white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: background-animation 20s infinite alternate;
+}
+
+
+#home-logo {
+    font-family: 'Raleway', sans-serif;
+    font-size: 30px;
+}
+
+.home-login-wrapper {
+    background-color: rgba(255, 255, 255, .4);
+    border: white 2px solid;
+    border-radius: 15px;
+    padding: 30px;
+    width: 450px;
+    margin: 15% auto 0 auto;
+}
